@@ -1,9 +1,9 @@
 #
 # This script provisions IDD project and contractors Teams for Procurement team 
 #
-### Pre-requistes ###  
+### Prerequisites ###  
 #
-# 1. Assign following roles  to user account running this script
+# 1. Assign following roles to user account running this script
 #     * Application Administrator (To register PnP Management Shell Azure AD application)
 #     * SharePoint Administrator (To create SharePoint sites)
 #     * The MRWA group who are allowed to create groups
@@ -30,7 +30,7 @@
 #     Syntax: .\Create-ProcurementTeams.ps1 -M365Domain <domain_name> -ProjectName <project_name> -ProjectNumber <project_number> -ProjectAbbreviation <project_abbreviation> -ContractType <contract_type> -TeamType <Team_Type> [-CreateFolders] [-InstallDependencies]
 #
 ### Provisioning Procedure ###
-# There are three steps to provision the Teams
+# There are currently three steps to provision the Teams with the intention to reduce it to a single step in the future
 # Step 1: Run Create-ProcurementTeams.ps1 without -CreateFolders switch. This creates the shell (Team and channels without subfolders)
 # Step 2: Verify if the underlying SharePoint sites for Private Channels are created. If not, navigate to Files tab under each Private Channel in Team
 # Step 3: Run Create-ProcurementTeams.ps1 with -CreateFolders switch 
