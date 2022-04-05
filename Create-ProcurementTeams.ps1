@@ -65,7 +65,7 @@ Param(
   [Parameter(Mandatory = $true)]
   [ValidateNotNullOrEmpty()]
   [ValidateSet(
-    "Alliances",
+    "Alliance",
     "D&C",
     IgnoreCase = $true)]
   [string]
