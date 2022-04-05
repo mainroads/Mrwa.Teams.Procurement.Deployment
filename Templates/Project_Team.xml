@@ -1,0 +1,80 @@
+<pnp:Provisioning xmlns:pnp="http://schemas.dev.office.com/PnP/2021/03/ProvisioningSchema"
+  Author="Dinesh Katru - Insight"
+  Generator="Dinesh Katru - Insight"
+  Version="1.0"
+  Description="MRWA procurement project teams provisioning document"
+  DisplayName="MRWA procurement Project teams provisioning">
+
+  <pnp:Preferences Author="Dinesh Katru - Insight"
+    Version="1.0"
+    Generator="Dinesh Katru" />
+
+  <pnp:Teams>
+    <pnp:Team DisplayName="{parameter:TeamPrefix}-{parameter:ProjectNumber}-{parameter:ProjectAbbreviation}-{parameter:TeamSuffix}"
+      Description="IDD Project site for {parameter:ProjectName}"
+      HiddenGroupMembershipEnabled="true"
+      Visibility="Private"
+      MailNickname="{parameter:TeamPrefix}-{parameter:ProjectNumber}-{parameter:ProjectAbbreviation}-{parameter:TeamSuffix}">
+
+      <!-- Member Settings -->
+      <pnp:MembersSettings AllowCreateUpdateChannels="false"
+        AllowCreatePrivateChannels="false"
+        AllowDeleteChannels="false"
+        AllowAddRemoveApps="false"
+        AllowCreateUpdateRemoveTabs="false"
+        AllowCreateUpdateRemoveConnectors="false" />
+
+      <!-- Message Settings -->
+      <pnp:MessagingSettings AllowUserEditMessages="true"
+        AllowUserDeleteMessages="false"
+        AllowOwnerDeleteMessages="false"
+        AllowTeamMentions="true"
+        AllowChannelMentions="true" />
+
+      <!-- Guest Settings -->
+      <pnp:GuestSettings AllowCreateUpdateChannels="false"
+        AllowDeleteChannels="false" />
+
+      <!-- Security -->
+      <pnp:Security AllowToAddGuests="true">
+        <pnp:Owners ClearExistingItems="true">
+          <pnp:User UserPrincipalName="admin@M365x16701622.onmicrosoft.com" />
+          <pnp:User UserPrincipalName="PradeepG@M365x16701622.onmicrosoft.com" />
+        </pnp:Owners>
+      </pnp:Security>
+
+      <pnp:Channels>
+        <!-- Standard Channels -->
+        <pnp:Channel DisplayName="Meetings"
+          Description=""
+          IsFavoriteByDefault="false" />
+        <pnp:Channel DisplayName="Program"
+          Description=""
+          IsFavoriteByDefault="false" />
+
+        <!-- Private Channels -->
+        <pnp:Channel DisplayName="Commercial"
+          Description=""
+          IsFavoriteByDefault="false"
+          Private="true" />
+        <pnp:Channel DisplayName="Contract"
+          Description=""
+          IsFavoriteByDefault="false"
+          Private="true" />
+        <pnp:Channel DisplayName="Develop"
+          Description=""
+          IsFavoriteByDefault="false"
+          Private="true" />
+        <pnp:Channel DisplayName="Procurement"
+          Description=""
+          IsFavoriteByDefault="false"
+          Private="true" />
+        <pnp:Channel DisplayName="Evaluation"
+          Description=""
+          IsFavoriteByDefault="false"
+          Private="true" />
+      </pnp:Channels>
+    </pnp:Team>
+  </pnp:Teams>
+
+</pnp:Provisioning>

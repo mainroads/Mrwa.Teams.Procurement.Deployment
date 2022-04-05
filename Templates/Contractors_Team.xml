@@ -1,0 +1,63 @@
+<pnp:Provisioning xmlns:pnp="http://schemas.dev.office.com/PnP/2021/03/ProvisioningSchema">
+
+  <pnp:Preferences Author="Dinesh Katru - Insight" />
+
+  <pnp:Teams>
+
+    <pnp:Team DisplayName="{parameter:TeamPrefix}-{parameter:ProjectNumber}-{parameter:ProjectAbbreviation}-CON"
+      Description="IDD Contractors' site for {parameter:ProjectName}"
+      HiddenGroupMembershipEnabled="true"
+      Visibility="Private"
+      MailNickname="{parameter:TeamPrefix}-{parameter:ProjectNumber}-{parameter:ProjectAbbreviation}-CON">
+
+      <!-- Member Settings -->
+      <pnp:MembersSettings AllowCreateUpdateChannels="false"
+        AllowCreatePrivateChannels="false"
+        AllowDeleteChannels="false"
+        AllowAddRemoveApps="false"
+        AllowCreateUpdateRemoveTabs="false"
+        AllowCreateUpdateRemoveConnectors="false" />
+
+      <!-- Mesage Settings -->
+      <pnp:MessagingSettings AllowUserEditMessages="true"
+        AllowUserDeleteMessages="false"
+        AllowOwnerDeleteMessages="false"
+        AllowTeamMentions="true"
+        AllowChannelMentions="true" />
+
+      <!-- Guest Settings -->
+      <pnp:GuestSettings AllowCreateUpdateChannels="false"
+        AllowDeleteChannels="false" />
+
+      <!-- Security -->
+      <pnp:Security AllowToAddGuests="true">
+        <pnp:Owners ClearExistingItems="true">
+          <pnp:User UserPrincipalName="admin@M365x16701622.onmicrosoft.com" />
+          <pnp:User UserPrincipalName="PradeepG@M365x16701622.onmicrosoft.com" />
+        </pnp:Owners>
+      </pnp:Security>
+
+      <pnp:Channels>
+        <!-- Standard Channels -->
+        <pnp:Channel DisplayName="Meetings"
+          Description=""
+          IsFavoriteByDefault="false" />
+
+        <!-- Private Channels -->
+        <pnp:Channel DisplayName="Commercial"
+          Description=""
+          IsFavoriteByDefault="false"
+          Private="true" />
+        <pnp:Channel DisplayName="Closeout"
+          Description=""
+          IsFavoriteByDefault="false"
+          Private="true" />
+        <pnp:Channel DisplayName="Portal"
+          Description=""
+          IsFavoriteByDefault="false"
+          Private="true" />
+      </pnp:Channels>
+    </pnp:Team>
+  </pnp:Teams>
+
+</pnp:Provisioning>
