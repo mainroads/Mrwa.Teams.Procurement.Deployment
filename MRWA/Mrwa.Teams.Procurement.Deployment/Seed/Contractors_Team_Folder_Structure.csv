@@ -1,18 +1,20 @@
-﻿Privacy,Folder
-Standard,Meetings/Site Meetings
-Standard,Meetings/Quality Meetings
-Private,Closeout/Defects
-Private,Closeout/Defects Review
-Private,Closeout/Outstanding Items before PC
-Private,Closeout/Specified Records
-Private,Closeout/Specified Records/As-constructed Information
-Private,Commercial/Progress Claims
-Private,Portal/XXX1000 EOI Document
-Private,Portal/XXX2000 EOI Reference Information
-Private,Portal/XXX3000 EOI Addenda
-Private,Portal/XXX4000 EOI Commentaries
-Private,Portal/XXX5000 RFP Document
-Private,Portal/XXX6000 RFP Reference Information
-Private,Portal/XXX7000 RFP Addenda
-Private,Portal/XXX8000 RFP Commentaries
-Private,Portal/XXX9000 Contract Docs
+﻿Privacy,Folder,ContractType
+Standard,Meetings/Site Meetings,Common
+Standard,Meetings/Quality Meetings,Common
+Standard,Approvals,Alliance
+Standard,Variations,D&C
+Private,Closeout/Defects,Common
+Private,Closeout/Defects Review,Common
+Private,Closeout/Outstanding Items before PC,Common
+Private,Closeout/Specified Records,Common
+Private,Closeout/Specified Records/As-constructed Information,Common
+Private,Commercial/Progress Claims,Common
+Private,Portal/XXX1000 EOI Document,Common
+Private,Portal/XXX2000 EOI Reference Information,Common
+Private,Portal/XXX3000 EOI Addenda,Common
+Private,Portal/XXX4000 EOI Commentaries,Common
+Private,Portal/XXX5000 RFP Document,Common
+Private,Portal/XXX6000 RFP Reference Information,Common
+Private,Portal/XXX7000 RFP Addenda,Common
+Private,Portal/XXX8000 RFP Commentaries,Common
+Private,Portal/XXX9000 Contract Docs,Common
