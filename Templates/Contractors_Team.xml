@@ -5,7 +5,7 @@
   <pnp:Teams>
 
     <pnp:Team DisplayName="{parameter:TeamPrefix}-{parameter:ProjectNumber}-{parameter:ProjectAbbreviation}-CON"
-      Description="IDD Contractors' site for {parameter:ProjectName}"
+      Description="IDD Contractor's site for {parameter:ProjectName}"
       HiddenGroupMembershipEnabled="true"
       Visibility="Private"
       MailNickname="{parameter:TeamPrefix}-{parameter:ProjectNumber}-{parameter:ProjectAbbreviation}-CON">
@@ -32,8 +32,8 @@
       <!-- Security -->
       <pnp:Security AllowToAddGuests="true">
         <pnp:Owners ClearExistingItems="true">
-          <pnp:User UserPrincipalName="admin@M365x16701622.onmicrosoft.com" />
-          <pnp:User UserPrincipalName="PradeepG@M365x16701622.onmicrosoft.com" />
+          <pnp:User UserPrincipalName="scott.milne@mainroads.wa.gov.au" />
+          <pnp:User UserPrincipalName="scott.white@mainroads.wa.gov.au" />         
         </pnp:Owners>
       </pnp:Security>
 
