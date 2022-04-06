@@ -153,9 +153,10 @@ if ($CreateFolders) {
   foreach ($folder in (import-csv $foldersCsvFileRelativePath)) {
     $channelPrivacy = $folder.Privacy
     $folderRelativePath = ($folder.Folder).Replace('XXX', $ProjectAbbreviation)
+    $folderContractType = $folder.ContractType
     $channel = $folderRelativePath.Substring(0,$folderRelativePath.IndexOf("/"))
   
-    Write-Host `n"Processing: $channel-$channelPrivacy-$folderRelativePath..." -ForegroundColor DarkMagenta
+    Write-Host `n"Processing: $folderRelativePath..." -ForegroundColor DarkMagenta
 
     if ($channelPrivacy -eq "Standard") {
       $siteUrl = "https://$($M365Domain).sharepoint.com/sites/$($teamPrefix)-$($ProjectNumber)-$($ProjectAbbreviation)-$($teamSuffix)"
@@ -166,7 +167,10 @@ if ($CreateFolders) {
 
     Write-Host "Connecting to :" $siteUrl -ForegroundColor DarkGray
     Connect-PnPOnline -Url $siteUrl -Interactive
-    Resolve-PnPFolder -SiteRelativePath "Shared Documents/$folderRelativePath"
+
+    if(($folderContractType -eq $ContractType) -or ($folderContractType -eq "Common")){
+      Resolve-PnPFolder -SiteRelativePath "Shared Documents/$folderRelativePath"
+    }
   }
 }
 
