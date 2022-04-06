@@ -1,45 +1,45 @@
-﻿Privacy,Folder
-Standard,General/Databases
-Standard,Meetings/Adhoc Meetings
-Standard,Meetings/Probity Risk Workshops
-Standard,Meetings/Project Team Meetings
-Standard,Meetings/Steering Committee Meetings
-Standard,Program/Environmental
-Standard,Program/Land
-Standard,Program/Project
-Private,Commercial/Estimates
-Private,Commercial/Forecasts
-Private,Commercial/PPR
-Private,Contract/CMP
-Private,Contract/Daily Diaries
-Private,Contract/Photos and Videos
-Private,Contract/Registers
-Private,Contract/Reporting
-Private,Develop/Design
-Private,Develop/Environment
-Private,Develop/Land
-Private,Procurement/001 Admin
-Private,Procurement/005 Contract Docs
-Private,Procurement/005 Contract Docs/SWTC
-Private,Procurement/005 Contract Docs/Project Deed
-Private,Procurement/010 Plans
-Private,Procurement/010 Plans/Probity Plan
-Private,Procurement/010 Plans/Procurement Plan
-Private,Procurement/020 Approvals
-Private,Procurement/020 Approvals/021 Request for Contract Number
-Private,Procurement/020 Approvals/022 Delivery Method and Prequalification
-Private,Evaluation/EOI
-Private,Evaluation/EOI/Advisers
-Private,Evaluation/EOI/Evaluation Team
-Private,Evaluation/EOI/Submissions
-Private,Evaluation/EOI/Submissions/Applicant 1
-Private,Evaluation/EOI/Submissions/Applicant 2
-Private,Evaluation/EOI/Submissions/Applicant 3
-Private,Evaluation/EOI/Submissions/Applicant 4
-Private,Evaluation/RFP
-Private,Evaluation/RFP/Advisers
-Private,Evaluation/RFP/Evaluation Team
-Private,Evaluation/RFP/Submissions
-Private,Evaluation/RFP/Submissions/Proponent 1
-Private,Evaluation/RFP/Submissions/Proponent 2
-Private,Evaluation/RFP/Submissions/Proponent 3
+﻿Privacy,Folder,ContractType
+Standard,General/Databases,Common
+Standard,Meetings/Adhoc Meetings,Common
+Standard,Meetings/Probity Risk Workshops,Common
+Standard,Meetings/Project Team Meetings,Common
+Standard,Meetings/Steering Committee Meetings,Common
+Standard,Program/Environmental,Common
+Standard,Program/Land,Common
+Standard,Program/Project,Common
+Private,Commercial/Estimates,Common
+Private,Commercial/Forecasts,Common
+Private,Commercial/PPR,Common
+Private,Contract/CMP,Common
+Private,Contract/Daily Diaries,Common
+Private,Contract/Photos and Videos,Common
+Private,Contract/Registers,Common
+Private,Contract/Reporting,Common
+Private,Develop/Design,Common
+Private,Develop/Environment,Common
+Private,Develop/Land,Common
+Private,Procurement/001 Admin,Common
+Private,Procurement/005 Contract Docs,Common
+Private,Procurement/005 Contract Docs/SWTC,Common
+Private,Procurement/005 Contract Docs/Project Deed,Common
+Private,Procurement/010 Plans,Common
+Private,Procurement/010 Plans/Probity Plan,Common
+Private,Procurement/010 Plans/Procurement Plan,Common
+Private,Procurement/020 Approvals,Common
+Private,Procurement/020 Approvals/021 Request for Contract Number,Common
+Private,Procurement/020 Approvals/022 Delivery Method and Prequalification,Common
+Private,Evaluation/EOI,Common
+Private,Evaluation/EOI/Advisers,Common
+Private,Evaluation/EOI/Evaluation Team,Common
+Private,Evaluation/EOI/Submissions,Common
+Private,Evaluation/EOI/Submissions/Applicant 1,Common
+Private,Evaluation/EOI/Submissions/Applicant 2,Common
+Private,Evaluation/EOI/Submissions/Applicant 3,Common
+Private,Evaluation/EOI/Submissions/Applicant 4,Common
+Private,Evaluation/RFP,Common
+Private,Evaluation/RFP/Advisers,Common
+Private,Evaluation/RFP/Evaluation Team,Common
+Private,Evaluation/RFP/Submissions,Common
+Private,Evaluation/RFP/Submissions/Proponent 1,Common
+Private,Evaluation/RFP/Submissions/Proponent 2,Common
+Private,Evaluation/RFP/Submissions/Proponent 3,Common
