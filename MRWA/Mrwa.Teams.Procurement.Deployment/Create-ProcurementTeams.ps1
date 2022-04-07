@@ -81,7 +81,7 @@ Param(
   $TeamType,
 
   [switch]
-  $CreateFolders = $false,
+  $NoFolderCreation = $false,
 
   [switch]
   $InstallDependencies = $false
@@ -99,7 +99,7 @@ if ($InstallDependencies) {
   Install-PackageProvider -Name NuGet -Scope AllUsers -Force
   Install-Module -Name PnP.PowerShell -Scope AllUsers -Force
 }
-
+$pnpPowerShellAppName = "PnP Powershell App - MR"
 Import-Module PnP.PowerShell -Scope Local -DisableNameChecking
 
 #--------------------
@@ -107,6 +107,7 @@ Import-Module PnP.PowerShell -Scope Local -DisableNameChecking
 #--------------------
 
 # Teams:
+
 $adminUrl = "https://$($M365Domain)-admin.sharepoint.com/"
 $teamPrefix = "MR"
 $teamSuffix = if ($TeamType -eq "Project") { "PRJ" } else { "CON" }
@@ -119,6 +120,23 @@ $foldersCsvFileRelativePath = "Seed\$($TeamType)_Team_Folder_Structure.csv"
 # Connect to SharePoint:
 Connect-PnPOnline -Url $adminUrl -Interactive
 
+$pnpPowerShellApp = Get-PnPAzureADApp -Identity $pnpPowerShellAppName -ErrorAction SilentlyContinue
+
+if($null -eq $pnpPowerShellApp){
+
+  $graphPermissions = "Group.Read.All","Group.ReadWrite.All","Directory.Read.All",
+  "Directory.ReadWrite.All","Channel.ReadBasic.All","ChannelSettings.Read.All",
+  "ChannelSettings.ReadWrite.All","Channel.Create","Team.ReadBasic.All","TeamSettings.Read.All",
+  "TeamSettings.ReadWrite.All","User.ReadWrite.All","Group.Read.All"
+
+  $sharePointApplicationPermissions = "Sites.FullControl.All","User.ReadWrite.All"
+
+  $sharePointDelegatePermissions = "AllSites.FullControl"
+
+  Register-PnPAzureADApp -ApplicationName $pnpPowerShellAppName -Tenant contosostakeholder.onmicrosoft.com -OutPath c:\development -DeviceLogin -GraphApplicationPermissions $graphPermissions -SharePointApplicationPermissions $sharePointApplicationPermissions -SharePointDelegatePermissions $sharePointDelegatePermissions
+
+}
+
 $parameters = @{
   "TeamPrefix"          = $teamPrefix
   "TeamSuffix"          = $teamSuffix
@@ -128,28 +146,108 @@ $parameters = @{
 }
 
 # Invoke template to create Team, Channels
-if ($TeamType -eq "Project") {
-  Invoke-PnPTenantTemplate -Path "Templates\Project_Team.xml" -Parameters $parameters
+
+$stopInvokingTemplate = $false
+$retryCount = 0
+$maxRetryCount = 3 
+
+do {
+  try {
+      
+    if ($TeamType -eq "Project") {
+      Invoke-PnPTenantTemplate -Path "Templates\Project_Team.xml" -Parameters $parameters
+    }
+    elseif ($TeamType -eq "Contractors") {
+      Invoke-PnPTenantTemplate -Path "Templates\Contractors_Team.xml" -Parameters $parameters 
+    }
+    else {
+       Invoke-PnPTenantTemplate -Path "Templates\Project_Team.xml" -Parameters $parameters 
+       Invoke-PnPTenantTemplate -Path "Templates\Contractors_Team.xml" -Parameters $parameters 
+    }
+
+      $stopInvokingTemplate = $true
+  }
+  catch {
+      if ($retryCount -gt $maxRetryCount) {        
+          $stopInvokingTemplate = $true
+      }
+      else {
+          Start-Sleep -Seconds 30
+          $retryCount = $retryCount + 1
+          Write-Host "Something went wrong....retry attempt : $retryCount"
+      }
+  }
 }
-elseif ($TeamType -eq "Contractors") {
-  Invoke-PnPTenantTemplate -Path "Templates\Contractors_Team.xml" -Parameters $parameters
-}
-else {
-  Invoke-PnPTenantTemplate -Path "Templates\Project_Team.xml" -Parameters $parameters
-  Invoke-PnPTenantTemplate -Path "Templates\Contractors_Team.xml" -Parameters $parameters
+While ($stopInvokingTemplate -eq $false)
+
+
+######### Wait for 3 minutes to teams provisioning to complete 100% #######################
+
+$seconds = 180
+1..$seconds |
+ForEach-Object { $percent = $_ * 100 / $seconds; 
+
+Write-Progress -Activity "Wait for 3 minutes before ensuring the private channel sharepoint sites provisioning" -Status "$($seconds - $_) seconds remaining..." -PercentComplete $percent; 
+
+Start-Sleep -Seconds 1
 }
 
-# TODO: Add Graph API logic to simulate navigating to Files folder in Private Channels.
-# Reference: https://www.tribework.nl/2022/03/howto-initialize-private-teamchannel-spo-sites/
-# TODO: After adding Graph API logic, remove CreateFolders switch to execute script from end-to-en in one go.
+########## Code to invoke private channel sites ###########################################
 
-if ($CreateFolders) {
+#Request graph access toeken
+$accessToken = Get-PnPGraphAccessToken
+
+#Get teams data via the Graph
+Write-Host "Getting the newly created team details..." -ForegroundColor DarkYellow
+
+$response = Invoke-RestMethod -Headers @{Authorization = "Bearer $accessToken" } -Uri "https://graph.microsoft.com/beta/teams?$filter=startswith(displayName, `'$($teamPrefix)-$($ProjectNumber)-$($ProjectAbbreviation)`')" -Method 'GET' -ContentType 'application/json'
+ 
+#Select the data for each team
+$team = $response.value[0] | Select-Object 'displayName', 'id'
+ 
+try {
+
+    #Get the channel
+    $allChannels = (Invoke-RestMethod -Headers @{Authorization = "Bearer $accessToken" } -Uri "https://graph.microsoft.com/beta/teams/$($team.id)/channels" -Method 'GET' -ContentType 'application/json').value | Select-Object 'displayName', 'id'
+    
+    #Attempt channel check
+    $stopLoop = $false
+    $retryCount = 0
+    $maxRetryCount = 10   
+   
+    #Trigger private channel SharePoint Onlinesite creation
+    foreach ($channel in $allChannels) {
+        do {
+            try {
+                Invoke-RestMethod -Headers @{Authorization = "Bearer $accessToken" } -Uri "https://graph.microsoft.com/beta/teams/$($team.id)/channels/$($channel.id)/filesFolder" | Out-Null
+                $stopLoop = $true
+            }
+            catch {
+                if ($retryCount -gt $maxRetryCount) {
+                    $stoploop = $true
+                }
+                else {
+                    Start-Sleep -Seconds 5
+                    $retryCount = $retryCount + 1
+                }
+            }
+        }
+        While ($stopLoop -eq $false)
+    }
+}
+catch {
+    Write-Host $_
+}
+
+
+if (!$NoFolderCreation) {
   # PnP Provisioning Schema currently does not have support for adding folders 
   # to private channels. Therefore, add folders explicitly using the following 
   # logic. Use this consistently to add folders for both standard and private
   # channels. This logic is not required when provisioning schema is updated 
   # in the later versions to add folders to private channels
 
+  Write-Host "Starting with creating folders in to each channels" -ForegroundColor Green
   foreach ($folder in (import-csv $foldersCsvFileRelativePath)) {
     $channelPrivacy = $folder.Privacy
     $folderRelativePath = ($folder.Folder).Replace('XXX', $ProjectAbbreviation)
