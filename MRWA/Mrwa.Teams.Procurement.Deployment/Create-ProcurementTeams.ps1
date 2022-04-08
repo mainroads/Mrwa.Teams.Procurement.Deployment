@@ -245,7 +245,6 @@ if (!$NoFolderCreation) {
     $channelPrivacy = $folder.Privacy
     $folderRelativePath = ($folder.Folder).Replace('XXX', $ProjectAbbreviation)
     $folderContractType = $folder.ContractType
-    $channel = $folderRelativePath.Substring(0,$folderRelativePath.IndexOf("/"))
   
     Write-Host `n"Processing: $folderRelativePath..." -ForegroundColor DarkMagenta
 
@@ -253,6 +252,7 @@ if (!$NoFolderCreation) {
       $siteUrl = "https://$($M365Domain).sharepoint.com/sites/$($teamPrefix)-$($ProjectNumber)-$($ProjectAbbreviation)-$($teamSuffix)"
     }
     elseif ($channelPrivacy -eq "Private") {
+      $channel = $folderRelativePath.Substring(0,$folderRelativePath.IndexOf("/"))
       $siteUrl = "https://$($M365Domain).sharepoint.com/sites/$($teamPrefix)-$($ProjectNumber)-$($ProjectAbbreviation)-$($teamSuffix)-$($channel)"
     }
 
