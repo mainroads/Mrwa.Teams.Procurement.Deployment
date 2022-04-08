@@ -21,7 +21,9 @@ Private,Develop/Land,Common
 Private,Procurement/001 Admin,Common
 Private,Procurement/005 Contract Docs,Common
 Private,Procurement/005 Contract Docs/SWTC,Common
-Private,Procurement/005 Contract Docs/Project Deed,Common
+Private,Procurement/005 Contract Docs/Project Deed,D&C
+Private,Procurement/005 Contract Docs/PAA,Alliance
+Private,Procurement/005 Contract Docs/BDC,Alliance
 Private,Procurement/010 Plans,Common
 Private,Procurement/010 Plans/Probity Plan,Common
 Private,Procurement/010 Plans/Procurement Plan,Common
