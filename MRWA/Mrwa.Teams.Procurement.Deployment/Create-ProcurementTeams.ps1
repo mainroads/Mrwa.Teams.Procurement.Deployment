@@ -8,10 +8,10 @@
 #     * SharePoint Administrator (To create SharePoint sites)
 #     * The MRWA group who are allowed to create groups
 #
-# 2. Register PnPManagementShellAccess Azure AD application prior to running this script for the first time.
-#    Reference: https://pnp.github.io/powershell/articles/authentication.html
-#    Failing to register this application prior to running the script will result in the following error:
-#       
+# 2. Register PnPManagementShellAccess Azure AD application prior to running this script for the first time. Script will also need additional graph api permission to auto provision the private channel sites.    
+#    This script will automatically check for "PnP Management Shell" Azure AD App and will create new one if it do not already exist using consent flow.
+#
+#    Failing to register this application prior to running the script will result in the following error:       
 #    Connect-PnPOnline : AADSTS65001: The user or administrator has not consented to use the application with ID '31359c7f-bd7e-475c-86db-fdb8c937548e' named 'PnP Management Shell'. 
 #                        Send an interactive authorization request for this user and resource
 #
@@ -27,17 +27,15 @@
 # 2. Browse to the project directory
 #     cd "<project_location_in_file_system>\.Mrwa.Teams.Procurement.Deployment"
 # 3. Execute Create-ProcurementTeams.ps1
-#     Syntax: .\Create-ProcurementTeams.ps1 -M365Domain <domain_name> -ProjectName <project_name> -ProjectNumber <project_number> -ProjectAbbreviation <project_abbreviation> -ContractType <contract_type> -TeamType <Team_Type> [-CreateFolders] [-InstallDependencies]
+#     Syntax: .\Create-ProcurementTeams.ps1 -M365Domain <domain_name> -ProjectName <project_name> -ProjectNumber <project_number> -ProjectAbbreviation <project_abbreviation> -ContractType <contract_type> -TeamType <Team_Type> [-NoFolderCreation] 
 #
 ### Provisioning Procedure ###
-# There are currently three steps to provision the Teams with the intention to reduce it to a single step in the future
-# Step 1: Run Create-ProcurementTeams.ps1 without -CreateFolders switch. This creates the shell (Team and channels without subfolders)
-# Step 2: Verify if the underlying SharePoint sites for Private Channels are created. If not, navigate to Files tab under each Private Channel in Team
-# Step 3: Run Create-ProcurementTeams.ps1 with -CreateFolders switch 
+
+# Step : Run the below command to start the scrip whhich will auto provision the team and channels including folders by default  (Team and channels including subfolders)
+# Incase the folders are not required to be provisioned then just use the flag [-NoFolderCreation] which will skip the folder creation steps.
 # 
 # Note:
-#   1. Script sometimes exits after provisioning only standard channels. Run the command again with the same command to continue on with the private channels  
-#   2. InstallDependencies: This switch installs NuGet packet manager and PnP.PowerShell modules necessary for running Apply-Template.ps1 script. Set this switch when the script is run for the first time.
+#   1. In case scrip fails while running, just run the command again with the same command to continue the provisioning process 
 # 
 #
 
@@ -81,10 +79,7 @@ Param(
   $TeamType,
 
   [switch]
-  $NoFolderCreation = $false,
-
-  [switch]
-  $InstallDependencies = $false
+  $NoFolderCreation = $false
 )
 
 $ErrorActionPreference = "Stop"
@@ -92,15 +87,13 @@ $ErrorActionPreference = "Stop"
 $scriptStart = Get-Date
 
 #--------------------
-# Dependencies
+# Install Dependencies if not already present in current workspace
 #--------------------
 
-if ($InstallDependencies) {
-  Install-PackageProvider -Name NuGet -Scope AllUsers -Force
-  Install-Module -Name PnP.PowerShell -Scope AllUsers -Force
-}
-$pnpPowerShellAppName = "PnP Powershell App - MR"
+Get-PackageProvider -Name Nuget -ForceBootstrap
 Import-Module PnP.PowerShell -Scope Local -DisableNameChecking
+
+$pnpPowerShellAppName = "PnP Management Shell"
 
 #--------------------
 # Configuration
