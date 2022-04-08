@@ -35,7 +35,7 @@
 # Incase the folders are not required to be provisioned then just use the flag [-NoFolderCreation] which will skip the folder creation steps.
 # 
 # Note:
-#   1. In case scrip fails while running, just run the command again with the same command to continue the provisioning process 
+#   1. In case script fails while running, just run the command again with the same command to continue the provisioning process 
 # 
 #
 
