@@ -1,6 +1,6 @@
 #### Parameters list
 # $servicePrincipal - the FQDN of the person that is executing the scripts, or has rights to execute the commands
-# $projectId - the project identifier from OMTID for the new project
+# $projectId - the project identifier from IDD for the new project e.g. MR-30000597-MEBD-PRJ
 # $groupOwner - the OMTID person responsible for maintaining the group membership
 # $domainName - the domain name of the tenant the labels are being added to
 # $shrePointSite - the root sharepoint.com site name for Main Roads (should be "mainroads")
@@ -15,7 +15,7 @@ Connect-ExchangeOnline -UserPrincipalName $servicePrincipal
 
 #### Set reusable variables
 # prefix for groups / names / etc
-$prefix = "MR-OMTID-$projectId"
+$prefix = $projectId
 
 #### Create M365 Groups
 
