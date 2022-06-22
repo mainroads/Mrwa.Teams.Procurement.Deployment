@@ -1,10 +1,26 @@
-#### Parameters list
-# $servicePrincipal - the FQDN of the person that is executing the scripts, or has rights to execute the commands
-# $projectId - the project identifier from IDD for the new project e.g. MR-30000597-MEBD-PRJ
-# $groupOwner - the OMTID person responsible for maintaining the group membership
-# $domainName - the domain name of the tenant the labels are being added to
-# $shrePointSite - the root sharepoint.com site name for Main Roads (should be "mainroads")
-# $storageQuota - the agreed storage quota for the Project Portal
+#
+# This script provisions M365 Groups, Sensitivity Labels and Label Policy
+#
+### Prerequisites ###  
+#
+# 1. Assign following roles to user account running this script
+#     * Default role group - Compliance Data Administrator, Compliance Administrator, or Security Administrator role group
+#     * Custom role group - add either Sensitivity Label Administrator or Organization Configuration roles to this group 
+#
+# 2. Set the configuration parameters as necessary 
+#    $servicePrincipal - the FQDN of the person that is executing the scripts, or has rights to execute the commands
+#    $projectId - the project identifier from IDD for the new project e.g. MR-30000597-MEBD-PRJ
+#    $groupOwner - the OMTID person responsible for maintaining the group membership
+#    $domainName - the domain name of the tenant the labels are being added to
+#    
+### Provisioning Instructions ### 
+# 1. Ensure prerequisites are completed
+# 2. Browse to the script directory
+#     cd "<script_location_in_file_system>"
+# 3. Execute LabelAutomation.ps11
+#     Syntax: .\LabelAutomation.ps1 -servicePrincipal “scott.milne@mainroads.wa.gov.au” -projectId “MR-30000597-MEBD-CON” -groupOwner “scott.white@mainroads.wa.gov.au” -domainName “group.mainroads.wa.gov.au” 
+#
+
 param ($servicePrincipal,$projectId,$groupOwner,$domainName)
 
 #### Import the Exchange Online Management Module
