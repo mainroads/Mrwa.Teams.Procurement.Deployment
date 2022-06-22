@@ -249,11 +249,11 @@ if (!$NoFolderCreation) {
     Write-Host `n"Processing: $folderRelativePath..." -ForegroundColor DarkMagenta
 
     if ($channelPrivacy -eq "Standard") {
-      $siteUrl = "https://$($M365Domain).sharepoint.com/sites/$($teamPrefix)-$($ProjectNumber)-$($ProjectAbbreviation)-$($teamSuffix)"
+      $siteUrl = "https://$($M365Domain).sharepoint.com/teams/$($teamPrefix)-$($ProjectNumber)-$($ProjectAbbreviation)-$($teamSuffix)"
     }
     elseif ($channelPrivacy -eq "Private") {
       $channel = $folderRelativePath.Substring(0,$folderRelativePath.IndexOf("/"))
-      $siteUrl = "https://$($M365Domain).sharepoint.com/sites/$($teamPrefix)-$($ProjectNumber)-$($ProjectAbbreviation)-$($teamSuffix)-$($channel)"
+      $siteUrl = "https://$($M365Domain).sharepoint.com/teams/$($teamPrefix)-$($ProjectNumber)-$($ProjectAbbreviation)-$($teamSuffix)-$($channel)"
     }
 
     Write-Host "Connecting to :" $siteUrl -ForegroundColor DarkGray
