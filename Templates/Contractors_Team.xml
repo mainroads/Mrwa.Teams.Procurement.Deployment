@@ -39,7 +39,19 @@
 
       <pnp:Channels>
         <!-- Standard Channels -->
+        <pnp:Channel DisplayName="Communications"
+          Description=""
+          IsFavoriteByDefault="false" />
+        <pnp:Channel DisplayName="Design"
+          Description=""
+          IsFavoriteByDefault="false" />
         <pnp:Channel DisplayName="Meetings"
+          Description=""
+          IsFavoriteByDefault="false" />
+        <pnp:Channel DisplayName="Quality"
+          Description=""
+          IsFavoriteByDefault="false" />
+        <pnp:Channel DisplayName="Safety"
           Description=""
           IsFavoriteByDefault="false" />
 

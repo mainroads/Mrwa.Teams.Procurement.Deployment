@@ -45,6 +45,12 @@
 
       <pnp:Channels>
         <!-- Standard Channels -->
+        <pnp:Channel DisplayName="Communications"
+          Description=""
+          IsFavoriteByDefault="false" />
+       <pnp:Channel DisplayName="Develop"
+          Description=""
+          IsFavoriteByDefault="false" />
         <pnp:Channel DisplayName="Meetings"
           Description=""
           IsFavoriteByDefault="false" />
@@ -58,10 +64,6 @@
           IsFavoriteByDefault="false"
           Private="true" />
         <pnp:Channel DisplayName="Contract"
-          Description=""
-          IsFavoriteByDefault="false"
-          Private="true" />
-        <pnp:Channel DisplayName="Develop"
           Description=""
           IsFavoriteByDefault="false"
           Private="true" />
