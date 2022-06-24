@@ -1,5 +1,5 @@
 #
-# This script provisions IDD project and contractors Teams for Procurement team 
+# This script provisions IDD project and contract Teams for Procurement team 
 #
 ### Prerequisites ###  
 #
@@ -18,9 +18,9 @@
 # 3. Verify and set the configuration parameters and input files as necessary 
 #    Note:  * teamPrefix
 #           * teamSuffix
-#           * UserPrincipalName for Team Owners in Project_Team.xml, Contractors_Team.xml 
+#           * UserPrincipalName for Team Owners in Project_Team.xml, Contract_Team.xml 
 #           * Project_Team_Folder_Structure.csv
-#           * Contractors_Team_Folder_Structure.csv
+#           * Contract_Team_Folder_Structure.csv
 #
 ### Provisioning Instructions ### 
 # 1. Ensure prerequisites are completed
@@ -73,7 +73,7 @@ Param(
   [ValidateNotNullOrEmpty()]
   [ValidateSet(
     "Project",
-    "Contractors",
+    "Contract",
     IgnoreCase = $true)]
   [string]
   $TeamType,
@@ -150,12 +150,12 @@ do {
     if ($TeamType -eq "Project") {
       Invoke-PnPTenantTemplate -Path "Templates\Project_Team.xml" -Parameters $parameters
     }
-    elseif ($TeamType -eq "Contractors") {
-      Invoke-PnPTenantTemplate -Path "Templates\Contractors_Team.xml" -Parameters $parameters 
+    elseif ($TeamType -eq "Contract") {
+      Invoke-PnPTenantTemplate -Path "Templates\Contract_Team.xml" -Parameters $parameters 
     }
     else {
        Invoke-PnPTenantTemplate -Path "Templates\Project_Team.xml" -Parameters $parameters 
-       Invoke-PnPTenantTemplate -Path "Templates\Contractors_Team.xml" -Parameters $parameters 
+       Invoke-PnPTenantTemplate -Path "Templates\Contract_Team.xml" -Parameters $parameters 
     }
 
       $stopInvokingTemplate = $true
