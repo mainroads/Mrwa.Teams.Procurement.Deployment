@@ -11,7 +11,7 @@
 
   <pnp:Teams>
     <pnp:Team DisplayName="{parameter:TeamPrefix}-{parameter:ProjectNumber}-{parameter:ProjectAbbreviation}-{parameter:TeamSuffix}"
-      Description="IDD Project site for {parameter:ProjectName}"
+      Description="IDD Project team for {parameter:ProjectName}"
       HiddenGroupMembershipEnabled="true"
       Visibility="Private"
       MailNickname="{parameter:TeamPrefix}-{parameter:ProjectNumber}-{parameter:ProjectAbbreviation}-{parameter:TeamSuffix}">

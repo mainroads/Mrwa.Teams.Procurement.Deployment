@@ -5,7 +5,7 @@
   <pnp:Teams>
 
     <pnp:Team DisplayName="{parameter:TeamPrefix}-{parameter:ProjectNumber}-{parameter:ProjectAbbreviation}-CON"
-      Description="IDD Contractor's site for {parameter:ProjectName}"
+      Description="IDD Contract team for {parameter:ProjectName}"
       HiddenGroupMembershipEnabled="true"
       Visibility="Private"
       MailNickname="{parameter:TeamPrefix}-{parameter:ProjectNumber}-{parameter:ProjectAbbreviation}-CON">

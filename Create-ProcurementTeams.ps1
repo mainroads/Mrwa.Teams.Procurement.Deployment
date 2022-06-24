@@ -126,8 +126,8 @@ if($null -eq $pnpPowerShellApp){
 
   $sharePointDelegatePermissions = "AllSites.FullControl"
 
-  Register-PnPAzureADApp -ApplicationName $pnpPowerShellAppName -Tenant contosostakeholder.onmicrosoft.com -OutPath c:\development -DeviceLogin -GraphApplicationPermissions $graphPermissions -SharePointApplicationPermissions $sharePointApplicationPermissions -SharePointDelegatePermissions $sharePointDelegatePermissions
-
+  Register-PnPAzureADApp -ApplicationName $pnpPowerShellAppName -Tenant mainroads.onmicrosoft.com -OutPath E:\Temp -DeviceLogin -GraphApplicationPermissions $graphPermissions -SharePointApplicationPermissions 
+  
 }
 
 $parameters = @{
