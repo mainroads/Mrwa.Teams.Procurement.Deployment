@@ -1,14 +1,129 @@
-﻿Privacy,Folder,ContractType
-Standard,Meetings/Site Meetings,Common
-Standard,Meetings/Quality Meetings,Common
+Privacy,Folder,ContractType
+Standard,Admin,Common
+Standard,Construction,Common
+Standard,Contract Docs,Common
+Standard,Correspondence,Common
+Standard,Databases,Common
+Standard,Databases/Lessons Learnt,Common
+Standard,Databases/Technical Queries,Common
+Standard,Databases/Templates,Common
+Standard,Databases/Test Results,Common
+Standard,Environment,Common
+Standard,External Data,Common
+Standard,External Data/Main Roads WA,Common
+Standard,External Data/PTA,Common
+Standard,Insurances,Common
+Standard,KRAs,Common
+Standard,Photos and Videos,Common
+Standard,Presentations,Common
+Standard,Reporting,Common
+Standard,Reporting/Aboriginal Participation Reports,Common
+Standard,Reporting/Monthly Reports,Common
+Standard,Subcontractors,Common
+Standard,Sustainability,Common
+Standard,Traffic,Common
 Standard,Approvals,Alliance
+Standard,Meetings/Alliance Board Meetings,Alliance
+Standard,Meetings/AMT Meetings,Alliance
+Standard,People,Alliance
+Standard,PMP,Alliance
+Standard,Position Papers,Alliance
+Standard,Quality/PCPs,Alliance
+Standard,Work Packages,Alliance
+Standard,Works Report,Alliance
+Standard,Management Plans,D&C
+Standard,Meetings/Site Meetings,D&C
+Standard,Quality/ITPs,D&C
 Standard,Variations,D&C
+Standard,Design/Civil,Common
+Standard,Design/Civil/015%,Common
+Standard,Design/Civil/085%,Common
+Standard,Design/Civil/100%,Common
+Standard,Design/Civil/AsCon,Common
+Standard,Design/Civil/IFC,Common
+Standard,Design/EITS,Common
+Standard,Design/EITS/015%,Common
+Standard,Design/EITS/085%,Common
+Standard,Design/EITS/100%,Common
+Standard,Design/EITS/AsCon,Common
+Standard,Design/EITS/IFC,Common
+Standard,Design/Structures,Common
+Standard,Design/Structures/015%,Common
+Standard,Design/Structures/085%,Common
+Standard,Design/Structures/100%,Common
+Standard,Design/Structures/AsCon,Common
+Standard,Design/Structures/IFC,Common
+Standard,Meetings/Quality Meetings,Common
+Standard,Quality/Audits,Common
+Standard,Quality/Audits/Process,Common
+Standard,Quality/Audits/Product,Common
+Standard,Quality/Audits/Suitability,Common
+Standard,Quality/Hold Points,Common
+Standard,Quality/Hold Points/HP001 Title,Common
+Standard,Quality/Method Statements,Common
+Standard,Quality/NCRs,Common
+Standard,Quality/Technical Queries,Common
 Private,Closeout/Defects,Common
 Private,Closeout/Defects Review,Common
 Private,Closeout/Outstanding Items before PC,Common
 Private,Closeout/Specified Records,Common
-Private,Closeout/Specified Records/As-constructed Information,Common
-Private,Commercial/Progress Claims,Common
+Private,Closeout/Specified Records/SR1000 Pavement Condition Performance Criteria,Common
+Private,Closeout/Specified Records/SR1100 Settlement and Movement Data,Common
+Private,Closeout/Specified Records/SR1200 Pit Rehabilitation Performance Report,Common
+Private,Closeout/Specified Records/SR1300 Remedial Work,Common
+Private,Closeout/Specified Records/SR1400 Soil Erosion Monitoring Data,Common
+Private,Closeout/Specified Records/SR1500 Survey Data including Cadastral Data,Common
+Private,Closeout/Specified Records/SR1600 Load Rating of Structures,Common
+Private,Closeout/Specified Records/SR1700 Asset Management Plan for Structures,Common
+Private,Closeout/Specified Records/SR1800 Approvals for Drainage Design,Common
+Private,Closeout/Specified Records/SR1900 Approvals for Subsoil Drainage Design,Common
+Private,Closeout/Specified Records/SR2000 Approvals for Signs and Pavement Markings,Common
+Private,Closeout/Specified Records/SR2100 Sign Warranties,Common
+Private,Closeout/Specified Records/SR2200 Road Safety Audits,Common
+Private,Closeout/Specified Records/SR2300 Landscaping and Revegetation Handover Report,Common
+Private,Closeout/Specified Records/SR2400 Noise Impact Report,Common
+Private,Closeout/Specified Records/SR2500 Location of Electrical Meters,Common
+Private,Closeout/Specified Records/SR2600 Acceptance of lighting from the LGA and Western Power,Common
+Private,Closeout/Specified Records/SR2700 Approvals for Traffic Control Signals,Common
+Private,Closeout/Specified Records/SR2800 Approvals for Works in the Vicinity of Services,Common
+Private,Closeout/Specified Records/SR2900 Acceptance of works from the LGA,Common
+Private,Closeout/Specified Records/SR3000 Acceptance of modified property access,Common
+Private,Closeout/Specified Records/SR3100 Acceptance of Retaining Walls,Common
+Private,Closeout/Specified Records/SR3200 Approvals to Operate Vehicles with Excess Mass,Common
+Private,Closeout/Specified Records/SR3300 Approvals for use of Construction Water,Common
+Private,Closeout/Specified Records/SR3400 Maintenance reports,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3501 Future stage drawings,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3502 As constructed drawings,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3503 Electrical asset drawings,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3504 Project Plans,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3505 Survey data,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3506 Structural design models used in analysis,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3507 Survey control,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3508 Specifications,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3509 Method statements,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3510 MX design models,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3511 Final design reports,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3512 Database of drawings,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3513 Equipment certification reports,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3514 Instrument certification reports,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3515 Drainage design calculations,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3516 Operation & maintenance manuals,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3517 Commissioning records,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3518 Temporary traffic control measures,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3519 Pile driving records,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3520 Bituminous Pavement and surfacing records,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3521 Extent of clearing records,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3522 Road Safety Audits,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3523 Property condition surveys,Common
+Private,Closeout/Specified Records/SR3500 As-constructed Information/SR3524 Pavement condition performance measurement prior to PC,Common
+Private,Closeout/Specified Records/SR3600 Environmental Permits and Approvals,Common
+Private,Closeout/Specified Records/SR3700 Approval to Disturb New Aboriginal Site,Common
+Private,Closeout/Specified Records/SR3800 Property Condition Surveys,Common
+Private,Closeout/Specified Records/SR3900 Approvals to Store Hazardous Materials on the Site,Common
+Private,Closeout/Specified Records/SR4000 Owner consent for design and construction of boundary walls and fences,Common
+Private,Closeout/Specified Records/SR4100 Register of Temporary Traffic Control Measures,Common
+Private,Closeout/Specified Records/SR4200 Quality Records,Common
 Private,Portal/XXX1000 EOI Document,Common
 Private,Portal/XXX2000 EOI Reference Information,Common
 Private,Portal/XXX3000 EOI Addenda,Common
@@ -18,3 +133,6 @@ Private,Portal/XXX6000 RFP Reference Information,Common
 Private,Portal/XXX7000 RFP Addenda,Common
 Private,Portal/XXX8000 RFP Commentaries,Common
 Private,Portal/XXX9000 Contract Docs,Common
+Private,Portal/XXX9000 Contract Docs/Project Alliance Agreement,Alliance
+Private,Portal/XXX9000 Contract Docs/Project Deed,D&C
+Private,Portal/XXX9000 Contract Docs/SWTC,Common

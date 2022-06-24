@@ -1,9 +1,22 @@
-﻿Privacy,Folder,ContractType
+Privacy,Folder,ContractType
+Standard,Correspondence,Common
+Standard,Handover,Common
+Standard,Reporting,Common
+Standard,Reporting/PSR,Common
+Standard,Develop/Communications,Common
+Standard,Develop/Communications/CSMP,Common
+Standard,Develop/Design,Common
+Standard,Develop/Environment,Common
+Standard,Develop/Land,Common
+Standard,Develop/Risk,Common
+Standard,Develop/Services,Common
+Standard,Develop/Sustainability,Common
+Standard,Develop/Traffic,Common
 Standard,General/Databases,Common
-Standard,Meetings/Adhoc Meetings,Common
-Standard,Meetings/Probity Risk Workshops,Common
-Standard,Meetings/Project Team Meetings,Common
-Standard,Meetings/Steering Committee Meetings,Common
+Standard,Meetings/Delivery Risk workshops,Common
+Standard,Meetings/Probity Risk workshops,Common
+Standard,Meetings/Project Team meetings,Common
+Standard,Meetings/Steering Committee meetings,Common
 Standard,Program/Environmental,Common
 Standard,Program/Land,Common
 Standard,Program/Project,Common
@@ -15,33 +28,73 @@ Private,Contract/Daily Diaries,Common
 Private,Contract/Photos and Videos,Common
 Private,Contract/Registers,Common
 Private,Contract/Reporting,Common
-Private,Develop/Design,Common
-Private,Develop/Environment,Common
-Private,Develop/Land,Common
-Private,Procurement/001 Admin,Common
-Private,Procurement/005 Contract Docs,Common
-Private,Procurement/005 Contract Docs/SWTC,Common
-Private,Procurement/005 Contract Docs/Project Deed,D&C
-Private,Procurement/005 Contract Docs/PAA,Alliance
-Private,Procurement/005 Contract Docs/BDC,Alliance
-Private,Procurement/010 Plans,Common
-Private,Procurement/010 Plans/Probity Plan,Common
-Private,Procurement/010 Plans/Procurement Plan,Common
-Private,Procurement/020 Approvals,Common
-Private,Procurement/020 Approvals/021 Request for Contract Number,Common
-Private,Procurement/020 Approvals/022 Delivery Method and Prequalification,Common
 Private,Evaluation/EOI,Common
 Private,Evaluation/EOI/Advisers,Common
+Private,Evaluation/EOI/Advisers/FirstName LastName,Common
 Private,Evaluation/EOI/Evaluation Team,Common
+Private,Evaluation/EOI/Evaluation Team/FirstName LastName,Common
 Private,Evaluation/EOI/Submissions,Common
 Private,Evaluation/EOI/Submissions/Applicant 1,Common
 Private,Evaluation/EOI/Submissions/Applicant 2,Common
 Private,Evaluation/EOI/Submissions/Applicant 3,Common
-Private,Evaluation/EOI/Submissions/Applicant 4,Common
 Private,Evaluation/RFP,Common
 Private,Evaluation/RFP/Advisers,Common
+Private,Evaluation/RFP/Advisers/FirstName LastName,Common
 Private,Evaluation/RFP/Evaluation Team,Common
+Private,Evaluation/RFP/Evaluation Team/FirstName LastName,Common
 Private,Evaluation/RFP/Submissions,Common
 Private,Evaluation/RFP/Submissions/Proponent 1,Common
 Private,Evaluation/RFP/Submissions/Proponent 2,Common
 Private,Evaluation/RFP/Submissions/Proponent 3,Common
+Private,Procurement/100 General,Common
+Private,Procurement/100 General/101 Admin,Common
+Private,Procurement/100 General/102 Meetings,Common
+Private,Procurement/100 General/110 Delivery Methodology Workshop,Common
+Private,Procurement/100 General/120 Approvals,Common
+Private,Procurement/100 General/120 Approvals/021 Contract Number,Common
+Private,Procurement/100 General/120 Approvals/022 Delivery Method and Prequalification,Common
+Private,Procurement/100 General/120 Approvals/023 Request to Advertise,Common
+Private,Procurement/100 General/120 Approvals/024 Approval to Call EOI,Common
+Private,Procurement/100 General/120 Approvals/025 Early Tender Advice,Common
+Private,Procurement/100 General/120 Approvals/026 Web Portal Content Approvals,Common
+Private,Procurement/100 General/140 Plans,Common
+Private,Procurement/100 General/140 Plans/Probity Plan,Common
+Private,Procurement/100 General/140 Plans/Probity Plan/debug,Common
+Private,Procurement/100 General/140 Plans/Probity Plan/release,Common
+Private,Procurement/100 General/140 Plans/Procurement Plan,Common
+Private,Procurement/100 General/140 Plans/Procurement Plan/debug,Common
+Private,Procurement/100 General/140 Plans/Procurement Plan/release,Common
+Private,Procurement/100 General/150 Contract Docs,Common
+Private,Procurement/100 General/150 Contract Docs/Project Alliance Agreement,Alliance
+Private,Procurement/100 General/150 Contract Docs/Project Deed,D&C
+Private,Procurement/100 General/150 Contract Docs/SWTC,Common
+Private,Procurement/100 General/190 Due Diligence,Common
+Private,Procurement/200 EOI,Common
+Private,Procurement/200 EOI/210 EOI Document,Common
+Private,Procurement/200 EOI/210 EOI Document/debug,Common
+Private,Procurement/200 EOI/210 EOI Document/release,Common
+Private,Procurement/200 EOI/240 EOI Web Portal Prep,Common
+Private,Procurement/200 EOI/241 Web Portal DRAFT,Common
+Private,Procurement/200 EOI/242 Web Portal Archive,Common
+Private,Procurement/200 EOI/250 EOI Evaluation Plan,Common
+Private,Procurement/200 EOI/250 EOI Evaluation Plan/debug,Common
+Private,Procurement/200 EOI/250 EOI Evaluation Plan/release,Common
+Private,Procurement/300 RFP,Common
+Private,Procurement/300 RFP/310 RFP Document,Common
+Private,Procurement/300 RFP/310 RFP Document/debug,Common
+Private,Procurement/300 RFP/310 RFP Document/release,Common
+Private,Procurement/300 RFP/340 RFP Web Portal Prep,Common
+Private,Procurement/300 RFP/341 Web Portal DRAFT,Common
+Private,Procurement/300 RFP/342 Web Portal Archive,Common
+Private,Procurement/300 RFP/350 RFP Evaluation Plan,Common
+Private,Procurement/300 RFP/350 RFP Evaluation Plan/debug,Common
+Private,Procurement/300 RFP/350 RFP Evaluation Plan/release,Common
+Private,Procurement/400 Negotiations,Common
+Private,Procurement/400 Negotiations/410 Negotiation Plan,Common
+Private,Procurement/400 Negotiations/420 Meetings,Common
+Private,Procurement/500 Award,Common
+Private,Procurement/500 Award/510 Project Alliance Agreement,Alliance
+Private,Procurement/500 Award/510 Project Deed,D&C
+Private,Procurement/500 Award/520 SWTC,Common
+Private,Procurement/500 Award/530 Award Letter,Common
+Private,Procurement/500 Award/540 Letters for Unsuccessful Tenderers,Common
