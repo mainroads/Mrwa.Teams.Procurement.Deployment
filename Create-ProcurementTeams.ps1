@@ -31,7 +31,7 @@
 #
 ### Provisioning Procedure ###
 
-# Step : Run the below command to start the scrip whhich will auto provision the team and channels including folders by default  (Team and channels including subfolders)
+# Step : Run the below command to start the script which will auto provision the team and channels including folders by default  (Team and channels including subfolders)
 # Incase the folders are not required to be provisioned then just use the flag [-NoFolderCreation] which will skip the folder creation steps.
 # 
 # Note:
