@@ -1,5 +1,6 @@
 #
 # This script provisions M365 Groups, Sensitivity Labels and Label Policy
+# Version 0.4
 #
 ### Prerequisites ###  
 #
