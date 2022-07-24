@@ -1,0 +1,15 @@
+# Beta 4
+- Replace `$ProjectNumber` with Project Number in folders
+
+# Beta 3 - 1 July 2022
+- CSV files updated with the latest Project Folder Structure
+- Changed incorrect use of `Contractor` to `Contract`
+- Using CBBI PRJ and CON as pilot projects
+
+# Beta 2 - 10 May 2022
+- Fixed incorrect use of /sites/ instead of /teams/
+- Using MEBD CON as pilot project
+
+# Beta 1 - 6 April 2022
+- Replace `XXX` with Project Abbreviation in folders
+- Initial version
