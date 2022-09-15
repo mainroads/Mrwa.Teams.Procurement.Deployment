@@ -3,15 +3,6 @@ Standard,Correspondence,Common
 Standard,Handover,Common
 Standard,Reporting,Common
 Standard,Reporting/PSR,Common
-Standard,Develop/Communications,Common
-Standard,Develop/Communications/CSMP,Common
-Standard,Develop/Design,Common
-Standard,Develop/Environment,Common
-Standard,Develop/Land,Common
-Standard,Develop/Risk,Common
-Standard,Develop/Services,Common
-Standard,Develop/Sustainability,Common
-Standard,Develop/Traffic,Common
 Standard,General/Databases,Common
 Standard,Meetings/Delivery Risk workshops,Common
 Standard,Meetings/Probity Risk workshops,Common
@@ -28,27 +19,25 @@ Private,Contract/Daily Diaries,Common
 Private,Contract/Photos and Videos,Common
 Private,Contract/Registers,Common
 Private,Contract/Reporting,Common
-Private,Evaluation/EOI,Common
-Private,Evaluation/EOI/Advisers,Common
-Private,Evaluation/EOI/Advisers/FirstName LastName,Common
-Private,Evaluation/EOI/Evaluation Team,Common
-Private,Evaluation/EOI/Evaluation Team/FirstName LastName,Common
-Private,Evaluation/EOI/Submissions,Common
-Private,Evaluation/EOI/Submissions/Applicant 1,Common
-Private,Evaluation/EOI/Submissions/Applicant 2,Common
-Private,Evaluation/EOI/Submissions/Applicant 3,Common
-Private,Evaluation/RFP,Common
-Private,Evaluation/RFP/Advisers,Common
-Private,Evaluation/RFP/Advisers/FirstName LastName,Common
-Private,Evaluation/RFP/Evaluation Team,Common
-Private,Evaluation/RFP/Evaluation Team/FirstName LastName,Common
-Private,Evaluation/RFP/Submissions,Common
-Private,Evaluation/RFP/Submissions/Proponent 1,Common
-Private,Evaluation/RFP/Submissions/Proponent 2,Common
-Private,Evaluation/RFP/Submissions/Proponent 3,Common
+Private,Evaluation-Commercial/FirstName LastName,Common
+Private,Evaluation-Qualitative/EOI,Common
+Private,Evaluation-Qualitative/EOI/FirstName LastName,Common
+Private,Evaluation-Qualitative/EOI/Reference Documents,Common
+Private,Evaluation-Qualitative/EOI/Reference Documents/Advisers Comments,Common
+Private,Evaluation-Qualitative/EOI/Reference Documents/Contractor Performance Reports,Common
+Private,Evaluation-Qualitative/RFP,Common
+Private,Evaluation-Qualitative/RFP/FirstName LastName,Common
+Private,Evaluation-Qualitative/RFP/Reference Documents,Common
+Private,Evaluation-Qualitative/RFP/Reference Documents/Advisers Comments,Common
+Private,Evaluation-Qualitative/RFP/Reference Documents/Contractor Performance Reports,Common
 Private,Procurement/100 General,Common
 Private,Procurement/100 General/101 Admin,Common
-Private,Procurement/100 General/102 Meetings,Common
+Private,Procurement/100 General/102 Checklists,Common
+Private,Procurement/100 General/103 Registers,Common
+Private,Procurement/100 General/105 Meetings,Common
+Private,Procurement/100 General/105 Meetings/Evaluation Plan meetings,Common
+Private,Procurement/100 General/105 Meetings/Procurement meetings,Common
+Private,Procurement/100 General/105 Meetings/XXX Due Diligence meetings,Common
 Private,Procurement/100 General/110 Delivery Methodology Workshop,Common
 Private,Procurement/100 General/120 Approvals,Common
 Private,Procurement/100 General/120 Approvals/021 Contract Number,Common
@@ -73,6 +62,8 @@ Private,Procurement/200 EOI,Common
 Private,Procurement/200 EOI/210 EOI Document,Common
 Private,Procurement/200 EOI/210 EOI Document/debug,Common
 Private,Procurement/200 EOI/210 EOI Document/release,Common
+Private,Procurement/200 EOI/220 EOI Industry Briefing,Common
+Private,Procurement/200 EOI/230 EOI Advisers Briefing,Common
 Private,Procurement/200 EOI/240 EOI Web Portal Prep,Common
 Private,Procurement/200 EOI/241 Web Portal DRAFT,Common
 Private,Procurement/200 EOI/242 Web Portal Archive,Common
@@ -83,6 +74,8 @@ Private,Procurement/300 RFP,Common
 Private,Procurement/300 RFP/310 RFP Document,Common
 Private,Procurement/300 RFP/310 RFP Document/debug,Common
 Private,Procurement/300 RFP/310 RFP Document/release,Common
+Private,Procurement/300 RFP/320 RFP Industry Briefing,Common
+Private,Procurement/300 RFP/330 RFP Advisers Briefing,Common
 Private,Procurement/300 RFP/340 RFP Web Portal Prep,Common
 Private,Procurement/300 RFP/341 Web Portal DRAFT,Common
 Private,Procurement/300 RFP/342 Web Portal Archive,Common
@@ -98,3 +91,14 @@ Private,Procurement/500 Award/510 Project Deed,D&C
 Private,Procurement/500 Award/520 SWTC,Common
 Private,Procurement/500 Award/530 Award Letter,Common
 Private,Procurement/500 Award/540 Letters for Unsuccessful Tenderers,Common
+Private,Submissions-Commercial/Proponent 1,Common
+Private,Submissions-Commercial/Proponent 2,Common
+Private,Submissions-Commercial/Proponent 3,Common
+Private,Submissions-Qualitative/EOI,Common
+Private,Submissions-Qualitative/EOI/Applicant 1,Common
+Private,Submissions-Qualitative/EOI/Applicant 2,Common
+Private,Submissions-Qualitative/EOI/Applicant 3,Common
+Private,Submissions-Qualitative/RFP,Common
+Private,Submissions-Qualitative/RFP/Proponent 1,Common
+Private,Submissions-Qualitative/RFP/Proponent 2,Common
+Private,Submissions-Qualitative/RFP/Proponent 3,Common
