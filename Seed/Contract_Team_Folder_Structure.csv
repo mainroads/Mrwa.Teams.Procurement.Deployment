@@ -5,9 +5,7 @@ Standard,Contract Docs,Common
 Standard,Correspondence,Common
 Standard,Databases,Common
 Standard,Databases/Lessons Learnt,Common
-Standard,Databases/Technical Queries,Common
 Standard,Databases/Templates,Common
-Standard,Databases/Test Results,Common
 Standard,Environment,Common
 Standard,External Data,Common
 Standard,External Data/Main Roads WA,Common
@@ -63,6 +61,7 @@ Standard,Quality/Hold Points/HP001 Title,Common
 Standard,Quality/Method Statements,Common
 Standard,Quality/NCRs,Common
 Standard,Quality/Technical Queries,Common
+Standard,Quality/Test Results,Common
 Private,Closeout/Defects,Common
 Private,Closeout/Defects Review,Common
 Private,Closeout/Outstanding Items before PC,Common
