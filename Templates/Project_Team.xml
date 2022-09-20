@@ -63,7 +63,7 @@
           Description=""
           IsFavoriteByDefault="false"
           Private="true" />
-        <pnp:Channel DisplayName="Contract"
+        <pnp:Channel DisplayName="OnSite"
           Description=""
           IsFavoriteByDefault="false"
           Private="true" />

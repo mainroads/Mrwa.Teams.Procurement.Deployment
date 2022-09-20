@@ -1,5 +1,6 @@
 # Beta 4
 - Replace `$ProjectNumber` with Project Number in folders
+- Rename `Contract` Private Channel to `OnSite`
 
 # Beta 3 - 1 July 2022
 - CSV files updated with the latest Project Folder Structure
