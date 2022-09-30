@@ -19,7 +19,7 @@
 # 2. Browse to the script directory
 #     cd "<script_location_in_file_system>"
 # 3. Execute updateLabel.ps1
-#     Syntax: .\updateLabel.ps1 -servicePrincipal “c3652-adm@mainroads.wa.gov.au” -projectId “MR-30000597-MEBD-CON” -groupOwner “scott.white@mainroads.wa.gov.au” -domainName “group.mainroads.wa.gov.au” 
+#     Syntax: .\updateLabel.ps1 -servicePrincipal “c3652-adm@mainroads.wa.gov.au” -projectId “MR-30000597-MEBD-PRJ” -groupOwner “scott.white@mainroads.wa.gov.au” -domainName “group.mainroads.wa.gov.au” 
 #
 param ($servicePrincipal, $projectId, $groupOwner, $domainName)
 
