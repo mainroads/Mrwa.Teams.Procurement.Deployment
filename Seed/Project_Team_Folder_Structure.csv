@@ -3,6 +3,17 @@ Standard,Correspondence,Common
 Standard,Handover,Common
 Standard,Reporting,Common
 Standard,Reporting/PSR,Common
+Standard,Develop/Communications,Common
+Standard,Develop/Communications/CSMP,Common
+Standard,Develop/Design,Common
+Standard,Develop/Design/Project Case design,Common
+Standard,Develop/Design/Ultimate design,Common
+Standard,Develop/Environment,Common
+Standard,Develop/Land,Common
+Standard,Develop/Risk,Common
+Standard,Develop/Services,Common
+Standard,Develop/Sustainability,Common
+Standard,Develop/Traffic,Common
 Standard,General/Databases,Common
 Standard,Meetings/Delivery Risk workshops,Common
 Standard,Meetings/Probity Risk workshops,Common
@@ -14,11 +25,6 @@ Standard,Program/Project,Common
 Private,Commercial/Estimates,Common
 Private,Commercial/Forecasts,Common
 Private,Commercial/PPR,Common
-Private,Contract/CMP,Common
-Private,Contract/Daily Diaries,Common
-Private,Contract/Photos and Videos,Common
-Private,Contract/Registers,Common
-Private,Contract/Reporting,Common
 Private,Evaluation-Commercial/FirstName LastName,Common
 Private,Evaluation-Qualitative/EOI,Common
 Private,Evaluation-Qualitative/EOI/FirstName LastName,Common
@@ -30,6 +36,11 @@ Private,Evaluation-Qualitative/RFP/FirstName LastName,Common
 Private,Evaluation-Qualitative/RFP/Reference Documents,Common
 Private,Evaluation-Qualitative/RFP/Reference Documents/Advisers Comments,Common
 Private,Evaluation-Qualitative/RFP/Reference Documents/Contractor Performance Reports,Common
+Private,OnSite/CMP,Common
+Private,OnSite/Daily Diaries,Common
+Private,OnSite/Photos and Videos,Common
+Private,OnSite/Registers,Common
+Private,OnSite/Reporting,Common
 Private,Procurement/100 General,Common
 Private,Procurement/100 General/101 Admin,Common
 Private,Procurement/100 General/102 Checklists,Common
