@@ -50,13 +50,6 @@ Private,Procurement/100 General/105 Meetings/Evaluation Plan meetings,Common
 Private,Procurement/100 General/105 Meetings/Procurement meetings,Common
 Private,Procurement/100 General/105 Meetings/XXX Due Diligence meetings,Common
 Private,Procurement/100 General/110 Delivery Methodology Workshop,Common
-Private,Procurement/100 General/120 Approvals,Common
-Private,Procurement/100 General/120 Approvals/021 Contract Number,Common
-Private,Procurement/100 General/120 Approvals/022 Delivery Method and Prequalification,Common
-Private,Procurement/100 General/120 Approvals/023 Request to Advertise,Common
-Private,Procurement/100 General/120 Approvals/024 Approval to Call EOI,Common
-Private,Procurement/100 General/120 Approvals/025 Early Tender Advice,Common
-Private,Procurement/100 General/120 Approvals/026 Web Portal Content Approvals,Common
 Private,Procurement/100 General/140 Plans,Common
 Private,Procurement/100 General/140 Plans/Probity Plan,Common
 Private,Procurement/100 General/140 Plans/Probity Plan/Debug,Common
@@ -64,12 +57,22 @@ Private,Procurement/100 General/140 Plans/Probity Plan/Release,Common
 Private,Procurement/100 General/140 Plans/Procurement Plan,Common
 Private,Procurement/100 General/140 Plans/Procurement Plan/Debug,Common
 Private,Procurement/100 General/140 Plans/Procurement Plan/Release,Common
+Private,Procurement/100 General/140 Plans/SAMP,Common
+Private,Procurement/100 General/140 Plans/SAMP/Debug,Common
+Private,Procurement/100 General/140 Plans/SAMP/Release,Common
 Private,Procurement/100 General/150 Contract Docs,Common
 Private,Procurement/100 General/150 Contract Docs/Project Alliance Agreement,Alliance
 Private,Procurement/100 General/150 Contract Docs/Project Deed,D&C
 Private,Procurement/100 General/150 Contract Docs/SWTC,Common
 Private,Procurement/100 General/190 Due Diligence,Common
 Private,Procurement/200 EOI,Common
+Private,Procurement/200 EOI/201 EOI Approvals,Common
+Private,Procurement/200 EOI/201 EOI Approvals/A01 Contract Number,Common
+Private,Procurement/200 EOI/201 EOI Approvals/A02 Delivery Method and Prequalification,Common
+Private,Procurement/200 EOI/201 EOI Approvals/A03 Request to Advertise,Common
+Private,Procurement/200 EOI/201 EOI Approvals/A04 Approval to Call EOI,Common
+Private,Procurement/200 EOI/201 EOI Approvals/A05 Early Tender Advice,Common
+Private,Procurement/200 EOI/201 EOI Approvals/A06 Web Portal Content Approvals,Common
 Private,Procurement/200 EOI/210 EOI Document,Common
 Private,Procurement/200 EOI/210 EOI Document/Debug,Common
 Private,Procurement/200 EOI/210 EOI Document/Release,Common
@@ -82,6 +85,7 @@ Private,Procurement/200 EOI/250 EOI Evaluation Plan,Common
 Private,Procurement/200 EOI/250 EOI Evaluation Plan/Debug,Common
 Private,Procurement/200 EOI/250 EOI Evaluation Plan/Release,Common
 Private,Procurement/300 RFP,Common
+Private,Procurement/300 RFP/301 RFP Approvals,Common
 Private,Procurement/300 RFP/310 RFP Document,Common
 Private,Procurement/300 RFP/310 RFP Document/Debug,Common
 Private,Procurement/300 RFP/310 RFP Document/Release,Common
