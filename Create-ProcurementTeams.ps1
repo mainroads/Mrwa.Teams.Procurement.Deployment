@@ -1,6 +1,6 @@
 #
 # This script provisions IDD project and contract Teams for Procurement team 
-# Version 0.4
+# Version 0.4.1
 #
 ### Prerequisites ###  
 #
@@ -244,8 +244,7 @@ if (!$NoFolderCreation) {
   Write-Host "Starting with creating folders in to each channels" -ForegroundColor Green
   foreach ($folder in (import-csv $foldersCsvFileRelativePath)) {
     $channelPrivacy = $folder.Privacy
-    $folderRelativePath = ($folder.Folder).Replace('XXX', $ProjectAbbreviation)
-    $folderRelativePath = ($folder.Folder).Replace('$ProjectNumber', $ProjectNumber)
+    $folderRelativePath = ($folder.Folder).Replace('XXX', $ProjectAbbreviation).Replace('$ProjectNumber', $ProjectNumber)
     $folderContractType = $folder.ContractType
   
     Write-Host `n"Processing: $folderRelativePath..." -ForegroundColor DarkMagenta
