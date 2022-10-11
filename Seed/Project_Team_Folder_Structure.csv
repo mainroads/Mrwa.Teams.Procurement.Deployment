@@ -46,9 +46,9 @@ Private,Procurement/100 General/101 Admin,Common
 Private,Procurement/100 General/102 Checklists,Common
 Private,Procurement/100 General/103 Registers,Common
 Private,Procurement/100 General/105 Meetings,Common
+Private,Procurement/100 General/105 Meetings/Due Diligence meetings,Common
 Private,Procurement/100 General/105 Meetings/Evaluation Plan meetings,Common
 Private,Procurement/100 General/105 Meetings/Procurement meetings,Common
-Private,Procurement/100 General/105 Meetings/XXX Due Diligence meetings,Common
 Private,Procurement/100 General/110 Delivery Methodology Workshop,Common
 Private,Procurement/100 General/140 Plans,Common
 Private,Procurement/100 General/140 Plans/Probity Plan,Common
@@ -64,7 +64,10 @@ Private,Procurement/100 General/150 Contract Docs,Common
 Private,Procurement/100 General/150 Contract Docs/Project Alliance Agreement,Alliance
 Private,Procurement/100 General/150 Contract Docs/Project Deed,D&C
 Private,Procurement/100 General/150 Contract Docs/SWTC,Common
-Private,Procurement/100 General/190 Due Diligence,Common
+Private,Procurement/100 General/190 XXX Due Diligence,Common
+Private,Procurement/100 General/190 XXX Due Diligence/Reports,Common
+Private,Procurement/100 General/190 XXX Due Diligence/RFIs,Common
+Private,Procurement/100 General/190 XXX Due Diligence/Supporting Docs,Common
 Private,Procurement/200 EOI,Common
 Private,Procurement/200 EOI/201 EOI Approvals,Common
 Private,Procurement/200 EOI/201 EOI Approvals/A01 Contract Number,Common
