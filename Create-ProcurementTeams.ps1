@@ -1,6 +1,6 @@
 #
 # This script provisions IDD project and contract Teams for Procurement team 
-# Version 0.4.1
+# Version 0.4
 #
 ### Prerequisites ###  
 #
@@ -28,7 +28,7 @@
 # 2. Browse to the project directory
 #     cd "<project_location_in_file_system>\.Mrwa.Teams.Procurement.Deployment"
 # 3. Execute Create-ProcurementTeams.ps1
-#     Syntax: .\Create-ProcurementTeams.ps1 -M365Domain <domain_name> -ProjectName <project_name> -ProjectNumber <project_number> -ProjectAbbreviation <project_abbreviation> -ContractType <contract_type> -TeamType <Team_Type> [-NoFolderCreation] 
+#     Syntax: .\Create-ProcurementTeams.ps1 -M365Domain <domain_name> -projectName <project_name> -projectNumber <project_number> -projectAbbreviation <project_abbreviation> -ContractType <contract_type> -TeamType <Team_Type> -Subsites [-NoFolderCreation] 
 #
 ### Provisioning Procedure ###
 
@@ -37,55 +37,42 @@
 # 
 # Note:
 #   1. In case script fails while running, just run the command again with the same command to continue the provisioning process 
-# 
-#
 
 Param(
   [Parameter(Mandatory = $true)]
   [ValidateNotNullOrEmpty()]
-  [string]
-  $M365Domain,
+  [string] $M365Domain,
 
   [Parameter(Mandatory = $true)]
   [ValidateNotNullOrEmpty()]
-  [string]
-  $ProjectName,
+  [string] $projectName,
 
   [Parameter(Mandatory = $true)]
   [ValidateNotNullOrEmpty()]
-  [string]
-  $ProjectNumber,
+  [string] $projectNumber,
 
   [Parameter(Mandatory = $true)]
   [ValidateNotNullOrEmpty()]
-  [string]
-  $ProjectAbbreviation,
+  [string] $projectAbbreviation,
 
   [Parameter(Mandatory = $true)]
   [ValidateNotNullOrEmpty()]
-  [ValidateSet(
-    "Alliance",
-    "D&C",
-    IgnoreCase = $true)]
-  [string]
-  $ContractType,
+  [ValidateSet("Alliance", "D&C", IgnoreCase = $true)]
+  [string] $ContractType,
 
   [Parameter(Mandatory = $true)]
   [ValidateNotNullOrEmpty()]
-  [ValidateSet(
-    "Project",
-    "Contract",
-    IgnoreCase = $true)]
-  [string]
-  $TeamType,
+  [ValidateSet("Project", "Contract", IgnoreCase = $true)]
+  [string] $TeamType,
 
-  [switch]
-  $NoFolderCreation = $false
+  [Parameter(Mandatory = $false)]
+  [ValidateNotNullOrEmpty()]
+  [string] $Subsites,
+
+  [switch] $NoFolderCreation = $false
 )
 
 $ErrorActionPreference = "Stop"
-
-$scriptStart = Get-Date
 
 #--------------------
 # Install Dependencies if not already present in current workspace
@@ -100,177 +87,347 @@ $pnpPowerShellAppName = "PnP Management Shell"
 # Configuration
 #--------------------
 
-# Teams:
-
 $adminUrl = "https://$($M365Domain)-admin.sharepoint.com/"
-$teamPrefix = "MR"
-$teamSuffix = if ($TeamType -eq "Project") { "PRJ" } else { "CON" }
+$global:teamPrefix = "MR"
+$global:teamSuffix = if ($TeamType -eq "Project") { "PRJ" } else { "CON" }
 $foldersCsvFileRelativePath = "Seed\$($TeamType)_Team_Folder_Structure.csv"
+$tenant = "mainroads.onmicrosoft.com"
 
-#--------------------
-# Main
-#--------------------
+#/Teams (teams) or /Sites (sites)
+$spUrlType = "teams" 
 
-# Connect to SharePoint:
-Connect-PnPOnline -Url $adminUrl -Interactive
-
-$pnpPowerShellApp = Get-PnPAzureADApp -Identity $pnpPowerShellAppName -ErrorAction SilentlyContinue
-
-if($null -eq $pnpPowerShellApp){
-
-  $graphPermissions = "Group.Read.All","Group.ReadWrite.All","Directory.Read.All",
-  "Directory.ReadWrite.All","Channel.ReadBasic.All","ChannelSettings.Read.All",
-  "ChannelSettings.ReadWrite.All","Channel.Create","Team.ReadBasic.All","TeamSettings.Read.All",
-  "TeamSettings.ReadWrite.All","User.ReadWrite.All","Group.Read.All"
-
-  $sharePointApplicationPermissions = "Sites.FullControl.All","User.ReadWrite.All"
-
-  $sharePointDelegatePermissions = "AllSites.FullControl"
-
-  Register-PnPAzureADApp -ApplicationName $pnpPowerShellAppName -Tenant mainroads.onmicrosoft.com -OutPath E:\Temp -DeviceLogin -GraphApplicationPermissions $graphPermissions -SharePointApplicationPermissions 
-  
-}
-
-$parameters = @{
+$parametersTable = @{
   "TeamPrefix"          = $teamPrefix
   "TeamSuffix"          = $teamSuffix
-  "ProjectNumber"       = $ProjectNumber
-  "ProjectAbbreviation" = $ProjectAbbreviation
-  "ProjectName"        = $ProjectName
+  "ProjectNumber"       = $projectNumber
+  "ProjectAbbreviation" = $projectAbbreviation
+  "ProjectName"         = $projectName
+  "Subsites"            = $subsites
 }
 
-# Invoke template to create Team, Channels
+$parameters = @{}
 
-$stopInvokingTemplate = $false
-$retryCount = 0
-$maxRetryCount = 3 
+$global:prefix = $null;
+$global:suffix = $null;
+$global:prjNumber = $null;
+$global:prjAbbreviation;
+$global:prjName = $null;
+$global:sites = $null;
+$global:siteUrl = $ull;
 
-do {
-  try {
+#---------------------------------
+# CleanUpParameters Function
+#---------------------------------
+Function CleanUpParameters()
+{   
+    # Removes start and ending spaces in parameters, replaces all other spaces with dashes
+    Write-Host " - Checking parameters for white spaces..." -ForegroundColor Yellow
+
+    foreach ($parameter in $parametersTable.GetEnumerator())
+    {
+        if($parameter.Key -eq "Subsites" -and $subsites)
+        {
+            $parameterTrim = $parameter.Value.ToString().Trim();
+            $parameter.Value = $parameterTrim
+            $newParam = $parameter.Value.replace(" ","");
+            $parameters.Add($parameter.Key, $newParam); 
+        } 
+        else 
+        {
+            $parameterTrim = $parameter.Value.ToString().Trim();
+            $parameter.Value = $parameterTrim
+            $newParameter = $parameter.Value.replace(" ","-");
+            $parameters.Add($parameter.Key, $newParameter); 
+        }
+    }
+
+    foreach ($parameter in $parameters.GetEnumerator())
+    {
+        #Write-Host "   - New parameter: " $parameter.Key $parameter.Value
+
+        if($parameter.Key -eq "TeamPrefix")
+        {
+            $global:prefix = $parameter.Value; 
+        }
+        if($parameter.Key -eq "TeamSuffix")
+        {
+            $global:suffix = $parameter.Value;
+        }
+        if($parameter.Key -eq "ProjectNumber")
+        {
+            $global:prjNumber = $parameter.Value;
+        }
+        if($parameter.Key -eq "ProjectAbbreviation")
+        {
+            $global:prjAbbreviation = $parameter.Value;
+        }
+        if($parameter.Key -eq "ProjectName")
+        {
+            $global:prjName = $parameter.Value;
+        }
+        if($parameter.Key -eq "Subsites")
+        {
+            $sites = $parameter.Value.Split(",");
+            $global:sites = $sites;
+        }
+
+        $global:siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)";
+    }
+}
+
+#---------------------------------
+# ConnectToSharePoint Function
+#---------------------------------
+Function ConnectToSharePoint()
+{  
+    # Connect to SharePoint:
+    Write-Host " - Connecting to SharePoint..." -ForegroundColor Yellow
+
+    Connect-PnPOnline -Url $adminUrl -Interactive
+
+    $pnpPowerShellApp = Get-PnPAzureADApp -Identity $pnpPowerShellAppName -ErrorAction SilentlyContinue
+
+    if($null -eq $pnpPowerShellApp) {
+
+      $graphPermissions = "Group.Read.All","Group.ReadWrite.All","Directory.Read.All",
+      "Directory.ReadWrite.All","Channel.ReadBasic.All","ChannelSettings.Read.All",
+      "ChannelSettings.ReadWrite.All","Channel.Create","Team.ReadBasic.All","TeamSettings.Read.All",
+      "TeamSettings.ReadWrite.All","User.ReadWrite.All","Group.Read.All"
+
+      $sharePointApplicationPermissions = "Sites.FullControl.All","User.ReadWrite.All"
+
+      $sharePointDelegatePermissions = "AllSites.FullControl"
+
+      Register-PnPAzureADApp -ApplicationName $pnpPowerShellAppName -Tenant $tenant -OutPath E:\Temp -DeviceLogin -GraphApplicationPermissions $graphPermissions -SharePointApplicationPermissions $sharePointApplicationPermissions
+  
+    }
+}
+
+#---------------------------------
+# CreateTeamAndSites Function
+#---------------------------------
+Function CreateTeamsAndSites()
+{
+    # Invoke template to create Team, Channels
+    Write-Host " - Creating Teams and Sites..." -ForegroundColor Yellow
+
+    $stopInvokingTemplate = $false
+    $retryCount = 0
+    $maxRetryCount = 3 
+
+    do {
+      try {
       
-    if ($TeamType -eq "Project") {
-      Invoke-PnPTenantTemplate -Path "Templates\Project_Team.xml" -Parameters $parameters
-    }
-    elseif ($TeamType -eq "Contract") {
-      Invoke-PnPTenantTemplate -Path "Templates\Contract_Team.xml" -Parameters $parameters 
-    }
-    else {
-       Invoke-PnPTenantTemplate -Path "Templates\Project_Team.xml" -Parameters $parameters 
-       Invoke-PnPTenantTemplate -Path "Templates\Contract_Team.xml" -Parameters $parameters 
-    }
+        if ($TeamType -eq "Project") {
+          Invoke-PnPTenantTemplate -Path "Templates\Project_Team.xml" -Parameters $parameters
+        }
+        elseif ($TeamType -eq "Contract") {
+          Invoke-PnPTenantTemplate -Path "Templates\Contract_Team.xml" -Parameters $parameters 
+        }
+        else {
+           Invoke-PnPTenantTemplate -Path "Templates\Project_Team.xml" -Parameters $parameters 
+           Invoke-PnPTenantTemplate -Path "Templates\Contract_Team.xml" -Parameters $parameters 
+        }
 
-      $stopInvokingTemplate = $true
-  }
-  catch {
-      if ($retryCount -gt $maxRetryCount) {        
           $stopInvokingTemplate = $true
       }
-      else {
-          Start-Sleep -Seconds 30
-          $retryCount = $retryCount + 1
-          Write-Host "Something went wrong....retry attempt : $retryCount"
+      catch {
+          if ($retryCount -gt $maxRetryCount) {        
+              $stopInvokingTemplate = $true
+          }
+          else {
+              Start-Sleep -Seconds 30
+              $retryCount = $retryCount + 1
+              Write-Host "   - Something went wrong....retry attempt : $retryCount"
+          }
       }
-  }
+    }
+    While ($stopInvokingTemplate -eq $false)
+
+
+    ######### Wait for 3 minutes to teams provisioning to complete 100% #######################
+
+    $seconds = 180
+    1..$seconds |
+    ForEach-Object { 
+        $percent = $_ * 100 / $seconds; 
+
+        Write-Progress -Activity "Wait for 3 minutes before ensuring the private channel sharepoint sites provisioning" -Status "$($seconds - $_) seconds remaining..." -PercentComplete $percent; 
+
+        Start-Sleep -Seconds 1
+    }
 }
-While ($stopInvokingTemplate -eq $false)
 
+#---------------------------------
+# CreateTeamsChannels Function
+#---------------------------------
+Function CreateTeamsChannels()
+{
+    # Code to invoke private channel sites
+    Write-Host " - Creating Teams channels..." -ForegroundColor Yellow
 
-######### Wait for 3 minutes to teams provisioning to complete 100% #######################
+    #Request graph access toeken
+    $accessToken = Get-PnPGraphAccessToken
 
-$seconds = 180
-1..$seconds |
-ForEach-Object { $percent = $_ * 100 / $seconds; 
-
-Write-Progress -Activity "Wait for 3 minutes before ensuring the private channel sharepoint sites provisioning" -Status "$($seconds - $_) seconds remaining..." -PercentComplete $percent; 
-
-Start-Sleep -Seconds 1
-}
-
-########## Code to invoke private channel sites ###########################################
-
-#Request graph access toeken
-$accessToken = Get-PnPGraphAccessToken
-
-#Get teams data via the Graph
-Write-Host "Getting the newly created team details..." -ForegroundColor DarkYellow
-
-$response = Invoke-RestMethod -Headers @{Authorization = "Bearer $accessToken" } -Uri "https://graph.microsoft.com/beta/teams?$filter=startswith(displayName, `'$($teamPrefix)-$($ProjectNumber)-$($ProjectAbbreviation)`')" -Method 'GET' -ContentType 'application/json'
+    #Get teams data via the Graph
+    $response = Invoke-RestMethod -Headers @{Authorization = "Bearer $accessToken" } -Uri "https://graph.microsoft.com/beta/teams?$filter=startswith(displayName, `'$($teamPrefix)-$($projectNumber)-$($projectAbbreviation)`')" -Method 'GET' -ContentType 'application/json'
  
-#Select the data for each team
-$team = $response.value[0] | Select-Object 'displayName', 'id'
+    #Select the data for each team
+    $team = $response.value[0] | Select-Object 'displayName', 'id'
  
-try {
+    try {
 
-    #Get the channel
-    $allChannels = (Invoke-RestMethod -Headers @{Authorization = "Bearer $accessToken" } -Uri "https://graph.microsoft.com/beta/teams/$($team.id)/channels" -Method 'GET' -ContentType 'application/json').value | Select-Object 'displayName', 'id'
+        #Get the channel
+        $allChannels = (Invoke-RestMethod -Headers @{Authorization = "Bearer $accessToken" } -Uri "https://graph.microsoft.com/beta/teams/$($team.id)/channels" -Method 'GET' -ContentType 'application/json').value | Select-Object 'displayName', 'id'
     
-    #Attempt channel check
-    $stopLoop = $false
-    $retryCount = 0
-    $maxRetryCount = 10   
+        #Attempt channel check
+        $stopLoop = $false
+        $retryCount = 0
+        $maxRetryCount = 10   
    
-    #Trigger private channel SharePoint Onlinesite creation
-    foreach ($channel in $allChannels) {
-        do {
-            try {
-                Invoke-RestMethod -Headers @{Authorization = "Bearer $accessToken" } -Uri "https://graph.microsoft.com/beta/teams/$($team.id)/channels/$($channel.id)/filesFolder" | Out-Null
-                $stopLoop = $true
+        #Trigger private channel SharePoint Onlinesite creation
+        foreach ($channel in $allChannels) {
+            do {
+                try {
+                    Invoke-RestMethod -Headers @{Authorization = "Bearer $accessToken" } -Uri "https://graph.microsoft.com/beta/teams/$($team.id)/channels/$($channel.id)/filesFolder" | Out-Null
+                    $stopLoop = $true
+                }
+                catch {
+                    if ($retryCount -gt $maxRetryCount) {
+                        $stoploop = $true
+                    }
+                    else {
+                        Start-Sleep -Seconds 5
+                        $retryCount = $retryCount + 1
+                    }
+                }
             }
-            catch {
-                if ($retryCount -gt $maxRetryCount) {
-                    $stoploop = $true
-                }
-                else {
-                    Start-Sleep -Seconds 5
-                    $retryCount = $retryCount + 1
-                }
+            While ($stopLoop -eq $false)
+        }
+    }
+    catch {
+        Write-Host $_
+    }
+}
+
+#---------------------------------
+# CreateFolderStructures Function
+#---------------------------------
+Function CreateFolderStructures()
+{
+    # PnP Provisioning Schema currently does not have support for adding folders 
+    # to private channels. Therefore, add folders explicitly using the following 
+    # logic. Use this consistently to add folders for both standard and private
+    # channels. This logic is not required when provisioning schema is updated 
+    # in the later versions to add folders to private channels
+    if (!$NoFolderCreation) 
+    {
+        Write-Host " - Creating Folder Structures in Channels..." -ForegroundColor Yellow 
+
+        foreach ($folder in (import-csv $foldersCsvFileRelativePath)) 
+        {
+            $channelPrivacy = $folder.Privacy
+            $folderRelativePath = ($folder.Folder).Replace('XXX', $global:prjAbbreviation)
+            $folderRelativePath = ($folder.Folder).Replace('$global:prjNumber', $global:prjNumber)
+            $folderContractType = $folder.ContractType
+  
+            Write-Host `n"   - Processing: $folderRelativePath..." 
+
+            if ($channelPrivacy -eq "Standard") {
+                $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)"
+            }
+            elseif ($channelPrivacy -eq "Private") {
+                $channel = $folderRelativePath.Substring(0,$folderRelativePath.IndexOf("/"))
+                $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)-$($channel)"
+            }
+
+            Write-Host "   - Connecting to:" $siteUrl
+            Connect-PnPOnline -Url $siteUrl -Interactive
+
+            if(($folderContractType -eq $ContractType) -or ($folderContractType -eq "Common")){
+                Resolve-PnPFolder -SiteRelativePath "Shared Documents/$folderRelativePath"
             }
         }
-        While ($stopLoop -eq $false)
     }
 }
-catch {
-    Write-Host $_
+
+Function CreateNewGroupAndPermissionLevel()
+{
+
+    write-host "   - Creating 'Contribute without Delete' Permission Level for SP site..." -ForegroundColor Yellow     
+        
+    Connect-PnPOnline -Url $global:siteUrl -Interactive  
+
+    #Get Permission level to copy
+    $contributeRole = Get-PnPRoleDefinition -Identity "Contribute"
+ 
+    #Create a custom Permission level and exclude delete from contribute
+    Add-PnPRoleDefinition -RoleName "Contribute without delete" -Clone $contributeRole -Exclude DeleteListItems, DeleteVersions -Description "Contribute without delete permission"
+    New-PnPSiteGroup -Site $siteUrl -Name "Contributors" -PermissionLevels "Contribute without delete"
+
 }
 
-
-if (!$NoFolderCreation) {
-  # PnP Provisioning Schema currently does not have support for adding folders 
-  # to private channels. Therefore, add folders explicitly using the following 
-  # logic. Use this consistently to add folders for both standard and private
-  # channels. This logic is not required when provisioning schema is updated 
-  # in the later versions to add folders to private channels
-
-  Write-Host "Starting with creating folders in to each channels" -ForegroundColor Green
-  foreach ($folder in (import-csv $foldersCsvFileRelativePath)) {
-    $channelPrivacy = $folder.Privacy
-    $folderRelativePath = ($folder.Folder).Replace('XXX', $ProjectAbbreviation).Replace('$ProjectNumber', $ProjectNumber)
-    $folderContractType = $folder.ContractType
-  
-    Write-Host `n"Processing: $folderRelativePath..." -ForegroundColor DarkMagenta
-
-    if ($channelPrivacy -eq "Standard") {
-      $siteUrl = "https://$($M365Domain).sharepoint.com/teams/$($teamPrefix)-$($ProjectNumber)-$($ProjectAbbreviation)-$($teamSuffix)"
+Function CreateSubsites()
+{
+    if($global:sites) 
+    {
+         write-host " - Creating Subsites..." -ForegroundColor Yellow     
+        
+         foreach($site in $global:sites)
+         {    
+            write-host "     - Creating subsite: $site"
+            Connect-PnPOnline -Url $global:siteUrl -Interactive  
+            New-PnPWeb -Title $site -Url $site -Template "STS#3" -InheritNavigation
+         }
     }
-    elseif ($channelPrivacy -eq "Private") {
-      $channel = $folderRelativePath.Substring(0,$folderRelativePath.IndexOf("/"))
-      $siteUrl = "https://$($M365Domain).sharepoint.com/teams/$($teamPrefix)-$($ProjectNumber)-$($ProjectAbbreviation)-$($teamSuffix)-$($channel)"
+    else
+    {
+         write-host "Subsite parameter not selected."
     }
-
-    Write-Host "Connecting to :" $siteUrl -ForegroundColor DarkGray
-    Connect-PnPOnline -Url $siteUrl -Interactive
-
-    if(($folderContractType -eq $ContractType) -or ($folderContractType -eq "Common")){
-      Resolve-PnPFolder -SiteRelativePath "Shared Documents/$folderRelativePath"
-    }
-  }
 }
 
-$scriptEnd = Get-Date
-$timeElapsed = New-TimeSpan -Start $scriptStart -End $scriptEnd
+#---------------------------------
+# Main Function
+#---------------------------------
+Function Main()
+{
+    Write-Host "`Teams Procurement script has started `n" -ForegroundColor Green
 
-Write-Host
-Write-Host "Started:`t" $scriptStart -ForegroundColor DarkGray
-Write-Host "Finished:`t" $scriptEnd -ForegroundColor DarkGray
-Write-Host "Duration:`t" $timeElapsed.ToString("hh\:mm\:ss") -ForegroundColor DarkGray
-Write-Host
+    $scriptStart = Get-Date
+
+    # Call CleanUpParameters function
+    # Never comment out this function, it is needed for the other functions to work
+    CleanUpParameters
+
+    # Call ConnectToSharePoint function
+    ConnectToSharePoint
+
+    # Call CreateTeamAndSites function
+    CreateTeamsAndSites
+
+    # Call CreateTeamsChannels function
+    CreateTeamsChannels
+
+    # Call CreateFolderStructures function
+    CreateFolderStructures
+
+    # Call CreateNewGroupAndPermissionLevel
+    CreateNewGroupAndPermissionLevel
+
+    # Call CreateSubsites function
+    CreateSubsites
+
+    $scriptEnd = Get-Date
+    $timeElapsed = New-TimeSpan -Start $scriptStart -End $scriptEnd
+
+    Write-Host "`Teams Procurement script has completed. `n" -ForegroundColor Green
+
+    Write-Host
+    Write-Host "`SharePoint Site:`t" $global:siteUrl
+    Write-Host "`Started:`t" $scriptStart -ForegroundColor DarkGray
+    Write-Host "Finished:`t" $scriptEnd -ForegroundColor DarkGray
+    Write-Host "Duration:`t" $timeElapsed.ToString("hh\:mm\:ss") -ForegroundColor DarkGray
+}
+
+# Call Main Function
+Main
