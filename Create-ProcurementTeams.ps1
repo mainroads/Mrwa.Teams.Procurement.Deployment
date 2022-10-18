@@ -1,6 +1,6 @@
 #
 # This script provisions IDD project and contract Teams for Procurement team 
-# Version 0.4
+# Version 0.4.2
 #
 ### Prerequisites ###  
 #
@@ -327,8 +327,7 @@ Function CreateFolderStructures()
         foreach ($folder in (import-csv $foldersCsvFileRelativePath)) 
         {
             $channelPrivacy = $folder.Privacy
-            $folderRelativePath = ($folder.Folder).Replace('XXX', $global:prjAbbreviation)
-            $folderRelativePath = ($folder.Folder).Replace('$global:prjNumber', $global:prjNumber)
+            $folderRelativePath = ($folder.Folder).Replace('XXX', $global:prjAbbreviation).Replace('$global:prjNumber', $global:prjNumber)
             $folderContractType = $folder.ContractType
   
             Write-Host `n"   - Processing: $folderRelativePath..." 
