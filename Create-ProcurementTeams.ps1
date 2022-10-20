@@ -28,7 +28,7 @@
 # 2. Browse to the project directory
 #     cd "<project_location_in_file_system>\.Mrwa.Teams.Procurement.Deployment"
 # 3. Execute Create-ProcurementTeams.ps1
-#     Syntax: .\Create-ProcurementTeams.ps1 -M365Domain <domain_name> -projectName <project_name> -projectNumber <project_number> -projectAbbreviation <project_abbreviation> -ContractType <contract_type> -TeamType <Team_Type> -Subsites [-NoFolderCreation] 
+#     Syntax: .\Create-ProcurementTeams.ps1 -M365Domain <domain_name> -projectName <project_name> -projectNumber <project_number> -projectAbbreviation <project_abbreviation> -ContractType <contract_type> -TeamType <Team_Type> -Subsites <subsites> [-NoFolderCreation] 
 #
 ### Provisioning Procedure ###
 
@@ -199,7 +199,6 @@ Function ConnectToSharePoint()
       $sharePointDelegatePermissions = "AllSites.FullControl"
 
       Register-PnPAzureADApp -ApplicationName $pnpPowerShellAppName -Tenant $tenant -OutPath E:\Temp -DeviceLogin -GraphApplicationPermissions $graphPermissions -SharePointApplicationPermissions $sharePointApplicationPermissions
-  
     }
 }
 
@@ -243,7 +242,6 @@ Function CreateTeamsAndSites()
       }
     }
     While ($stopInvokingTemplate -eq $false)
-
 
     ######### Wait for 3 minutes to teams provisioning to complete 100% #######################
 
@@ -350,9 +348,28 @@ Function CreateFolderStructures()
     }
 }
 
+#---------------------------------
+# UpdateRegionalSettings Function
+#---------------------------------
+Function UpdateRegionalSettings
+{    
+    write-host " - Updating Regional Settings" -ForegroundColor Yellow
+    
+    Connect-PnPOnline -Url $global:siteUrl -Interactive
+    
+    $web = Get-PnPWeb -Includes RegionalSettings, RegionalSettings.TimeZones
+    $timeZone = $web.RegionalSettings.TimeZones | Where-Object {$_.Id -eq 76} # Melbourne
+    $web.RegionalSettings.LocaleId = 3081 # English(Australia)
+    $web.RegionalSettings.TimeZone = $timeZone 
+    $web.Update()
+    Invoke-PnPQuery
+}
+
+#-------------------------------------------
+# CreateNewGroupAndPermissionLevel Function
+#-------------------------------------------
 Function CreateNewGroupAndPermissionLevel()
 {
-
     write-host "   - Creating 'Contribute without Delete' Permission Level for SP site..." -ForegroundColor Yellow     
         
     Connect-PnPOnline -Url $global:siteUrl -Interactive  
@@ -363,9 +380,11 @@ Function CreateNewGroupAndPermissionLevel()
     #Create a custom Permission level and exclude delete from contribute
     Add-PnPRoleDefinition -RoleName "Contribute without delete" -Clone $contributeRole -Exclude DeleteListItems, DeleteVersions -Description "Contribute without delete permission"
     New-PnPSiteGroup -Site $siteUrl -Name "Contributors" -PermissionLevels "Contribute without delete"
-
 }
 
+#---------------------------------
+# CreateSubsites Function
+#---------------------------------
 Function CreateSubsites()
 {
     if($global:sites) 
@@ -377,6 +396,40 @@ Function CreateSubsites()
             write-host "     - Creating subsite: $site"
             Connect-PnPOnline -Url $global:siteUrl -Interactive  
             New-PnPWeb -Title $site -Url $site -Template "STS#3" -InheritNavigation
+            # Stops the script from erroring out, gets deactivated later
+            Enable-PnPFeature -Identity 8a4b8de2-6fd8-41e9-923c-c7c3c00f8295 -Scope Site 
+            Invoke-PnPQuery
+         }
+    }
+    else
+    {
+         write-host "Subsite parameter not selected."
+    }
+}
+
+#----------------------------------------
+# UpdateSubsiteRegionalSettings Function
+#----------------------------------------
+Function UpdateSubsitesRegionalSettings()
+{
+    if($global:sites) 
+    {
+        write-host " - Updating Subsites Regional Settings..." -ForegroundColor Yellow     
+
+        Connect-PnPOnline -Url $global:siteUrl -Interactive  
+        $subSites += Get-PnPSubWeb
+        
+         foreach($site in $subSites)
+         {    
+            Connect-PNPonline -Url "$($site.Url)" -Interactive
+           
+            $web = Get-PnPWeb -Includes RegionalSettings, RegionalSettings.TimeZones 
+            $timeZone = $web.RegionalSettings.TimeZones | Where-Object {$_.Id -eq 76} # Melbourne
+            $web.RegionalSettings.LocaleId = 3081 # English(Australia)
+            $web.RegionalSettings.TimeZone = $timeZone 
+            Disable-PnPFeature -Identity 41e1d4bf-b1a2-47f7-ab80-d5d6cbba3092
+            $web.Update()
+            Invoke-PnPQuery
          }
     }
     else
@@ -413,8 +466,14 @@ Function Main()
     # Call CreateNewGroupAndPermissionLevel
     CreateNewGroupAndPermissionLevel
 
+    # Call UpdateRegionalSettings function
+    UpdateRegionalSettings
+
     # Call CreateSubsites function
     CreateSubsites
+
+    # Call UpdateSubsiteRegionalSettings function
+    UpdateSubsitesRegionalSettings
 
     $scriptEnd = Get-Date
     $timeElapsed = New-TimeSpan -Start $scriptStart -End $scriptEnd
