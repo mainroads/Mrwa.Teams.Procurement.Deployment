@@ -395,7 +395,7 @@ Function CreateSubsites()
          {    
             write-host "     - Creating subsite: $site"
             Connect-PnPOnline -Url $global:siteUrl -Interactive  
-            New-PnPWeb -Title $site -Url $site -Template "STS#3" -InheritNavigation
+            New-PnPWeb -Title $site -Url $site -Template "STS#3" -InheritNavigation | Out-Null
             # Stops the script from erroring out, gets deactivated later
             Enable-PnPFeature -Identity 8a4b8de2-6fd8-41e9-923c-c7c3c00f8295 -Scope Site 
             Invoke-PnPQuery
