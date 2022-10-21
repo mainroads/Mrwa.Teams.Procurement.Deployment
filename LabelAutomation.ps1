@@ -1,6 +1,13 @@
 #
-# This script provisions M365 Groups, Sensitivity Labels and Label Policy
-# Version 0.6
+# This script provisions M365 Groups, Sensitivity Labels, Label Policy, and DLP Policy that triggers when documents that has below definded sensitivity labels is shared outside the organization
+#           - Tender 
+#           - Submissions Qualitative
+#           - Submissions Commercial 
+#           - Evaluation Qualitative 
+#           - Evaluation Commercial
+#           - Strictly Confidential
+#           - Contract Award
+# Version 0.7
 #
 ### Prerequisites ###  
 #
@@ -13,16 +20,17 @@
 #    $projectId - the project identifier from IDD for the new project e.g. MR-30000597-MEBD-PRJ
 #    $groupOwner - the OMTID person responsible for maintaining the group membership
 #    $domainName - the domain name of the tenant the labels are being added to
+#    $emailToSendNotification - the FQDN of the person that to whom email notification is triggered when DLP policy is matched
 #    
 ### Provisioning Instructions ### 
 # 1. Ensure prerequisites are completed
 # 2. Browse to the script directory
 #     cd "<script_location_in_file_system>"
 # 3. Execute LabelAutomation.ps11
-#     Syntax: .\LabelAutomation.ps1 -servicePrincipal “c3652-adm@mainroads.wa.gov.au” -projectId “MR-30000597-MEBD-PRJ” -groupOwner “scott.white@mainroads.wa.gov.au” -domainName “group.mainroads.wa.gov.au” 
+#     Syntax: .\LabelAutomation.ps1 -servicePrincipal "c3652-adm@mainroads.wa.gov.au" -projectId "MR-30000597-MEBD-CON" -groupOwner "scott.white@mainroads.wa.gov.au" -domainName "group.mainroads.wa.gov.au"  -emailToSendNotification "iddprocurementservices@mainroads.wa.gov.au"
 #
 
-param ($servicePrincipal, $projectId, $groupOwner, $domainName)
+param ($servicePrincipal, $projectId, $groupOwner, $domainName, $emailToSendNotification)
 
 #### Import the Exchange Online Management Module
 Write-Host "Connecting to Exchange Online centre"
@@ -155,6 +163,88 @@ New-Label -Name $lbNameForRelease -DisplayName "For Release - Official Sensitive
 ##### Create Label Policy
 Write-Host "Creating '$prefix Label Policy' label policy..."
 New-LabelPolicy -Name "$prefix Label Policy" -Labels $prefix, $lbNameTender, $lbNameSubmissionQualitative, $lbNameSubmissionCommercial, $lbNameEvalQualitative, $lbNameEvalCommercial, $lbNameStrictlyConfidential, $lbNameContractAward, $lbNameForRelease -ModernGroupLocation "$aliasSupport@$domainName" -AdvancedSettings @{requiredowngradejustification = "true"; siteandgroupmandatory = "false"; mandatory = "false"; disablemandatoryinoutlook = "true"; EnableCustomPermissions = "False" }
+
+### Creating DLP policy
+
+$policyName = "$prefix-DLP-Policy-IDDP"
+$ruleName = "$prefix-SendNotificationWhenSharedToExternalUsers"
+
+$generateIncidentReport = @(
+    $emailToSendNotification
+)
+
+$incidentReportContent = @(
+    "Title"
+    "DocumentAuthor"
+    "DocumentLastModifier"
+    "Service"
+    "MatchedItem"
+    "RulesMatched"
+    "Detections"
+    "Severity"
+    "DetectionDetails"
+    "RetentionLabel"
+    "SensitivityLabel"
+)
+
+# Condition for when to trigger DLP
+# This parameter is used to match all the documents which has one of these sensitivity labels
+$sensitivityLabels = @(
+    @{
+        operator = "And";
+        groups   = @(
+            @{
+                operator = "Or";
+                name     = "Default";
+                labels   = @(
+                    @{
+                        name = $lbNameTender; 
+                        type = "Sensitivity"
+                    };
+                    @{
+                        name = $lbNameSubmissionQualitative;
+                        type = "Sensitivity"
+                    };
+                    @{
+                        name = $lbNameSubmissionCommercial;
+                        type = "Sensitivity"
+                    };
+                    @{
+                        name = $lbNameEvalQualitative;
+                        type = "Sensitivity"
+                    };
+                    @{
+                        name = $lbNameEvalCommercial;
+                        type = "Sensitivity"
+                    };
+                    @{
+                        name = $lbNameStrictlyConfidential;
+                        type = "Sensitivity"
+                    };
+                    @{
+                        name = $lbNameContractAward;
+                        type = "Sensitivity"
+                    }
+                ) 
+            }
+        ) 
+    }  
+)
+
+# Create a DLP policy targeting all sharepoint location and exchange location
+Write-Host "Creating DLP Policy..."
+New-DlpCompliancePolicy -Name $policyName -Comment "This is a test policy comment" -SharePointLocation All -ExchangeLocation All -Mode Disable
+
+# Create a rule in the above created DLP to trigger notification when any documents with that has below mentioned sensitivity label applied and are shared outside the organization
+#           - Tender 
+#           - Submissions Qualitative
+#           - Submissions Commercial 
+#           - Evaluation Qualitative 
+#           - Evaluation Commercial
+#           - Strictly Confidential
+#           - Contract Award
+Write-Host "Creating rule for DLP Policy..."
+New-DlpComplianceRule -Name $ruleName -Policy $policyName -AccessScope NotInOrganization -ContentContainsSensitiveInformation $sensitivityLabels -GenerateIncidentReport $generateIncidentReport -IncidentReportContent $incidentReportContent
 
 ##### Disconnect from Remote Connection
 Disconnect-ExchangeOnline -Confirm:$false
