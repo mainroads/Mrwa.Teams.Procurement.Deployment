@@ -337,7 +337,10 @@ Function CreateFolderStructures()
                 $channel = $folderRelativePath.Substring(0,$folderRelativePath.IndexOf("/"))
                 $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)-$($channel)"
             }
-
+            elseif ($channelPrivacy -eq "Subsite") {
+                $subsite = $folderRelativePath.Substring(0,$folderRelativePath.IndexOf("/")).ToLower()
+                $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)/$($subsite)"
+            }
             Write-Host "   - Connecting to:" $siteUrl
             Connect-PnPOnline -Url $siteUrl -Interactive
 
@@ -460,9 +463,6 @@ Function Main()
     # Call CreateTeamsChannels function
     CreateTeamsChannels
 
-    # Call CreateFolderStructures function
-    CreateFolderStructures
-
     # Call CreateNewGroupAndPermissionLevel
     CreateNewGroupAndPermissionLevel
 
@@ -474,6 +474,9 @@ Function Main()
 
     # Call UpdateSubsiteRegionalSettings function
     UpdateSubsitesRegionalSettings
+
+    # Call CreateFolderStructures function
+    CreateFolderStructures
 
     $scriptEnd = Get-Date
     $timeElapsed = New-TimeSpan -Start $scriptStart -End $scriptEnd
