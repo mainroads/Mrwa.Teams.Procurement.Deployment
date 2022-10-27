@@ -247,7 +247,7 @@ foreach ($name in $dlpNames) {
 # Creates a DLP policy ONLY IF IT IS ALREADY NOT PRESENT targeting all sharepoint location and exchange location.
 if (!$doesPolicyAlreadyExists) {
     Write-Host "Creating DLP Policy..."
-    New-DlpCompliancePolicy -Name $externlSharingPolicyName -Comment $description -SharePointLocation All -ExchangeLocation All -Mode Disable
+    New-DlpCompliancePolicy -Name $externlSharingPolicyName -Comment $description -SharePointLocation All -ExchangeLocation All -Mode Enable
 }
 
 # Check if the dlp compliance rule already exists or not. If not then only create new one
@@ -296,7 +296,7 @@ foreach ($name in $dlpNames) {
 }
 if (!$doesPolicyAlreadyExists) {
     Write-Host "Creating DLP Policy..."
-    New-DlpCompliancePolicy -Name $devicePrintActivityPolicyName -Comment $description -EndpointDlpLocation All
+    New-DlpCompliancePolicy -Name $devicePrintActivityPolicyName -Comment $description -EndpointDlpLocation All -Mode Enable
 }
 
 # Check if the DLP compliance rule already exists or not. Add the rule if only it does not exist already.
