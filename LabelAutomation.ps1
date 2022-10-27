@@ -1,5 +1,5 @@
 #
-# This script provisions M365 Groups, Sensitivity Labels, Label Policy, and DLP Policy that triggers when documents that has below definded sensitivity labels is shared outside the organization
+# This script provisions M365 Groups, Sensitivity Labels, Label Policy, and DLP Policy that triggers when documents that has below defined sensitivity labels is shared outside the organization or print activity is performed on endpoint devices
 #           - Tender 
 #           - Submissions Qualitative
 #           - Submissions Commercial 
@@ -7,7 +7,7 @@
 #           - Evaluation Commercial
 #           - Strictly Confidential
 #           - Contract Award
-# Version 0.7
+# Version 0.8
 #
 ### Prerequisites ###  
 #
@@ -164,10 +164,13 @@ New-Label -Name $lbNameForRelease -DisplayName "For Release - Official Sensitive
 Write-Host "Creating '$prefix Label Policy' label policy..."
 New-LabelPolicy -Name "$prefix Label Policy" -Labels $prefix, $lbNameTender, $lbNameSubmissionQualitative, $lbNameSubmissionCommercial, $lbNameEvalQualitative, $lbNameEvalCommercial, $lbNameStrictlyConfidential, $lbNameContractAward, $lbNameForRelease -ModernGroupLocation "$aliasSupport@$domainName" -AdvancedSettings @{requiredowngradejustification = "true"; siteandgroupmandatory = "false"; mandatory = "false"; disablemandatoryinoutlook = "true"; EnableCustomPermissions = "False" }
 
+
+
 ### Creating DLP policy
 
-$policyName = "$prefix-DLP-Policy-IDDP"
-$ruleName = "$prefix-SendNotificationWhenSharedToExternalUsers"
+$externlSharingPolicyName = "Notification-When-Shared-External-IDDP"
+$externalSharingRuleName = "$prefix-External-Sharing"
+$description = "Applies DLP action based on the Classification levels. Will create email incident reports on documents that are labelled as 'Tender', 'Submission Qualitative' , 'Submission Commercial', 'Evaluation Qualitative', 'Evaluation Commercial', 'Strictly Confidential', and/or 'Contract Award' and are being shared externally"
 
 $generateIncidentReport = @(
     $emailToSendNotification
@@ -231,9 +234,31 @@ $sensitivityLabels = @(
     }  
 )
 
-# Create a DLP policy targeting all sharepoint location and exchange location
-Write-Host "Creating DLP Policy..."
-New-DlpCompliancePolicy -Name $policyName -Comment "This is a test policy comment" -SharePointLocation All -ExchangeLocation All -Mode Disable
+## Check if DLP policy already exists or not. If exists only add the DLP compliance rule else create DLP compliance policy and add compliance rule
+$dlpNames = (Get-DlpCompliancePolicy).Name
+$doesPolicyAlreadyExists = $false
+foreach ($name in $dlpNames) {
+    if ($name -eq $externlSharingPolicyName) {
+        $doesPolicyAlreadyExists = $true
+        Break
+    }
+}
+
+# Creates a DLP policy ONLY IF IT IS ALREADY NOT PRESENT targeting all sharepoint location and exchange location.
+if (!$doesPolicyAlreadyExists) {
+    Write-Host "Creating DLP Policy..."
+    New-DlpCompliancePolicy -Name $externlSharingPolicyName -Comment $description -SharePointLocation All -ExchangeLocation All -Mode Disable
+}
+
+# Check if the dlp compliance rule already exists or not. If not then only create new one
+$dlpRuleNames = (Get-DlpComplianceRule).Name
+$doesRuleAlreadyExists = $false
+foreach ($name in $dlpRuleNames) {
+    if ($name -eq $externalSharingRuleName) {
+        $doesRuleAlreadyExists = $true
+        Break
+    }
+}
 
 # Create a rule in the above created DLP to trigger notification when any documents with that has below mentioned sensitivity label applied and are shared outside the organization
 #           - Tender 
@@ -243,8 +268,50 @@ New-DlpCompliancePolicy -Name $policyName -Comment "This is a test policy commen
 #           - Evaluation Commercial
 #           - Strictly Confidential
 #           - Contract Award
-Write-Host "Creating rule for DLP Policy..."
-New-DlpComplianceRule -Name $ruleName -Policy $policyName -AccessScope NotInOrganization -ContentContainsSensitiveInformation $sensitivityLabels -GenerateIncidentReport $generateIncidentReport -IncidentReportContent $incidentReportContent
+if (!$doesRuleAlreadyExists) {
+    Write-Host "Creating rule for DLP Policy..."
+    New-DlpComplianceRule -Name $externalSharingRuleName -Policy $externlSharingPolicyName -AccessScope NotInOrganization -ContentContainsSensitiveInformation $sensitivityLabels -GenerateIncidentReport $generateIncidentReport -IncidentReportContent $incidentReportContent
+}
+
+## DLP for Print Activity on endpoint devices.
+$devicePrintActivityPolicyName = "Notification-for-Print-Activity-IDDP"
+$devicePrintActivityRuleName = "$prefix-Print-Activity"
+$description = "Applies DLP action based on the Classification levels. Will create email incident reports on documents that are labelled as 'Tender', 'Submission Qualitative' , 'Submission Commercial', 'Evaluation Qualitative', 'Evaluation Commercial', 'Strictly Confidential', and/or 'Contract Award' and print activities are performed on device"
+$emailForAlert = $emailToSendNotification
+
+# The type of audit or restrict activities to be performed on devices
+$endpointDlpSettings = @(
+    @{
+        "Setting" = "Print";
+        "Value"   = "Audit"
+    }
+)
+## Check if DLP policy already exists or not. If exists only add the DLP compliance rule else create DLP compliance policy and add compliance rule
+$doesPolicyAlreadyExists = $false
+foreach ($name in $dlpNames) {
+    if ($name -eq $devicePrintActivityPolicyName) {
+        $doesPolicyAlreadyExists = $true
+        Break
+    }
+}
+if (!$doesPolicyAlreadyExists) {
+    Write-Host "Creating DLP Policy..."
+    New-DlpCompliancePolicy -Name $devicePrintActivityPolicyName -Comment $description -EndpointDlpLocation All
+}
+
+# Check if the DLP compliance rule already exists or not. Add the rule if only it does not exist already.
+$dlpRuleNames = (Get-DlpComplianceRule).Name
+$doesRuleAlreadyExists = $false
+foreach ($name in $dlpRuleNames) {
+    if ($name -eq $devicePrintActivityRuleName) {
+        $doesRuleAlreadyExists = $true
+        Break
+    }
+}
+if (!$doesRuleAlreadyExists) {
+    Write-Host "Creating rule for DLP Policy..."
+    New-DlpComplianceRule -Name $devicePrintActivityRuleName -Policy $devicePrintActivityPolicyName  -ContentContainsSensitiveInformation $sensitivityLabels -EndpointDlpRestrictions $endpointDlpSettings -GenerateAlert $emailForAlert
+}
 
 ##### Disconnect from Remote Connection
 Disconnect-ExchangeOnline -Confirm:$false
