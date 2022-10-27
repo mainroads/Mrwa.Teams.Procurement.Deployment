@@ -122,7 +122,7 @@ foreach ($name in $dlpNames) {
 }
 
 if (!$doesPolicyAlreadyExists) {
-    New-DlpCompliancePolicy -Name $externlSharingPolicyName -Comment $description -SharePointLocation All -ExchangeLocation All -Mode Disable
+    New-DlpCompliancePolicy -Name $externlSharingPolicyName -Comment $description -SharePointLocation All -ExchangeLocation All -Mode Enable
 }
 
 $dlpRuleNames = (Get-DlpComplianceRule).Name
@@ -158,7 +158,7 @@ foreach ($name in $dlpNames) {
 }
 
 if (!$doesPolicyAlreadyExists) {
-    New-DlpCompliancePolicy -Name $devicePrintActivityPolicyName -Comment $description -EndpointDlpLocation All
+    New-DlpCompliancePolicy -Name $devicePrintActivityPolicyName -Comment $description -EndpointDlpLocation All -Mode Enable
 }
 
 $dlpRuleNames = (Get-DlpComplianceRule).Name
