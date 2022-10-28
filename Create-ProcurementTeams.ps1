@@ -96,6 +96,9 @@ $tenant = "mainroads.onmicrosoft.com"
 #/Teams (teams) or /Sites (sites)
 $spUrlType = "teams" 
 
+$currentDate = get-date -Format "yyyyMMdd_hhmm"
+$logFile = "$PSScriptRoot\$currentDate-CreateProcurementTeams.log"
+
 $parametersTable = @{
   "TeamPrefix"          = $teamPrefix
   "TeamSuffix"          = $teamSuffix
@@ -223,12 +226,7 @@ Function CreateTeamsAndSites()
         elseif ($teamType -eq "Contract") {
           Invoke-PnPTenantTemplate -Path "Templates\Contract_Team.xml" -Parameters $parameters 
         }
-        else {
-           Invoke-PnPTenantTemplate -Path "Templates\Project_Team.xml" -Parameters $parameters 
-           Invoke-PnPTenantTemplate -Path "Templates\Contract_Team.xml" -Parameters $parameters 
-        }
-
-          $stopInvokingTemplate = $true
+        $stopInvokingTemplate = $true
       }
       catch {
           if ($retryCount -gt $maxRetryCount) {        
@@ -311,6 +309,40 @@ Function CreateTeamsChannels()
 #---------------------------------
 # CreateFolderStructures Function
 #---------------------------------
+Function CreateSubsiteFolderStructures()
+{ 
+    if($global:sites)
+    {
+        Write-Host " - Creating folder Structures in subsites..." -ForegroundColor Yellow
+
+        foreach($site in $global:sites)
+        {     
+            foreach ($folder in (import-csv $foldersCsvFileRelativePath)) 
+            { 
+                $folderPrivacy = $folder.Privacy
+                $folderRelativePath = ($folder.Folder).Replace('XXX', $global:prjAbbreviation).Replace('$global:prjNumber', $global:prjNumber)
+                $folderPrivacy = $folder.Privacy
+                $folderContractType = $folder.ContractType
+
+                if ($folderPrivacy -eq "Subsite") 
+                {  
+                    $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)/$($site)"
+
+                    Write-Host "   - Processing: $($siteUrl) / $folderRelativePath..." 
+                    Connect-PNPonline -Url $siteUrl -Interactive
+
+                    if(($folderContractType -eq $contractType) -or ($folderContractType -eq "Common")){
+                        Resolve-PnPFolder -SiteRelativePath "Shared Documents/$folderRelativePath" | Out-Null
+                    }
+                }
+            }
+        }               
+    }               
+}
+
+#---------------------------------
+# CreateFolderStructures Function
+#---------------------------------
 Function CreateFolderStructures()
 {
     # PnP Provisioning Schema currently does not have support for adding folders 
@@ -320,15 +352,13 @@ Function CreateFolderStructures()
     # in the later versions to add folders to private channels
     if (!$NoFolderCreation) 
     {
-        Write-Host " - Creating Folder Structures in Channels..." -ForegroundColor Yellow 
+       Write-Host " - Creating Folder Structures in Channels..." -ForegroundColor Yellow 
 
-        foreach ($folder in (import-csv $foldersCsvFileRelativePath)) 
+       foreach ($folder in (import-csv $foldersCsvFileRelativePath)) 
         {
             $channelPrivacy = $folder.Privacy
             $folderRelativePath = ($folder.Folder).Replace('XXX', $global:prjAbbreviation).Replace('$global:prjNumber', $global:prjNumber)
-            $folderContractType = $folder.ContractType
-  
-            Write-Host `n"   - Processing: $folderRelativePath..." 
+            $folderContractType = $folder.ContractType 
 
             if ($channelPrivacy -eq "Standard") {
                 $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)"
@@ -338,11 +368,11 @@ Function CreateFolderStructures()
                 $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)-$($channel)"
             }
 
-            Write-Host "   - Connecting to:" $siteUrl
+            Write-Host "   - Processing: $($siteUrl) / $folderRelativePath..." 
             Connect-PnPOnline -Url $siteUrl -Interactive
 
             if(($folderContractType -eq $contractType) -or ($folderContractType -eq "Common")){
-                Resolve-PnPFolder -SiteRelativePath "Shared Documents/$folderRelativePath"
+                Resolve-PnPFolder -SiteRelativePath "Shared Documents/$folderRelativePath" | Out-Null
             }
         }
     }
@@ -378,8 +408,8 @@ Function CreateNewGroupAndPermissionLevel()
     $contributeRole = Get-PnPRoleDefinition -Identity "Contribute"
  
     #Create a custom Permission level and exclude delete from contribute
-    Add-PnPRoleDefinition -RoleName "Contribute without delete" -Clone $contributeRole -Exclude DeleteListItems, DeleteVersions -Description "Contribute without delete permission"
-    New-PnPSiteGroup -Site $siteUrl -Name "Contributors" -PermissionLevels "Contribute without delete"
+    Add-PnPRoleDefinition -RoleName "Contribute without delete" -Clone $contributeRole -Exclude DeleteListItems, DeleteVersions -Description "Contribute without delete permission" | Out-Null
+    New-PnPSiteGroup -Site $siteUrl -Name "Contributors" -PermissionLevels "Contribute without delete" | Out-Null
 }
 
 #---------------------------------
@@ -395,7 +425,7 @@ Function CreateSubsites()
          {    
             write-host "     - Creating subsite: $site"
             Connect-PnPOnline -Url $global:siteUrl -Interactive  
-            New-PnPWeb -Title $site -Url $site -Template "STS#3" -InheritNavigation
+            New-PnPWeb -Title $site -Url $site -Template "STS#3" | Out-Null
             # Stops the script from erroring out, gets deactivated later
             Enable-PnPFeature -Identity 8a4b8de2-6fd8-41e9-923c-c7c3c00f8295 -Scope Site 
             Invoke-PnPQuery
@@ -460,9 +490,6 @@ Function Main()
     # Call CreateTeamsChannels function
     CreateTeamsChannels
 
-    # Call CreateFolderStructures function
-    CreateFolderStructures
-
     # Call CreateNewGroupAndPermissionLevel
     CreateNewGroupAndPermissionLevel
 
@@ -474,6 +501,12 @@ Function Main()
 
     # Call UpdateSubsiteRegionalSettings function
     UpdateSubsitesRegionalSettings
+
+    # Call CreateFolderStructures function
+    CreateFolderStructures
+
+    # Call CreateSubsiteFolderStructures function
+    CreateSubsiteFolderStructures
 
     $scriptEnd = Get-Date
     $timeElapsed = New-TimeSpan -Start $scriptStart -End $scriptEnd
@@ -488,4 +521,6 @@ Function Main()
 }
 
 # Call Main Function
+Start-Transcript -Path $logFile
 Main
+Stop-Transcript
