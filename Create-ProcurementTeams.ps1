@@ -28,7 +28,7 @@
 # 2. Browse to the project directory
 #     cd "<project_location_in_file_system>\.Mrwa.Teams.Procurement.Deployment"
 # 3. Execute Create-ProcurementTeams.ps1
-#     Syntax: .\Create-ProcurementTeams.ps1 -M365Domain <domain_name> -projectName <project_name> -projectNumber <project_number> -projectAbbreviation <project_abbreviation> -ContractType <contract_type> -TeamType <Team_Type> -Subsites <subsites> [-NoFolderCreation] 
+#     Syntax: .\Create-ProcurementTeams.ps1 -M365Domain <domain_name> -projectName <project_name> -projectNumber <project_number> -projectAbbreviation <project_abbreviation> -contractType <contract_type> -teamType <team_Type> -subsites <subsites> [-NoFolderCreation] 
 #
 ### Provisioning Procedure ###
 
@@ -58,16 +58,16 @@ Param(
   [Parameter(Mandatory = $true)]
   [ValidateNotNullOrEmpty()]
   [ValidateSet("Alliance", "D&C", IgnoreCase = $true)]
-  [string] $ContractType,
+  [string] $contractType,
 
   [Parameter(Mandatory = $true)]
   [ValidateNotNullOrEmpty()]
   [ValidateSet("Project", "Contract", IgnoreCase = $true)]
-  [string] $TeamType,
+  [string] $teamType,
 
   [Parameter(Mandatory = $false)]
   [ValidateNotNullOrEmpty()]
-  [string] $Subsites,
+  [string] $subsites,
 
   [switch] $NoFolderCreation = $false
 )
@@ -89,8 +89,8 @@ $pnpPowerShellAppName = "PnP Management Shell"
 
 $adminUrl = "https://$($M365Domain)-admin.sharepoint.com/"
 $global:teamPrefix = "MR"
-$global:teamSuffix = if ($TeamType -eq "Project") { "PRJ" } else { "CON" }
-$foldersCsvFileRelativePath = "Seed\$($TeamType)_Team_Folder_Structure.csv"
+$global:teamSuffix = if ($teamType -eq "Project") { "PRJ" } else { "CON" }
+$foldersCsvFileRelativePath = "Seed\$($teamType)_Team_Folder_Structure.csv"
 $tenant = "mainroads.onmicrosoft.com"
 
 #/Teams (teams) or /Sites (sites)
@@ -217,10 +217,10 @@ Function CreateTeamsAndSites()
     do {
       try {
       
-        if ($TeamType -eq "Project") {
+        if ($teamType -eq "Project") {
           Invoke-PnPTenantTemplate -Path "Templates\Project_Team.xml" -Parameters $parameters
         }
-        elseif ($TeamType -eq "Contract") {
+        elseif ($teamType -eq "Contract") {
           Invoke-PnPTenantTemplate -Path "Templates\Contract_Team.xml" -Parameters $parameters 
         }
         else {
@@ -341,7 +341,7 @@ Function CreateFolderStructures()
             Write-Host "   - Connecting to:" $siteUrl
             Connect-PnPOnline -Url $siteUrl -Interactive
 
-            if(($folderContractType -eq $ContractType) -or ($folderContractType -eq "Common")){
+            if(($folderContractType -eq $contractType) -or ($folderContractType -eq "Common")){
                 Resolve-PnPFolder -SiteRelativePath "Shared Documents/$folderRelativePath"
             }
         }
