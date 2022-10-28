@@ -320,19 +320,24 @@ Function CreateSubsiteFolderStructures()
             foreach ($folder in (import-csv $foldersCsvFileRelativePath)) 
             { 
                 $folderPrivacy = $folder.Privacy
-                $folderRelativePath = ($folder.Folder).Replace('XXX', $global:prjAbbreviation).Replace('$global:prjNumber', $global:prjNumber)
-                $folderPrivacy = $folder.Privacy
-                $folderContractType = $folder.ContractType
-
                 if ($folderPrivacy -eq "Subsite") 
                 {  
-                    $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)/$($site)"
+                    $folderRelativePath = ($folder.Folder).Replace('XXX', $global:prjAbbreviation).Replace('$global:prjNumber', $global:prjNumber)
+                    $subSite = $folderRelativePath.Substring(0,$folderRelativePath.IndexOf("/"))
 
-                    Write-Host "   - Processing: $($siteUrl) / $folderRelativePath..." 
-                    Connect-PNPonline -Url $siteUrl -Interactive
+                    if($site -eq $subSite)
+                    {
+                        $folderContractType = $folder.ContractType
 
-                    if(($folderContractType -eq $contractType) -or ($folderContractType -eq "Common")){
-                        Resolve-PnPFolder -SiteRelativePath "Shared Documents/$folderRelativePath" | Out-Null
+                        $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)/$($site)"
+
+                        $subFolderRelPath = $folderRelativePath.Substring($subSite.Length+1,$folderRelativePath.Length-$subSite.Length-1)
+                        Write-Host "   - Processing: $($siteUrl)/Shared Documents/$subFolderRelPath" 
+                        Connect-PNPonline -Url $siteUrl -Interactive
+
+                        if(($folderContractType -eq $contractType) -or ($folderContractType -eq "Common")){
+                            Resolve-PnPFolder -SiteRelativePath "Shared Documents/$subFolderRelPath" | Out-Null
+                        }
                     }
                 }
             }
