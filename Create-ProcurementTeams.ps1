@@ -307,7 +307,7 @@ Function CreateTeamsChannels()
 }
 
 #---------------------------------
-# CreateFolderStructures Function
+# CreateSubsiteFolderStructures Function
 #---------------------------------
 Function CreateSubsiteFolderStructures()
 { 
@@ -393,7 +393,7 @@ Function UpdateRegionalSettings
     Connect-PnPOnline -Url $global:siteUrl -Interactive
     
     $web = Get-PnPWeb -Includes RegionalSettings, RegionalSettings.TimeZones
-    $timeZone = $web.RegionalSettings.TimeZones | Where-Object {$_.Id -eq 76} # Melbourne
+    $timeZone = $web.RegionalSettings.TimeZones | Where-Object {$_.Id -eq 73} # Perth
     $web.RegionalSettings.LocaleId = 3081 # English(Australia)
     $web.RegionalSettings.TimeZone = $timeZone 
     $web.Update()
