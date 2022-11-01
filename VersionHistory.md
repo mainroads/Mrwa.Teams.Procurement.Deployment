@@ -1,7 +1,8 @@
 # 1.0 Beta 4 - 1 November 2022
 - Added DLP policy creation
-- Create Subsites with unique permissions
-- Add `Contribute without delete` user group into subsites
+- Generate Subsites with unique permissions
+  - Create folder structure according to the csv files
+  - Add `Contribute without delete` user group into subsites
 - Replace `$ProjectNumber` with Project Number in folders
 - Rename `Contract` Private Channel to `OnSite`
 
