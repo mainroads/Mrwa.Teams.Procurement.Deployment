@@ -28,7 +28,7 @@
 # 2. Browse to the project directory
 #     cd "<project_location_in_file_system>\.Mrwa.Teams.Procurement.Deployment"
 # 3. Execute Create-ProcurementTeams.ps1
-#     Syntax: .\Create-ProcurementTeams.ps1 -M365Domain <domain_name> -projectName <project_name> -projectNumber <project_number> -projectAbbreviation <project_abbreviation> -ContractType <contract_type> -TeamType <Team_Type> -Subsites <subsites> [-NoFolderCreation] 
+#     Syntax: .\Create-ProcurementTeams.ps1 -M365Domain <domain_name> -projectName <project_name> -projectNumber <project_number> -projectAbbreviation <project_abbreviation> -contractType <contract_type> -teamType <team_Type> -subsites <subsites> [-NoFolderCreation] 
 #
 ### Provisioning Procedure ###
 
@@ -58,16 +58,16 @@ Param(
   [Parameter(Mandatory = $true)]
   [ValidateNotNullOrEmpty()]
   [ValidateSet("Alliance", "D&C", IgnoreCase = $true)]
-  [string] $ContractType,
+  [string] $contractType,
 
   [Parameter(Mandatory = $true)]
   [ValidateNotNullOrEmpty()]
   [ValidateSet("Project", "Contract", IgnoreCase = $true)]
-  [string] $TeamType,
+  [string] $teamType,
 
   [Parameter(Mandatory = $false)]
   [ValidateNotNullOrEmpty()]
-  [string] $Subsites,
+  [string] $subsites,
 
   [switch] $NoFolderCreation = $false
 )
@@ -89,12 +89,15 @@ $pnpPowerShellAppName = "PnP Management Shell"
 
 $adminUrl = "https://$($M365Domain)-admin.sharepoint.com/"
 $global:teamPrefix = "MR"
-$global:teamSuffix = if ($TeamType -eq "Project") { "PRJ" } else { "CON" }
-$foldersCsvFileRelativePath = "Seed\$($TeamType)_Team_Folder_Structure.csv"
+$global:teamSuffix = if ($teamType -eq "Project") { "PRJ" } else { "CON" }
+$foldersCsvFileRelativePath = "Seed\$($teamType)_Team_Folder_Structure.csv"
 $tenant = "mainroads.onmicrosoft.com"
 
 #/Teams (teams) or /Sites (sites)
 $spUrlType = "teams" 
+
+$currentDate = get-date -Format "yyyyMMdd_hhmm"
+$logFile = "$PSScriptRoot\$currentDate-CreateProcurementTeams.log"
 
 $parametersTable = @{
   "TeamPrefix"          = $teamPrefix
@@ -217,18 +220,13 @@ Function CreateTeamsAndSites()
     do {
       try {
       
-        if ($TeamType -eq "Project") {
+        if ($teamType -eq "Project") {
           Invoke-PnPTenantTemplate -Path "Templates\Project_Team.xml" -Parameters $parameters
         }
-        elseif ($TeamType -eq "Contract") {
+        elseif ($teamType -eq "Contract") {
           Invoke-PnPTenantTemplate -Path "Templates\Contract_Team.xml" -Parameters $parameters 
         }
-        else {
-           Invoke-PnPTenantTemplate -Path "Templates\Project_Team.xml" -Parameters $parameters 
-           Invoke-PnPTenantTemplate -Path "Templates\Contract_Team.xml" -Parameters $parameters 
-        }
-
-          $stopInvokingTemplate = $true
+        $stopInvokingTemplate = $true
       }
       catch {
           if ($retryCount -gt $maxRetryCount) {        
@@ -309,6 +307,45 @@ Function CreateTeamsChannels()
 }
 
 #---------------------------------
+# CreateSubsiteFolderStructures Function
+#---------------------------------
+Function CreateSubsiteFolderStructures()
+{ 
+    if($global:sites)
+    {
+        Write-Host " - Creating folder Structures in subsites..." -ForegroundColor Yellow
+
+        foreach($site in $global:sites)
+        {     
+            foreach ($folder in (import-csv $foldersCsvFileRelativePath)) 
+            { 
+                $folderPrivacy = $folder.Privacy
+                if ($folderPrivacy -eq "Subsite") 
+                {  
+                    $folderRelativePath = ($folder.Folder).Replace('XXX', $global:prjAbbreviation).Replace('$global:prjNumber', $global:prjNumber)
+                    $subSite = $folderRelativePath.Substring(0,$folderRelativePath.IndexOf("/"))
+
+                    if($site -eq $subSite)
+                    {
+                        $folderContractType = $folder.ContractType
+
+                        $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)/$($site)"
+
+                        $subFolderRelPath = $folderRelativePath.Substring($subSite.Length+1,$folderRelativePath.Length-$subSite.Length-1)
+                        Write-Host "   - Processing: $($siteUrl)/Shared Documents/$subFolderRelPath" 
+                        Connect-PNPonline -Url $siteUrl -Interactive
+
+                        if(($folderContractType -eq $contractType) -or ($folderContractType -eq "Common")){
+                            Resolve-PnPFolder -SiteRelativePath "Shared Documents/$subFolderRelPath" | Out-Null
+                        }
+                    }
+                }
+            }
+        }               
+    }               
+}
+
+#---------------------------------
 # CreateFolderStructures Function
 #---------------------------------
 Function CreateFolderStructures()
@@ -320,15 +357,13 @@ Function CreateFolderStructures()
     # in the later versions to add folders to private channels
     if (!$NoFolderCreation) 
     {
-        Write-Host " - Creating Folder Structures in Channels..." -ForegroundColor Yellow 
+       Write-Host " - Creating Folder Structures in Channels..." -ForegroundColor Yellow 
 
-        foreach ($folder in (import-csv $foldersCsvFileRelativePath)) 
+       foreach ($folder in (import-csv $foldersCsvFileRelativePath)) 
         {
             $channelPrivacy = $folder.Privacy
             $folderRelativePath = ($folder.Folder).Replace('XXX', $global:prjAbbreviation).Replace('$global:prjNumber', $global:prjNumber)
-            $folderContractType = $folder.ContractType
-  
-            Write-Host `n"   - Processing: $folderRelativePath..." 
+            $folderContractType = $folder.ContractType 
 
             if ($channelPrivacy -eq "Standard") {
                 $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)"
@@ -337,15 +372,12 @@ Function CreateFolderStructures()
                 $channel = $folderRelativePath.Substring(0,$folderRelativePath.IndexOf("/"))
                 $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)-$($channel)"
             }
-            elseif ($channelPrivacy -eq "Subsite") {
-                $subsite = $folderRelativePath.Substring(0,$folderRelativePath.IndexOf("/")).ToLower()
-                $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)/$($subsite)"
-            }
-            Write-Host "   - Connecting to:" $siteUrl
+
+            Write-Host "   - Processing: $($siteUrl) / $folderRelativePath..." 
             Connect-PnPOnline -Url $siteUrl -Interactive
 
-            if(($folderContractType -eq $ContractType) -or ($folderContractType -eq "Common")){
-                Resolve-PnPFolder -SiteRelativePath "Shared Documents/$folderRelativePath"
+            if(($folderContractType -eq $contractType) -or ($folderContractType -eq "Common")){
+                Resolve-PnPFolder -SiteRelativePath "Shared Documents/$folderRelativePath" | Out-Null
             }
         }
     }
@@ -361,7 +393,7 @@ Function UpdateRegionalSettings
     Connect-PnPOnline -Url $global:siteUrl -Interactive
     
     $web = Get-PnPWeb -Includes RegionalSettings, RegionalSettings.TimeZones
-    $timeZone = $web.RegionalSettings.TimeZones | Where-Object {$_.Id -eq 76} # Melbourne
+    $timeZone = $web.RegionalSettings.TimeZones | Where-Object {$_.Id -eq 73} # Perth
     $web.RegionalSettings.LocaleId = 3081 # English(Australia)
     $web.RegionalSettings.TimeZone = $timeZone 
     $web.Update()
@@ -381,8 +413,8 @@ Function CreateNewGroupAndPermissionLevel()
     $contributeRole = Get-PnPRoleDefinition -Identity "Contribute"
  
     #Create a custom Permission level and exclude delete from contribute
-    Add-PnPRoleDefinition -RoleName "Contribute without delete" -Clone $contributeRole -Exclude DeleteListItems, DeleteVersions -Description "Contribute without delete permission"
-    New-PnPSiteGroup -Site $siteUrl -Name "Contributors" -PermissionLevels "Contribute without delete"
+    Add-PnPRoleDefinition -RoleName "Contribute without delete" -Clone $contributeRole -Exclude DeleteListItems, DeleteVersions -Description "Contribute without delete permission" | Out-Null
+    New-PnPSiteGroup -Site $siteUrl -Name "Contributors" -PermissionLevels "Contribute without delete" | Out-Null
 }
 
 #---------------------------------
@@ -398,7 +430,7 @@ Function CreateSubsites()
          {    
             write-host "     - Creating subsite: $site"
             Connect-PnPOnline -Url $global:siteUrl -Interactive  
-            New-PnPWeb -Title $site -Url $site -Template "STS#3" -InheritNavigation
+            New-PnPWeb -Title $site -Url $site -Template "STS#3" -BreakInheritance | Out-Null
             # Stops the script from erroring out, gets deactivated later
             Enable-PnPFeature -Identity 8a4b8de2-6fd8-41e9-923c-c7c3c00f8295 -Scope Site 
             Invoke-PnPQuery
@@ -478,6 +510,9 @@ Function Main()
     # Call CreateFolderStructures function
     CreateFolderStructures
 
+    # Call CreateSubsiteFolderStructures function
+    CreateSubsiteFolderStructures
+
     $scriptEnd = Get-Date
     $timeElapsed = New-TimeSpan -Start $scriptStart -End $scriptEnd
 
@@ -491,4 +526,6 @@ Function Main()
 }
 
 # Call Main Function
+Start-Transcript -Path $logFile
 Main
+Stop-Transcript
