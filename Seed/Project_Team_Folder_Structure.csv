@@ -3,6 +3,8 @@ Standard,Correspondence,Common
 Standard,Handover,Common
 Standard,Reporting,Common
 Standard,Reporting/PSR,Common
+Standard,Develop/Aboriginal Participation,Common
+Standard,Develop/Approvals,Common
 Standard,Develop/Communications,Common
 Standard,Develop/Communications/CSMP,Common
 Standard,Develop/Design,Common
@@ -36,7 +38,10 @@ Private,Evaluation-Qualitative/RFP/FirstName LastName,Common
 Private,Evaluation-Qualitative/RFP/Reference Documents,Common
 Private,Evaluation-Qualitative/RFP/Reference Documents/Advisers Comments,Common
 Private,Evaluation-Qualitative/RFP/Reference Documents/Contractor Performance Reports,Common
+Private,OnSite/Checklists,Common
 Private,OnSite/CMP,Common
+Private,OnSite/CMP/Debug,Common
+Private,OnSite/CMP/Release,Common
 Private,OnSite/Daily Diaries,Common
 Private,OnSite/Photos and Videos,Common
 Private,OnSite/Registers,Common
@@ -120,3 +125,16 @@ Private,Submissions-Qualitative/RFP,Common
 Private,Submissions-Qualitative/RFP/Proponent 1,Common
 Private,Submissions-Qualitative/RFP/Proponent 2,Common
 Private,Submissions-Qualitative/RFP/Proponent 3,Common
+Subsite,develop/Aboriginal Participation,Common
+Subsite,develop/Approvals,Common
+Subsite,develop/Communications,Common
+Subsite,develop/Communications/CSMP,Common
+Subsite,develop/Design,Common
+Subsite,develop/Design/Project Case design,Common
+Subsite,develop/Design/Ultimate design,Common
+Subsite,develop/Environment,Common
+Subsite,develop/Land,Common
+Subsite,develop/Risk,Common
+Subsite,develop/Services,Common
+Subsite,develop/Sustainability,Common
+Subsite,develop/Traffic,Common
