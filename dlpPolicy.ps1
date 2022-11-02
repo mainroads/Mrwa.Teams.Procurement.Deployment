@@ -144,7 +144,23 @@ $description = "Applies DLP action based on the Classification levels. Will crea
 
 $endpointDlpSettings = @(
     @{
+        "Setting" = "CopyPaste";
+        "Value"   = "Audit"
+    },
+    @{
+        "Setting" = "RemovableMedia";
+        "Value"   = "Audit"
+    },
+    @{
+        "Setting" = "NetworkShare";
+        "Value"   = "Audit"
+    },
+    @{
         "Setting" = "Print";
+        "Value"   = "Audit"
+    },
+    @{
+        "Setting" = "RemoteDesktopServices";
         "Value"   = "Audit"
     }
 )
