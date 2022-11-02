@@ -282,7 +282,23 @@ $emailForAlert = $emailToSendNotification
 # The type of audit or restrict activities to be performed on devices
 $endpointDlpSettings = @(
     @{
+        "Setting" = "CopyPaste";
+        "Value"   = "Audit"
+    },
+    @{
+        "Setting" = "RemovableMedia";
+        "Value"   = "Audit"
+    },
+    @{
+        "Setting" = "NetworkShare";
+        "Value"   = "Audit"
+    },
+    @{
         "Setting" = "Print";
+        "Value"   = "Audit"
+    },
+    @{
+        "Setting" = "RemoteDesktopServices";
         "Value"   = "Audit"
     }
 )
