@@ -459,7 +459,7 @@ Function UpdateSubsitesRegionalSettings()
             Connect-PNPonline -Url "$($site.Url)" -Interactive
            
             $web = Get-PnPWeb -Includes RegionalSettings, RegionalSettings.TimeZones 
-            $timeZone = $web.RegionalSettings.TimeZones | Where-Object {$_.Id -eq 76} # Melbourne
+            $timeZone = $web.RegionalSettings.TimeZones | Where-Object {$_.Id -eq 73} # Perth
             $web.RegionalSettings.LocaleId = 3081 # English(Australia)
             $web.RegionalSettings.TimeZone = $timeZone 
             Disable-PnPFeature -Identity 41e1d4bf-b1a2-47f7-ab80-d5d6cbba3092
