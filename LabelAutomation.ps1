@@ -168,7 +168,7 @@ New-LabelPolicy -Name "$prefix Label Policy" -Labels $prefix, $lbNameTender, $lb
 
 ### Creating DLP policy
 
-$externlSharingPolicyName = "Notification-When-Shared-External-IDDP"
+$externalSharingPolicyName = "Notification-When-Shared-External-IDDP"
 $externalSharingRuleName = "$prefix-External-Sharing"
 $description = "Applies DLP action based on the Classification levels. Will create email incident reports on documents that are labelled as 'Tender', 'Submission Qualitative' , 'Submission Commercial', 'Evaluation Qualitative', 'Evaluation Commercial', 'Strictly Confidential', and/or 'Contract Award' and are being shared externally"
 
@@ -238,7 +238,7 @@ $sensitivityLabels = @(
 $dlpNames = (Get-DlpCompliancePolicy).Name
 $doesPolicyAlreadyExists = $false
 foreach ($name in $dlpNames) {
-    if ($name -eq $externlSharingPolicyName) {
+    if ($name -eq $externalSharingPolicyName) {
         $doesPolicyAlreadyExists = $true
         Break
     }
@@ -247,7 +247,7 @@ foreach ($name in $dlpNames) {
 # Creates a DLP policy ONLY IF IT IS ALREADY NOT PRESENT targeting all sharepoint location and exchange location.
 if (!$doesPolicyAlreadyExists) {
     Write-Host "Creating DLP Policy..."
-    New-DlpCompliancePolicy -Name $externlSharingPolicyName -Comment $description -SharePointLocation All -ExchangeLocation All -Mode Enable
+    New-DlpCompliancePolicy -Name $externalSharingPolicyName -Comment $description -SharePointLocation All -ExchangeLocation All -Mode Enable
 }
 
 # Check if the dlp compliance rule already exists or not. If not then only create new one
@@ -270,7 +270,7 @@ foreach ($name in $dlpRuleNames) {
 #           - Contract Award
 if (!$doesRuleAlreadyExists) {
     Write-Host "Creating rule for DLP Policy..."
-    New-DlpComplianceRule -Name $externalSharingRuleName -Policy $externlSharingPolicyName -AccessScope NotInOrganization -ContentContainsSensitiveInformation $sensitivityLabels -GenerateIncidentReport $generateIncidentReport -IncidentReportContent $incidentReportContent
+    New-DlpComplianceRule -Name $externalSharingRuleName -Policy $externalSharingPolicyName -AccessScope NotInOrganization -ContentContainsSensitiveInformation $sensitivityLabels -GenerateIncidentReport $generateIncidentReport -IncidentReportContent $incidentReportContent
 }
 
 ## DLP for Print Activity on endpoint devices.
