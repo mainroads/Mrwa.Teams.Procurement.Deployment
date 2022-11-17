@@ -317,12 +317,13 @@ Function CreateSubsiteFolderStructures()
 
         foreach($site in $global:sites)
         {     
+            Write-Host "   - Subsite: $site" 
             foreach ($folder in (import-csv $foldersCsvFileRelativePath)) 
             { 
                 $folderPrivacy = $folder.Privacy
                 if ($folderPrivacy -eq "Subsite") 
                 {  
-                    $folderRelativePath = ($folder.Folder).Replace('XXX', $global:prjAbbreviation).Replace('$global:prjNumber', $global:prjNumber)
+                    $folderRelativePath = ($folder.Folder).Replace('XXX', $global:prjAbbreviation).Replace('$ProjectNumber', $global:prjNumber)
                     $subSite = $folderRelativePath.Substring(0,$folderRelativePath.IndexOf("/"))
 
                     if($site -eq $subSite)
@@ -362,7 +363,7 @@ Function CreateFolderStructures()
        foreach ($folder in (import-csv $foldersCsvFileRelativePath)) 
         {
             $channelPrivacy = $folder.Privacy
-            $folderRelativePath = ($folder.Folder).Replace('XXX', $global:prjAbbreviation).Replace('$global:prjNumber', $global:prjNumber)
+            $folderRelativePath = ($folder.Folder).Replace('XXX', $global:prjAbbreviation).Replace('ProjectNumber', $global:prjNumber)
             $folderContractType = $folder.ContractType 
 
             if ($channelPrivacy -eq "Standard") {
@@ -373,10 +374,11 @@ Function CreateFolderStructures()
                 $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)-$($channel)"
             }
 
-            Write-Host "   - Processing: $($siteUrl) / $folderRelativePath..." 
             Connect-PnPOnline -Url $siteUrl -Interactive
 
-            if(($folderContractType -eq $contractType) -or ($folderContractType -eq "Common")){
+            if(($folderContractType -eq $contractType) -or ($folderContractType -eq "Common"))
+            {
+                Write-Host "   - Processing: $folderRelativePath..." 
                 Resolve-PnPFolder -SiteRelativePath "Shared Documents/$folderRelativePath" | Out-Null
             }
         }
