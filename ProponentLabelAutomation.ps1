@@ -85,7 +85,7 @@ $VESPC = "VIEW,VIEWRIGHTSDATA,PRINT,EXTRACT,DOCEDIT,EDIT,EXPORT,OBJMODEL"
 $O = "OWNER"
 
 foreach ($proponent in $proponentNames) {
-    $lbName = "$prefix-$proponent-Qualitative"
+    $lbName = "$prefix-$proponent"
     $lbNameProponents += $lbName
 }
 
