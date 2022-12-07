@@ -326,6 +326,7 @@ Function CreateSubsiteFolderStructures()
                     $folderRelativePath = ($folder.Folder).Replace('XXX', $global:prjAbbreviation).Replace('$ProjectNumber', $global:prjNumber)
                     $subSite = $folderRelativePath.Substring(0,$folderRelativePath.IndexOf("/"))
 
+                    Write-Host "site: $($site), subSite: $($subsite)" 
                     if($site -eq $subSite)
                     {
                         $folderContractType = $folder.ContractType
