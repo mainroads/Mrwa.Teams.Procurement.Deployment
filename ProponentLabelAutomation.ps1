@@ -60,7 +60,7 @@ Write-Host "Creating M365 Groups..."
 
 # Create all Proponent groups
 foreach ($proponent in $proponentNames) {
-    $groupNameProponent = "$prefix $proponent Qualitative"
+    $groupNameProponent = "$prefix $proponent"
     $aliasProponent = $groupNameProponent.Replace(" ", "-")
 
     $groupNameProponents += $groupNameProponent
@@ -85,7 +85,7 @@ $VESPC = "VIEW,VIEWRIGHTSDATA,PRINT,EXTRACT,DOCEDIT,EDIT,EXPORT,OBJMODEL"
 $O = "OWNER"
 
 foreach ($proponent in $proponentNames) {
-    $lbName = "$prefix-$proponent-Qualitative"
+    $lbName = "$prefix-$proponent"
     $lbNameProponents += $lbName
 }
 
