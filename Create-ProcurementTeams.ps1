@@ -74,6 +74,12 @@ Param(
 
 $ErrorActionPreference = "Stop"
 
+#--------------------------
+#Refer dependent PS files - 20-01-2023 -by Ifaham Nizam Insight
+#---------------------------------------------------------------
+
+& $PSScriptRoot\Apply-Documents_LibraryConfigurationForReviewFlow.ps1 
+
 #--------------------
 # Install Dependencies if not already present in current workspace
 #--------------------
@@ -116,7 +122,7 @@ $global:prjNumber = $null;
 $global:prjAbbreviation;
 $global:prjName = $null;
 $global:sites = $null;
-$global:siteUrl = $ull;
+$global:siteUrl = $null;
 
 #---------------------------------
 # CleanUpParameters Function
@@ -252,6 +258,8 @@ Function CreateTeamsAndSites()
 
         Start-Sleep -Seconds 1
     }
+
+    ApplyDocumentLibrarySettingsandConfiguration-ReviewFlow $global:siteUrl
 }
 
 #---------------------------------
@@ -437,6 +445,8 @@ Function CreateSubsites()
             # Stops the script from erroring out, gets deactivated later
             Enable-PnPFeature -Identity 8a4b8de2-6fd8-41e9-923c-c7c3c00f8295 -Scope Site 
             Invoke-PnPQuery
+
+            ApplyDocumentLibrarySettingsandConfiguration-ReviewFlow $global:siteUrl
          }
     }
     else
