@@ -1,7 +1,7 @@
 ﻿### Execution Instructions ### 
 # 1. Browse to the project directory
 #     cd "<project_location_in_file_system>\.Mrwa.Teams.Procurement.Deployment"
-# 3. Execute Create-ProcurementTeams.ps1
+# 2. Execute Create-ProcurementTeams.ps1
 #     Syntax: .\Apply-Documents_LibraryConfigurationForReviewFlow.ps1 -TargetSiteURL "<siteurl>" 
 #
 
@@ -15,7 +15,6 @@ Param(
   [string] $TemplaleFilePath ="$PSScriptRoot\Templates\DocumentLibraryConfiguration_Review_PowerAutomateFlow.xml"
 
 )
-
 
 
 Function ApplyDocumentLibrarySettingsandConfiguration-ReviewFlow
@@ -43,8 +42,6 @@ if($TargetSiteURL -ne "")
 }
 
 }
-
-
 
 
 #$TargetSiteURL ="https://0v1sr.sharepoint.com/sites/mr-0003-prj3-prj/"
