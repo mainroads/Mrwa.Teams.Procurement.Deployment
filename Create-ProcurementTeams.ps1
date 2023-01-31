@@ -74,11 +74,6 @@ Param(
 
 $ErrorActionPreference = "Stop"
 
-#--------------------------
-#Refer dependent PS files - 20-01-2023 -by Ifaham Nizam Insight
-#---------------------------------------------------------------
-
-& $PSScriptRoot\Apply-Documents_LibraryConfigurationForReviewFlow.ps1 
 
 #--------------------
 # Install Dependencies if not already present in current workspace
@@ -98,6 +93,8 @@ $global:teamPrefix = "MR"
 $global:teamSuffix = if ($teamType -eq "Project") { "PRJ" } else { "CON" }
 $foldersCsvFileRelativePath = "Seed\$($teamType)_Team_Folder_Structure.csv"
 $tenant = "mainroads.onmicrosoft.com"
+
+
 
 #/Teams (teams) or /Sites (sites)
 $spUrlType = "teams" 
@@ -259,7 +256,8 @@ Function CreateTeamsAndSites()
         Start-Sleep -Seconds 1
     }
 
-    ApplyDocumentLibrarySettingsandConfiguration-ReviewFlow $global:siteUrl
+    & $PSScriptRoot\ApplyDocumentsLibraryConfigForReviewFlow.ps1 -TargetSiteURL $global:siteUrl
+    #ApplyDocumentLibrarySettingsandConfiguration-ReviewFlow -TargetSiteURL $global:siteUrl
 }
 
 #---------------------------------
@@ -446,7 +444,8 @@ Function CreateSubsites()
             Enable-PnPFeature -Identity 8a4b8de2-6fd8-41e9-923c-c7c3c00f8295 -Scope Site 
             Invoke-PnPQuery
 
-            ApplyDocumentLibrarySettingsandConfiguration-ReviewFlow $global:siteUrl
+            #ApplyDocumentLibrarySettingsandConfiguration-ReviewFlow -TargetSiteURL $global:siteUrl
+            & $PSScriptRoot\ApplyDocumentsLibraryConfigForReviewFlow.ps1 -TargetSiteURL $global:siteUrl
          }
     }
     else
