@@ -1,7 +1,7 @@
-﻿Function ApplyDocumentLibrarySettingsandConfiguration-ReviewFlow($TargetSiteURL,$TemplaleFilePath ="$PSScriptRoot\Templates\DocumentLibraryConfiguration_Review_PowerAutomateFlow.xml")
+﻿Function ApplyDocumentsLibraryConfigForReviewFlow($TargetSiteURL,$TemplaleFilePath ="$PSScriptRoot\Templates\DocumentLibraryConfigReview.xml")
 {
 
-$TemplaleFilePath #=& "$PSScriptRoot\Templates\DocumentLibraryConfiguration_Review_PowerAutomateFlow.xml"
+$TemplaleFilePath #=& "$PSScriptRoot\Templates\DocumentLibraryConfigReview.xml"
 if((Test-Path -Path $TemplaleFilePath -PathType Leaf) -eq $false)
 {
     write-host "File does not exist!" -ForegroundColor Red
@@ -18,4 +18,4 @@ Invoke-PnPSiteTemplate -Path $TemplaleFilePath
 
 #$TargetSiteURL ="https://0v1sr.sharepoint.com/sites/mr-0003-prj3-prj/"
 #$TemplaleFilePath ="C:\Work\MainRoad\JSON\Pnp-ProvitioningFileV33.xml" #"C:\Work\MainRoad\pnpprvitioning\Pnp-ProvitioningFileV4.xml"
-#ApplyDocumentLibrarySettingsandConfiguration-ReviewFlow $TargetSiteURL #$TemplaleFilePath
+#ApplyDocumentsLibraryConfigForReviewFlow $TargetSiteURL #$TemplaleFilePath

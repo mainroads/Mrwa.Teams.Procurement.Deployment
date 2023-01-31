@@ -259,7 +259,7 @@ Function CreateTeamsAndSites()
         Start-Sleep -Seconds 1
     }
 
-    ApplyDocumentLibrarySettingsandConfiguration-ReviewFlow $global:siteUrl
+    ApplyDocumentsLibraryConfigForReviewFlow $global:siteUrl
 }
 
 #---------------------------------
@@ -446,7 +446,7 @@ Function CreateSubsites()
             Enable-PnPFeature -Identity 8a4b8de2-6fd8-41e9-923c-c7c3c00f8295 -Scope Site 
             Invoke-PnPQuery
 
-            ApplyDocumentLibrarySettingsandConfiguration-ReviewFlow $global:siteUrl
+            ApplyDocumentsLibraryConfigForReviewFlow $global:siteUrl
          }
     }
     else
