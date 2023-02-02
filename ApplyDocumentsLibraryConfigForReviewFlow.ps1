@@ -2,7 +2,7 @@
 # 1. Browse to the project directory
 #     cd "<project_location_in_file_system>\.Mrwa.Teams.Procurement.Deployment"
 # 2. Execute Create-ProcurementTeams.ps1
-#     Syntax: .\Apply-Documents_LibraryConfigurationForReviewFlow.ps1 -TargetSiteURL "<siteurl>" 
+#     Syntax: .\ApplyDocumentsLibraryConfigForReviewFlow.ps1 -TargetSiteURL "https://mainroads.sharepoint.com/teams/MR-30000597-MEBD-PRJ-Procurement" 
 #
 
 Param(
@@ -12,14 +12,14 @@ Param(
 
   [Parameter(Mandatory = $false)]
   [ValidateNotNullOrEmpty()]
-  [string] $TemplaleFilePath ="$PSScriptRoot\Templates\DocumentLibraryConfiguration_Review_PowerAutomateFlow.xml"
+  [string] $TemplaleFilePath ="$PSScriptRoot\Templates\DocumentLibraryConfigReview.xml"
 
 )
 
 
 Function ApplyDocumentLibrarySettingsandConfiguration-ReviewFlow
 
-($TargetSiteURL,$TemplaleFilePath ="$PSScriptRoot\Templates\DocumentLibraryConfiguration_Review_PowerAutomateFlow.xml")
+($TargetSiteURL,$TemplaleFilePath ="$PSScriptRoot\Templates\DocumentLibraryConfigReview.xml")
 {
 if($TargetSiteURL -ne "")
 {
