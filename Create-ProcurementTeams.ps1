@@ -92,7 +92,7 @@ $adminUrl = "https://$($M365Domain)-admin.sharepoint.com/"
 $global:teamPrefix = "MR"
 $global:teamSuffix = if ($teamType -eq "Project") { "PRJ" } else { "CON" }
 $foldersCsvFileRelativePath = "Seed\$($teamType)_Team_Folder_Structure.csv"
-$tenant = "mainroads.onmicrosoft.com"
+$tenant ="mainroads.onmicrosoft.com"
 
 
 
@@ -257,7 +257,7 @@ Function CreateTeamsAndSites()
     }
 
     & $PSScriptRoot\ApplyDocumentsLibraryConfigForReviewFlow.ps1 -TargetSiteURL $global:siteUrl
-   
+    #ApplyDocumentLibrarySettingsandConfiguration-ReviewFlow -TargetSiteURL $global:siteUrl
 }
 
 #---------------------------------
@@ -299,8 +299,10 @@ Function CreateTeamsChannels()
                         $stoploop = $true
                     }
                     else {
-                        Start-Sleep -Seconds 5
+                        Start-Sleep -Seconds 20
                         $retryCount = $retryCount + 1
+                        $retrymsg="Channel " + $channel + "attempt " +  $retryCount.ToString()
+                        Write-Host $retrymsg -ForegroundColor DarkYellow
                     }
                 }
             }
@@ -322,7 +324,8 @@ Function CreateSubsiteFolderStructures()
         Write-Host " - Creating folder Structures in subsites..." -ForegroundColor Yellow
 
         foreach($site in $global:sites)
-        {     
+        {     $siteUrl =""
+
             Write-Host "   - Subsite: $site" 
             foreach ($folder in (import-csv $foldersCsvFileRelativePath)) 
             { 
@@ -349,6 +352,7 @@ Function CreateSubsiteFolderStructures()
                     }
                 }
             }
+            
         }               
     }               
 }
@@ -367,6 +371,7 @@ Function CreateFolderStructures()
     {
        Write-Host " - Creating Folder Structures in Channels..." -ForegroundColor Yellow 
 
+  
        foreach ($folder in (import-csv $foldersCsvFileRelativePath)) 
         {
             $channelPrivacy = $folder.Privacy
@@ -379,6 +384,32 @@ Function CreateFolderStructures()
             elseif ($channelPrivacy -eq "Private") {
                 $channel = $folderRelativePath.Substring(0,$folderRelativePath.IndexOf("/"))
                 $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)-$($channel)"
+            
+                          
+                             
+
+
+                            Connect-PnPOnline -Url $siteUrl -Interactive
+                            $isReviewModeFieldPresent=Get-PnPField -List "Documents" -Identity "ReviewMode" -ErrorAction SilentlyContinue
+                
+                            if($isReviewModeFieldPresent -eq $null)
+                            {
+
+                                 ######### Wait for 2 minutes to teams private channel provisioning to complete 100% #######################
+                                $seconds = 120
+                                1..$seconds |
+                                ForEach-Object { 
+                                    $percent = $_ * 100 / $seconds; 
+
+                                    Write-Progress -Activity "Wait for 2 minutes before ensuring the private channel sharepoint sites provisioning" -Status "$($seconds - $_) seconds remaining..." -PercentComplete $percent; 
+
+                                    Start-Sleep -Seconds 1
+                                }
+                               
+                                & $PSScriptRoot\ApplyDocumentsLibraryConfigForReviewFlow.ps1 -TargetSiteURL $siteUrl
+                            }
+                                                 
+
             }
 
             Connect-PnPOnline -Url $siteUrl -Interactive
@@ -422,8 +453,9 @@ Function CreateNewGroupAndPermissionLevel()
     $contributeRole = Get-PnPRoleDefinition -Identity "Contribute"
  
     #Create a custom Permission level and exclude delete from contribute
+    $PermissionGroupName="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + "Contributors"
     Add-PnPRoleDefinition -RoleName "Contribute without delete" -Clone $contributeRole -Exclude DeleteListItems, DeleteVersions -Description "Contribute without delete permission" | Out-Null
-    New-PnPSiteGroup -Site $siteUrl -Name "Contributors" -PermissionLevels "Contribute without delete" | Out-Null
+    New-PnPSiteGroup -Site $siteUrl -Name $PermissionGroupName -PermissionLevels "Contribute without delete" | Out-Null
 }
 
 #---------------------------------
@@ -444,8 +476,31 @@ Function CreateSubsites()
             Enable-PnPFeature -Identity 8a4b8de2-6fd8-41e9-923c-c7c3c00f8295 -Scope Site 
             Invoke-PnPQuery
 
-            
-            & $PSScriptRoot\ApplyDocumentsLibraryConfigForReviewFlow.ps1 -TargetSiteURL $global:siteUrl
+            #ApplyDocumentLibrarySettingsandConfiguration-ReviewFlow -TargetSiteURL $global:siteUrl
+            $subsiteUrl= $global:siteUrl + "/" + $site
+            & $PSScriptRoot\ApplyDocumentsLibraryConfigForReviewFlow.ps1 -TargetSiteURL $subsiteUrl
+
+
+            $PermissionGroupNameMembers="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Members"
+            New-PnPGroup -Title $PermissionGroupNameMembers 
+
+            $PermissionGroupNameVisitors="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Visitors"
+            New-PnPGroup -Title $PermissionGroupNameVisitors 
+
+            $PermissionGroupNameOwners="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Owners"
+            New-PnPGroup -Title $PermissionGroupNameOwners 
+
+            $PermissionGroupContributors="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Contributors"
+            New-PnPGroup -Title $PermissionGroupContributors 
+
+              Connect-PnPOnline -Url $subsiteUrl -Interactive  
+              Set-PnPGroup  -Identity $PermissionGroupNameMembers -AddRole "Edit"
+              Set-PnPGroup -Identity $PermissionGroupNameVisitors -AddRole "Read"
+              Set-PnPGroup -Identity $PermissionGroupNameOwners -AddRole "Full Control"
+              Set-PnPGroup -Identity $PermissionGroupContributors -AddRole "Contribute without delete"
+
+
+           
          }
     }
     else
@@ -464,7 +519,7 @@ Function UpdateSubsitesRegionalSettings()
         write-host " - Updating Subsites Regional Settings..." -ForegroundColor Yellow     
 
         Connect-PnPOnline -Url $global:siteUrl -Interactive  
-        $subSites += Get-PnPSubWeb
+        $subSites = Get-PnPSubWeb -Recurse
         
          foreach($site in $subSites)
          {    
