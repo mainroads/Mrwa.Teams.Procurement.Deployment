@@ -92,7 +92,7 @@ $adminUrl = "https://$($M365Domain)-admin.sharepoint.com/"
 $global:teamPrefix = "MR"
 $global:teamSuffix = if ($teamType -eq "Project") { "PRJ" } else { "CON" }
 $foldersCsvFileRelativePath = "Seed\$($teamType)_Team_Folder_Structure.csv"
-$tenant ="mainroads.onmicrosoft.com"
+$tenant = "mainroads.onmicrosoft.com"
 
 
 
@@ -285,13 +285,14 @@ Function CreateTeamsChannels()
         #Attempt channel check
         $stopLoop = $false
         $retryCount = 0
-        $maxRetryCount = 10   
+        $maxRetryCount = 20   
    
         #Trigger private channel SharePoint Onlinesite creation
         foreach ($channel in $allChannels) {
             do {
                 try {
-                    Invoke-RestMethod -Headers @{Authorization = "Bearer $accessToken" } -Uri "https://graph.microsoft.com/beta/teams/$($team.id)/channels/$($channel.id)/filesFolder" | Out-Null
+                     Invoke-RestMethod -Headers @{Authorization = "Bearer $accessToken" } -Uri "https://graph.microsoft.com/teams/$($team.id)/channels/$($channel.id)/filesFolder" | Out-Null
+                    #Invoke-RestMethod -Headers @{Authorization = "Bearer $accessToken" } -Uri "https://graph.microsoft.com/beta/teams/$($team.id)/channels/$($channel.id)/filesFolder" | Out-Null
                     $stopLoop = $true
                 }
                 catch {
@@ -299,7 +300,7 @@ Function CreateTeamsChannels()
                         $stoploop = $true
                     }
                     else {
-                        Start-Sleep -Seconds 20
+                        Start-Sleep -Seconds 30
                         $retryCount = $retryCount + 1
                         $retrymsg="Channel " + $channel + "attempt " +  $retryCount.ToString()
                         Write-Host $retrymsg -ForegroundColor DarkYellow
@@ -471,7 +472,7 @@ Function CreateSubsites()
          {    
             write-host "     - Creating subsite: $site"
             Connect-PnPOnline -Url $global:siteUrl -Interactive  
-            New-PnPWeb -Title $site -Url $site -Template "STS#3" -BreakInheritance | Out-Null
+            New-PnPWeb -Title (Get-Culture).TextInfo.ToTitleCase($site) -Url $site -Template "STS#3" -BreakInheritance | Out-Null
             # Stops the script from erroring out, gets deactivated later
             Enable-PnPFeature -Identity 8a4b8de2-6fd8-41e9-923c-c7c3c00f8295 -Scope Site 
             Invoke-PnPQuery
@@ -482,22 +483,22 @@ Function CreateSubsites()
 
 
             $PermissionGroupNameMembers="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Members"
-            New-PnPGroup -Title $PermissionGroupNameMembers 
+            New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupNameMembers)  
 
             $PermissionGroupNameVisitors="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Visitors"
-            New-PnPGroup -Title $PermissionGroupNameVisitors 
+            New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupNameVisitors)  
 
             $PermissionGroupNameOwners="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Owners"
-            New-PnPGroup -Title $PermissionGroupNameOwners 
+            New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupNameOwners)  
 
             $PermissionGroupContributors="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Contributors"
-            New-PnPGroup -Title $PermissionGroupContributors 
+            New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupContributors)  
 
-              Connect-PnPOnline -Url $subsiteUrl -Interactive  
-              Set-PnPGroup  -Identity $PermissionGroupNameMembers -AddRole "Edit"
-              Set-PnPGroup -Identity $PermissionGroupNameVisitors -AddRole "Read"
-              Set-PnPGroup -Identity $PermissionGroupNameOwners -AddRole "Full Control"
-              Set-PnPGroup -Identity $PermissionGroupContributors -AddRole "Contribute without delete"
+            Connect-PnPOnline -Url $subsiteUrl -Interactive  
+            Set-PnPGroup -Identity $PermissionGroupNameMembers -AddRole "Edit"
+            Set-PnPGroup -Identity $PermissionGroupNameVisitors -AddRole "Read"
+            Set-PnPGroup -Identity $PermissionGroupNameOwners -AddRole "Full Control"
+            Set-PnPGroup -Identity $PermissionGroupContributors -AddRole "Contribute without delete"
 
 
            
