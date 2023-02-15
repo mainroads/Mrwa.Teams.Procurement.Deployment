@@ -14,10 +14,8 @@
 - Populate folder structures
 - Apply customisations to each SharePoint Online site
   - Set Perth time zone
-  - Create Contributors group (TODO)
+  - Create Contributors group
   - Versioning to be Major and Minor
-  - Documents to open in Client Application (TODO)
-  - Draft Item security to Only users who can edit items (TODO)
+  - Documents to open in Client Application
+  - Draft Item security to Only users who can edit items
   - Content Approval to Yes
- 
-    
