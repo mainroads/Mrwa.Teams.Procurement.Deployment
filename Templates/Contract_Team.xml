@@ -44,28 +44,28 @@
         <!-- Standard Channels -->
         <pnp:Channel DisplayName="Communications"
           Description=""
-          IsFavoriteByDefault="false" />
+          IsFavoriteByDefault="true" />
         <pnp:Channel DisplayName="Design"
           Description=""
-          IsFavoriteByDefault="false" />
+          IsFavoriteByDefault="true" />
         <pnp:Channel DisplayName="Meetings"
           Description=""
-          IsFavoriteByDefault="false" />
+          IsFavoriteByDefault="true" />
         <pnp:Channel DisplayName="Quality"
           Description=""
-          IsFavoriteByDefault="false" />
+          IsFavoriteByDefault="true" />
         <pnp:Channel DisplayName="Safety"
           Description=""
-          IsFavoriteByDefault="false" />
+          IsFavoriteByDefault="true" />
 
         <!-- Private Channels -->
         <pnp:Channel DisplayName="Commercial"
           Description=""
-          IsFavoriteByDefault="false"
+          IsFavoriteByDefault="true"
           Private="true" />
         <pnp:Channel DisplayName="Closeout"
           Description=""
-          IsFavoriteByDefault="false"
+          IsFavoriteByDefault="true"
           Private="true" />
       </pnp:Channels>
     </pnp:Team>
