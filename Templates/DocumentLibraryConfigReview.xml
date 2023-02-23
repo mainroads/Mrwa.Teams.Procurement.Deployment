@@ -111,6 +111,9 @@
             <pnp:FieldRef ID="45f31199-8047-49a1-9c9e-18bbc7061430" Name="ReviewMode" Required="true" DisplayName="Review Mode" />
             <pnp:FieldRef ID="256a6628-9d43-4d56-a783-27d305489962" Name="Reviewers" DisplayName="Reviewers" />
           </pnp:FieldRefs>
+          <pnp:FieldDefaults>
+            <pnp:FieldDefault FieldName="ReviewMode">Collaborative</pnp:FieldDefault>
+          </pnp:FieldDefaults>
           <pnp:Webhooks>
             <pnp:Webhook ServerNotificationUrl="https://japaneast1-0.pushnp.svc.ms/notifications?token=1968beea-9cf5-4aaa-8d02-0ebd189b76aa" ExpiresInDays="1" />
           </pnp:Webhooks>
