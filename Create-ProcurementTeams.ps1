@@ -1,6 +1,6 @@
 #
 # This script provisions IDD project and contract Teams for Procurement team 
-# Version 0.4.2
+# Version 0.5
 #
 ### Prerequisites ###  
 #
@@ -257,7 +257,7 @@ Function CreateTeamsAndSites()
     }
 
     & $PSScriptRoot\ApplyDocumentsLibraryConfigForReviewFlow.ps1 -TargetSiteURL $global:siteUrl
-    #ApplyDocumentLibrarySettingsandConfiguration-ReviewFlow -TargetSiteURL $global:siteUrl
+
 }
 
 #---------------------------------
@@ -386,16 +386,11 @@ Function CreateFolderStructures()
                 $channel = $folderRelativePath.Substring(0,$folderRelativePath.IndexOf("/"))
                 $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)-$($channel)"
             
-                          
-                             
-
-
                             Connect-PnPOnline -Url $siteUrl -Interactive
                             $isReviewModeFieldPresent=Get-PnPField -List "Documents" -Identity "ReviewMode" -ErrorAction SilentlyContinue
                 
                             if($isReviewModeFieldPresent -eq $null)
                             {
-
                                  ######### Wait for 2 minutes to teams private channel provisioning to complete 100% #######################
                                 $seconds = 120
                                 1..$seconds |
@@ -409,8 +404,6 @@ Function CreateFolderStructures()
                                
                                 & $PSScriptRoot\ApplyDocumentsLibraryConfigForReviewFlow.ps1 -TargetSiteURL $siteUrl
                             }
-                                                 
-
             }
 
             Connect-PnPOnline -Url $siteUrl -Interactive
@@ -477,10 +470,8 @@ Function CreateSubsites()
             Enable-PnPFeature -Identity 8a4b8de2-6fd8-41e9-923c-c7c3c00f8295 -Scope Site 
             Invoke-PnPQuery
 
-            #ApplyDocumentLibrarySettingsandConfiguration-ReviewFlow -TargetSiteURL $global:siteUrl
             $subsiteUrl= $global:siteUrl + "/" + $site
             & $PSScriptRoot\ApplyDocumentsLibraryConfigForReviewFlow.ps1 -TargetSiteURL $subsiteUrl
-
 
             $PermissionGroupNameMembers="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Members"
             New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupNameMembers)  
@@ -499,9 +490,6 @@ Function CreateSubsites()
             Set-PnPGroup -Identity $PermissionGroupNameVisitors -AddRole "Read"
             Set-PnPGroup -Identity $PermissionGroupNameOwners -AddRole "Full Control"
             Set-PnPGroup -Identity $PermissionGroupContributors -AddRole "Contribute without delete"
-
-
-           
          }
     }
     else
