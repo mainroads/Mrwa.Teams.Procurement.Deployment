@@ -40,8 +40,9 @@
         <pnp:Owners ClearExistingItems="true">
           <pnp:User UserPrincipalName="c3652-adm@mainroads.wa.gov.au" />
           <pnp:User UserPrincipalName="e200379-adm@mrwa.wa.gov.au" />
-          <pnp:User UserPrincipalName="scott.white@mainroads.wa.gov.au" />   
-          <pnp:User UserPrincipalName="benjamin.see@mainroads.wa.gov.au" />   
+          <pnp:User UserPrincipalName="scott.white@mainroads.wa.gov.au" />          
+          <pnp:User UserPrincipalName="laura.davey@mainroads.wa.gov.au" />   
+          <pnp:User UserPrincipalName="iddprocurementservices@mainroads.wa.gov.au" />
         </pnp:Owners>
       </pnp:Security>
 
@@ -49,29 +50,29 @@
         <!-- Standard Channels -->
         <pnp:Channel DisplayName="Communications"
           Description=""
-          IsFavoriteByDefault="false" />
+          IsFavoriteByDefault="true" />
        <pnp:Channel DisplayName="Develop"
           Description=""
-          IsFavoriteByDefault="false" />
+          IsFavoriteByDefault="true" />
         <pnp:Channel DisplayName="Meetings"
           Description=""
-          IsFavoriteByDefault="false" />
+          IsFavoriteByDefault="true" />
         <pnp:Channel DisplayName="Program"
           Description=""
-          IsFavoriteByDefault="false" />
+          IsFavoriteByDefault="true" />
 
         <!-- Private Channels -->
         <pnp:Channel DisplayName="Commercial"
           Description=""
-          IsFavoriteByDefault="false"
+          IsFavoriteByDefault="true"
           Private="true" />
         <pnp:Channel DisplayName="OnSite"
           Description=""
-          IsFavoriteByDefault="false"
+          IsFavoriteByDefault="true"
           Private="true" />
         <pnp:Channel DisplayName="Procurement"
           Description=""
-          IsFavoriteByDefault="false"
+          IsFavoriteByDefault="true"
           Private="true" />
         <pnp:Channel DisplayName="Evaluation-Commercial"
           Description=""
