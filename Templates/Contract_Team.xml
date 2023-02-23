@@ -67,10 +67,6 @@
           Description=""
           IsFavoriteByDefault="false"
           Private="true" />
-        <pnp:Channel DisplayName="Portal"
-          Description=""
-          IsFavoriteByDefault="false"
-          Private="true" />
       </pnp:Channels>
     </pnp:Team>
   </pnp:Teams>
