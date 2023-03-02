@@ -1,7 +1,7 @@
 #
 # This script provisions M365 Groups, and Sensitivity Labels from the list of proponent names passed and appends those label to the existing label policy 
 #
-# Version 0.1
+# Version 0.2
 #
 ### Prerequisites ###  
 #
