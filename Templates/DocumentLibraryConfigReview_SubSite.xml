@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<pnp:Provisioning xmlns:pnp="http://schemas.dev.office.com/PnP/2021/03/ProvisioningSchema">
+  <pnp:Preferences Generator="PnP.Framework, Version=1.8.3.0, Culture=neutral, PublicKeyToken=0d501f89f11b748c" />
+  <pnp:Templates ID="CONTAINER-TEMPLATE-EA8B8FFF166143E08AF6F054B31C2CC2">
+    <pnp:ProvisioningTemplate ID="TEMPLATE-EA8B8FFF166143E08AF6F054B31C2CC2" Version="1" BaseSiteTemplate="GROUP#0">
+         <pnp:SiteFields>
+        <Field Type="UserMulti" DisplayName="Reviewers" List="UserInfo" Required="FALSE" EnforceUniqueValues="FALSE" ShowField="ImnName" UserSelectionMode="PeopleOnly" UserSelectionScope="0" Mult="TRUE" Sortable="FALSE" Group="MainRoad" ID="{256a6628-9d43-4d56-a783-27d305489962}" SourceID="{{siteid}}" StaticName="Reviewers" Name="Reviewers" AllowDeletion="TRUE" />
+        <Field Type="Choice" DisplayName="Review Mode" CustomFormatter="{&quot;elmType&quot;:&quot;div&quot;,&quot;style&quot;:{&quot;flex-wrap&quot;:&quot;wrap&quot;,&quot;display&quot;:&quot;flex&quot;},&quot;children&quot;:[{&quot;elmType&quot;:&quot;div&quot;,&quot;style&quot;:{&quot;box-sizing&quot;:&quot;border-box&quot;,&quot;padding&quot;:&quot;4px 8px 5px 8px&quot;,&quot;overflow&quot;:&quot;hidden&quot;,&quot;text-overflow&quot;:&quot;ellipsis&quot;,&quot;display&quot;:&quot;flex&quot;,&quot;border-radius&quot;:&quot;16px&quot;,&quot;height&quot;:&quot;24px&quot;,&quot;align-items&quot;:&quot;center&quot;,&quot;white-space&quot;:&quot;nowrap&quot;,&quot;margin&quot;:&quot;4px 4px 4px 4px&quot;},&quot;attributes&quot;:{&quot;class&quot;:{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;@currentField&quot;,&quot;Sequential&quot;]},&quot;sp-css-backgroundColor-BgCornflowerBlue sp-field-fontSizeSmall sp-css-color-CornflowerBlueFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;@currentField&quot;,&quot;Collaborative &quot;]},&quot;sp-css-backgroundColor-BgMintGreen sp-field-fontSizeSmall sp-css-color-MintGreenFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;@currentField&quot;,&quot;&quot;]},&quot;&quot;,&quot;sp-field-borderAllRegular sp-field-borderAllSolid sp-css-borderColor-neutralSecondary&quot;]}]}]}},&quot;txtContent&quot;:&quot;@currentField&quot;}],&quot;templateId&quot;:&quot;BgColorChoicePill&quot;}" Required="TRUE" EnforceUniqueValues="FALSE" Indexed="FALSE" Format="Dropdown" FillInChoice="FALSE" Group="MainRoad" ID="{45f31199-8047-49a1-9c9e-18bbc7061430}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ReviewMode" Name="ReviewMode" AllowDeletion="TRUE">
+          <Default>
+          </Default>
+          <CHOICES>
+            <CHOICE>Sequential</CHOICE>
+            <CHOICE>Collaborative</CHOICE>
+          </CHOICES>
+        </Field>               
+       </pnp:SiteFields>
+        <pnp:ContentTypes>        
+      </pnp:ContentTypes>
+      <pnp:Lists>
+         <pnp:ListInstance Title="Documents" Description="" DocumentTemplate="{site}/Shared Documents/Forms/template.dotx" OnQuickLaunch="true" TemplateType="101" Url="Shared Documents" EnableVersioning="true" EnableMinorVersions="true" EnableModeration="true" MinorVersionLimit="500" MaxVersionLimit="500" DraftVersionVisibility="1" TemplateFeatureID="00bfea71-e717-4e80-aa17-d0c71b360101" ContentTypesEnabled="true" EnableAttachments="false" DefaultDisplayFormUrl="{site}/Shared Documents/Forms/DispForm.aspx" DefaultEditFormUrl="{site}/Shared Documents/Forms/EditForm.aspx" DefaultNewFormUrl="{site}/Shared Documents/Forms/Upload.aspx" ImageUrl="/_layouts/15/images/itdl.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
+          <pnp:PropertyBagEntries>
+            <pnp:PropertyBagEntry Key="IsAttachmentLibrary" Value="0" Overwrite="false" />
+          </pnp:PropertyBagEntries>
+          <pnp:ContentTypeBindings>
+            <pnp:ContentTypeBinding ContentTypeID="0x0101" Default="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x0120" />
+          </pnp:ContentTypeBindings>
+          <pnp:Views>
+            <View Name="{6B02434E-D31D-456E-AC20-E57152328973}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Documents" Url="{site}/Shared Documents/Forms/AllItems.aspx" Level="1" BaseViewID="1" ContentTypeID="0x" ImageUrl="/_layouts/15/images/dlicon.png?rev=47">
+              <Query>
+                <OrderBy>
+                  <FieldRef Name="FileLeafRef" />
+                </OrderBy>
+              </Query>
+              <ViewFields>
+                <FieldRef Name="DocIcon" />
+                <FieldRef Name="LinkFilename" />
+                <FieldRef Name="_UIVersionString" />
+                <FieldRef Name="ReviewStatus" />
+                <FieldRef Name="Modified" />
+                <FieldRef Name="Editor" />
+                <FieldRef Name="TRIM" />
+                <FieldRef Name="FileSizeDisplay" />
+                <FieldRef Name="_DisplayName" />                
+                <FieldRef Name="Button" />
+              </ViewFields>
+              <RowLimit Paged="TRUE">30</RowLimit>
+              <JSLink>clienttemplates.js</JSLink>
+              <CustomFormatter />
+            </View>
+            <View Name="{A95DBFC9-D35D-44AC-AB97-0F4471B37C61}" Type="HTML" Scope="RecursiveAll" DisplayName="My submissions" Url="{site}/Shared Documents/Forms/mysub.aspx" Level="1" BaseViewID="1" ContentTypeID="0x" ImageUrl="/_layouts/15/images/dlicon.png?rev=47">
+              <Query>
+                <GroupBy>
+                  <FieldRef Name="_ModerationStatus" Ascending="FALSE" />
+                </GroupBy>
+              </Query>
+              <ViewFields>
+                <FieldRef Name="DocIcon" />
+                <FieldRef Name="LinkFilename" />
+                <FieldRef Name="Modified" />
+                <FieldRef Name="Editor" />
+                <FieldRef Name="_ModerationStatus" />
+                <FieldRef Name="_ModerationComments" />
+              </ViewFields>
+              <RowLimit Paged="TRUE">30</RowLimit>
+              <JSLink>clienttemplates.js</JSLink>
+            </View>  
+            <View Name="{B790E84A-2DAA-40B3-B63A-CF5D94019F3B}" Type="HTML" DisplayName="Workflow View" Url="{site}/Shared Documents/Forms/Workflow View.aspx" Level="1" BaseViewID="1" ContentTypeID="0x" ImageUrl="/_layouts/15/images/dlicon.png?rev=47">
+              <Query>
+                <OrderBy>
+                  <FieldRef Name="FileLeafRef" />
+                </OrderBy>
+              </Query>
+              <ViewFields>
+                <FieldRef Name="DocIcon" />
+                <FieldRef Name="LinkFilename" />
+                <FieldRef Name="Modified" />
+                <FieldRef Name="Editor" />
+                <FieldRef Name="ReviewStatus" />
+                <FieldRef Name="_ModerationStatus" />
+                <FieldRef Name="ApprovalHistory" />
+                <FieldRef Name="ApprovalCommentHistory" />
+                <FieldRef Name="Button" />
+                <FieldRef Name="ID" />
+                <FieldRef Name="_UIVersionString" />
+                <FieldRef Name="ReviewMode" />
+                <FieldRef Name="Reviewers" />
+              </ViewFields>
+              <RowLimit Paged="TRUE">30</RowLimit>
+              <Aggregations Value="Off" />
+              <JSLink>clienttemplates.js</JSLink>
+              <ViewData />
+            </View>
+          </pnp:Views>
+          <pnp:Fields>
+            <Field ClientSideComponentId="00000000-0000-0000-0000-000000000000" CustomFormatter="{&quot;elmType&quot;:&quot;div&quot;,&quot;style&quot;:{&quot;flex-wrap&quot;:&quot;wrap&quot;,&quot;display&quot;:&quot;flex&quot;},&quot;children&quot;:[{&quot;elmType&quot;:&quot;div&quot;,&quot;style&quot;:{&quot;box-sizing&quot;:&quot;border-box&quot;,&quot;padding&quot;:&quot;4px 8px 5px 8px&quot;,&quot;overflow&quot;:&quot;hidden&quot;,&quot;text-overflow&quot;:&quot;ellipsis&quot;,&quot;display&quot;:&quot;flex&quot;,&quot;border-radius&quot;:&quot;16px&quot;,&quot;height&quot;:&quot;24px&quot;,&quot;align-items&quot;:&quot;center&quot;,&quot;white-space&quot;:&quot;nowrap&quot;,&quot;margin&quot;:&quot;4px 4px 4px 4px&quot;},&quot;attributes&quot;:{&quot;class&quot;:{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;In Progress&quot;]},&quot;sp-css-backgroundColor-BgCornflowerBlue sp-css-color-CornflowerBlueFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;Fully Reviewed&quot;]},&quot;sp-css-backgroundColor-BgGold sp-css-color-GoldFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;&quot;]},&quot;&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;Rejected&quot;]},&quot;sp-css-backgroundColor-BgDustRose sp-css-color-DustRoseFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;Partially Reviewed&quot;]},&quot;sp-css-backgroundColor-BgCyan sp-css-color-CyanFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;New&quot;]},&quot;sp-css-backgroundColor-BgDustRose sp-css-color-DustRoseFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;One or more review(s) timeout&quot;]},&quot;sp-css-backgroundColor-BgCyan sp-css-color-CyanFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;None Reviewed (Fully Timed-out)&quot;]},&quot;sp-css-backgroundColor-BgPeach sp-css-color-PeachFont&quot;,&quot;sp-field-borderAllRegular sp-field-borderAllSolid sp-css-borderColor-neutralSecondary&quot;]}]}]}]}]}]}]}]}},&quot;txtContent&quot;:&quot;[$ReviewStatus]&quot;}],&quot;templateId&quot;:&quot;BgColorChoicePill&quot;}" DisplayName="Status" FillInChoice="FALSE" Format="Dropdown" Name="ReviewStatus" Title="Status" Type="Choice" ID="{4ff5519f-02c6-4dd9-b62c-1ab41974ea1d}" Version="18" StaticName="ReviewStatus" SourceID="{{listid:Shared Documents}}" ColName="nvarchar15" RowOrdinal="0">
+              <CHOICES>
+                <CHOICE>In Progress</CHOICE>
+                <CHOICE>Fully Reviewed</CHOICE>
+                <CHOICE>Rejected</CHOICE>
+                <CHOICE>Partially Reviewed</CHOICE>
+                <CHOICE>New</CHOICE>
+                <CHOICE>One or more review(s) timeout</CHOICE>
+                <CHOICE>None Reviewed (Fully Timed-out)</CHOICE>
+              </CHOICES>
+            </Field>
+            <Field AppendOnly="FALSE" ClientSideComponentId="00000000-0000-0000-0000-000000000000" DisplayName="Review History" Format="Dropdown" IsolateStyles="FALSE" Name="ApprovalHistory" RichText="FALSE" RichTextMode="Compatible" Title="Review History" Type="Note" UnlimitedLengthInDocumentLibrary="TRUE" ID="{0f7b5435-faea-4809-9af9-38887c4076ac}" Version="2" StaticName="ApprovalHistory" SourceID="{{listid:Shared Documents}}" ColName="ntext3" RowOrdinal="0" />
+            <Field AppendOnly="FALSE" ClientSideComponentId="00000000-0000-0000-0000-000000000000" DisplayName="Review Comment History" Format="Dropdown" IsolateStyles="FALSE" Name="ApprovalCommentHistory" RichText="FALSE" RichTextMode="Compatible" Title="Review Comment History" Type="Note" UnlimitedLengthInDocumentLibrary="TRUE" ID="{1bc4ce22-e8a1-47b0-b65f-1f967043b193}" Version="2" StaticName="ApprovalCommentHistory" SourceID="{{listid:Shared Documents}}" ColName="ntext4" RowOrdinal="0" />
+            <Field DisplayName="Button" Format="Dropdown" IsModern="TRUE" MaxLength="255" Name="Button" Title="Button" Type="Text" ID="{45c1116f-05b1-4562-b3ef-817f4397baf6}" StaticName="Button" CustomFormatter="{&quot;$schema&quot;:&quot;https://developer.microsoft.com/json-schemas/sp/v2/column-formatting.schema.json&quot;,&quot;elmType&quot;:&quot;button&quot;,&quot;customRowAction&quot;:{&quot;action&quot;:&quot;executeFlow&quot;,&quot;actionParams&quot;:&quot;{\&quot;id\&quot;: \&quot;65612d28-bb76-4578-a383-e81569127daa\&quot;}&quot;},&quot;attributes&quot;:{&quot;class&quot;:&quot;ms-fontColor-themePrimary ms-fontColor-themeDarker--hover&quot;},&quot;style&quot;:{&quot;border&quot;:&quot;none&quot;,&quot;background-color&quot;:&quot;transparent&quot;,&quot;cursor&quot;:&quot;pointer&quot;},&quot;children&quot;:[{&quot;elmType&quot;:&quot;span&quot;,&quot;attributes&quot;:{&quot;iconName&quot;:&quot;Flow&quot;},&quot;style&quot;:{&quot;padding-right&quot;:&quot;6px&quot;}},{&quot;elmType&quot;:&quot;span&quot;,&quot;txtContent&quot;:&quot;Kick-Off Review&quot;}]}" SourceID="{{listid:Shared Documents}}" ColName="nvarchar16" RowOrdinal="0" Version="1" />
+            <Field ClientSideComponentId="00000000-0000-0000-0000-000000000000" DisplayName="TRIM #" Format="Dropdown" MaxLength="255" Name="TRIM" Title="TRIM #" Type="Text" ID="{8a64613c-741b-461d-83c2-c23bb628c734}" Version="2" StaticName="TRIM" SourceID="{{listid:Documents}}" ColName="nvarchar17" RowOrdinal="0" />
+          </pnp:Fields>
+          <pnp:FieldRefs>
+            <pnp:FieldRef ID="45f31199-8047-49a1-9c9e-18bbc7061430" Name="ReviewMode" Required="true" DisplayName="Review Mode" />
+            <pnp:FieldRef ID="256a6628-9d43-4d56-a783-27d305489962" Name="Reviewers" DisplayName="Reviewers" />
+          </pnp:FieldRefs>
+          <pnp:FieldDefaults>
+            <pnp:FieldDefault FieldName="ReviewMode">Sequential</pnp:FieldDefault>
+          </pnp:FieldDefaults>
+          <pnp:Webhooks>
+            <pnp:Webhook ServerNotificationUrl="https://japaneast1-0.pushnp.svc.ms/notifications?token=1968beea-9cf5-4aaa-8d02-0ebd189b76aa" ExpiresInDays="1" />
+          </pnp:Webhooks>
+        </pnp:ListInstance>        
+      </pnp:Lists>      
+    </pnp:ProvisioningTemplate>
+  </pnp:Templates>
+</pnp:Provisioning>

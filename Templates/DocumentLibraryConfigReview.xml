@@ -7,15 +7,178 @@
         <Field Type="UserMulti" DisplayName="Reviewers" List="UserInfo" Required="FALSE" EnforceUniqueValues="FALSE" ShowField="ImnName" UserSelectionMode="PeopleOnly" UserSelectionScope="0" Mult="TRUE" Sortable="FALSE" Group="MainRoad" ID="{256a6628-9d43-4d56-a783-27d305489962}" SourceID="{{siteid}}" StaticName="Reviewers" Name="Reviewers" AllowDeletion="TRUE" />
         <Field Type="Choice" DisplayName="Review Mode" CustomFormatter="{&quot;elmType&quot;:&quot;div&quot;,&quot;style&quot;:{&quot;flex-wrap&quot;:&quot;wrap&quot;,&quot;display&quot;:&quot;flex&quot;},&quot;children&quot;:[{&quot;elmType&quot;:&quot;div&quot;,&quot;style&quot;:{&quot;box-sizing&quot;:&quot;border-box&quot;,&quot;padding&quot;:&quot;4px 8px 5px 8px&quot;,&quot;overflow&quot;:&quot;hidden&quot;,&quot;text-overflow&quot;:&quot;ellipsis&quot;,&quot;display&quot;:&quot;flex&quot;,&quot;border-radius&quot;:&quot;16px&quot;,&quot;height&quot;:&quot;24px&quot;,&quot;align-items&quot;:&quot;center&quot;,&quot;white-space&quot;:&quot;nowrap&quot;,&quot;margin&quot;:&quot;4px 4px 4px 4px&quot;},&quot;attributes&quot;:{&quot;class&quot;:{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;@currentField&quot;,&quot;Sequential&quot;]},&quot;sp-css-backgroundColor-BgCornflowerBlue sp-field-fontSizeSmall sp-css-color-CornflowerBlueFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;@currentField&quot;,&quot;Collaborative &quot;]},&quot;sp-css-backgroundColor-BgMintGreen sp-field-fontSizeSmall sp-css-color-MintGreenFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;@currentField&quot;,&quot;&quot;]},&quot;&quot;,&quot;sp-field-borderAllRegular sp-field-borderAllSolid sp-css-borderColor-neutralSecondary&quot;]}]}]}},&quot;txtContent&quot;:&quot;@currentField&quot;}],&quot;templateId&quot;:&quot;BgColorChoicePill&quot;}" Required="TRUE" EnforceUniqueValues="FALSE" Indexed="FALSE" Format="Dropdown" FillInChoice="FALSE" Group="MainRoad" ID="{45f31199-8047-49a1-9c9e-18bbc7061430}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ReviewMode" Name="ReviewMode" AllowDeletion="TRUE">
           <Default>
-            <CHOICE>Collaborative</CHOICE>
           </Default>
-          <CHOICES>
+          <CHOICES> 
             <CHOICE>Sequential</CHOICE>
             <CHOICE>Collaborative</CHOICE>
           </CHOICES>
         </Field>
+                <Field DisplayName="Client Representative Signed Date" Type="DateTime" Required="FALSE" ID="{1daf3004-581f-44cc-b857-d28ab6b6f30f}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ClientRepresentative_SignedDate" Name="ClientRepresentative_SignedDate" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" FriendlyDisplayFormat="Disabled" Format="DateOnly" Indexed="FALSE" CalType="0">
+        </Field>
+        <Field DisplayName="Client Representative Role" Type="Text" Required="FALSE" ID="{2bf5a90d-ffbc-4072-bea3-c211d04eea78}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ClientRepresentative_Role" Name="ClientRepresentative_Role" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" MaxLength="255" Indexed="FALSE">
+        </Field>
+        <Field ID="{9889a80f-c9ec-41d8-a359-ac5fb5c4cfa2}" Name="_SPCallToAction" StaticName="_SPCallToAction" DisplayName="Call To Action" Type="Note" SourceID="http://schemas.microsoft.com/sharepoint/v3" Group="_Hidden" Description="" AllowDeletion="FALSE" ShowInNewForm="FALSE" ShowInEditForm="FALSE" ShowInDisplayForm="FALSE" ShowInViewForms="FALSE" ShowInListSettings="FALSE" />
+        <Field DisplayName="Contract Title" Type="Text" Required="FALSE" ID="{1f0da125-074c-4492-b310-51b9b14faa58}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ContractTitle" Name="ContractTitle" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" MaxLength="255" Indexed="FALSE">
+        </Field>
+        <Field DisplayName="Contractor Contract Number" Type="Text" Required="FALSE" ID="{533e4d2a-3ec4-4dba-8b29-aeb671e7b023}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ContractorContractNumber" Name="ContractorContractNumber" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" MaxLength="255" Indexed="FALSE">
+        </Field>
+        <Field DisplayName="Contractor Representative Signature" Type="Text" Required="FALSE" ID="{6aa5b52e-455a-4921-b8e4-042c728bc7d0}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ContractorRepresentative_Signature" Name="ContractorRepresentative_Signature" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" MaxLength="255" Indexed="FALSE">
+        </Field>
+        <Field DisplayName="Client Remarks / Comments" Type="Note" Required="FALSE" ID="{24016339-95af-45d1-836f-0ed4832a4c20}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ClientRemarks_Comments" Name="ClientRemarks_Comments" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" AppendOnly="FALSE" RichText="TRUE" Indexed="FALSE" NumLines="20" RestrictedMode="TRUE" RichTextMode="Compatible" IsolateStyles="FALSE" UnlimitedLengthInDocumentLibrary="FALSE">
+        </Field>
+        <Field DisplayName="Contractor Remarks / Comments" Type="Note" Required="FALSE" ID="{1162303c-12f6-4788-bef4-b73a24f7ab4b}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ContractorRemarks_Comments" Name="ContractorRemarks_Comments" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" AppendOnly="FALSE" RichText="TRUE" Indexed="FALSE" NumLines="20" RestrictedMode="TRUE" RichTextMode="Compatible" IsolateStyles="FALSE" UnlimitedLengthInDocumentLibrary="FALSE">
+        </Field>
+        <Field ID="{cb19284a-cde7-4570-a980-1dab8bd74470}" Name="_ExtendedDescription" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="_ExtendedDescription" DisplayName="Description" Group="Extended Columns" RichText="TRUE" ShowInEditForm="FALSE" RichTextMode="Compatible" CanToggleHidden="TRUE" Type="Note" />
+        <Field DisplayName="Contractor Representative Email" Type="Text" Required="FALSE" ID="{2208b54c-f4d7-44d6-af88-7c5fef116c4d}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ContractorRepresentative_Email" Name="ContractorRepresentative_Email" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" MaxLength="255" Indexed="FALSE">
+        </Field>
+        <Field DisplayName="MainRoad Contract No" Type="Text" Required="FALSE" ID="{3833f14d-1cbd-44dd-8a78-0bc0e0defaf9}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="MainRoadConractNo" Name="MainRoadConractNo" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" MaxLength="255" Indexed="FALSE">
+        </Field>
+        <Field ID="{AC9CE95B-F081-4B8A-BB19-2F4427D44674}" Name="_ExpirationDate" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="_ExpirationDate" Hidden="TRUE" Group="_Hidden" ReadOnly="TRUE" Type="Lookup" List="Docs" ShowField="ExpirationDate" DisplayName="Expiration Date" FromBaseType="TRUE" DisplaceOnUpgrade="TRUE" FieldRef="ID" JoinColName="DoclibRowId" JoinRowOrdinal="0" JoinType="INNER" />
+        <Field DisplayName="Client Representative Name" Type="Text" Required="FALSE" ID="{ed095265-10ff-4a66-9b1f-fcda9bbbe22c}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ClientRepresentativeName" Name="ClientRepresentativeName" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" MaxLength="255" Indexed="FALSE">
+        </Field>
+        <Field ID="{08D89A66-4634-42B8-9D5A-0C27395A48B3}" Name="TriggerFlowInfo" SourceID="http://schemas.microsoft.com/sharepoint/v3" Required="FALSE" ShowInFileDlg="FALSE" Hidden="TRUE" ShowInNewForm="FALSE" ShowInEditForm="FALSE" ReadOnlyEnforced="FALSE" ReadOnly="TRUE" DisplaceOnUpgrade="TRUE" StaticName="TriggerFlowInfo" Type="Text" DisplayName="Trigger Flow Info" Sortable="FALSE" />
+        <Field DisplayName="Contractor Representative Name" Type="Text" Required="FALSE" ID="{8526b867-00d0-464b-93f3-f168109eb2d4}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ContractorRepresentativeName" Name="ContractorRepresentativeName" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" MaxLength="255" Indexed="FALSE">
+        </Field>
+        <Field DisplayName="LotID / Desription" Type="Note" Required="FALSE" ID="{1387877e-b005-44fa-b52e-9f6c9c348ca9}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="LotID_Desription" Name="LotID_Desription" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" AppendOnly="FALSE" RichText="FALSE" Indexed="FALSE" NumLines="20" RestrictedMode="TRUE" RichTextMode="Compatible" IsolateStyles="FALSE" UnlimitedLengthInDocumentLibrary="FALSE">
+        </Field>
+        <Field ID="{ef991a83-108d-4407-8ee5-ccc0c3d836b9}" Type="UserMulti" DisplayName="Shared With" Mult="TRUE" Name="SharedWithUsers" StaticName="SharedWithUsers" Group="_Hidden" Sealed="TRUE" AllowDeletion="FALSE" ReadOnly="TRUE" ShowInDisplayForm="FALSE" ShowInEditForm="FALSE" ShowInListSettings="FALSE" Viewable="FALSE" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" />
+        <Field ID="{ff41708b-e251-4237-a060-bea44657e8dc}" Name="_SPAssetFolderId" StaticName="_SPAssetFolderId" DisplayName="Asset Folder Id" Type="Number" SourceID="http://schemas.microsoft.com/sharepoint/v3" Group="_Hidden" Description="" ReadOnly="TRUE" AllowDeletion="FALSE" Hidden="TRUE" />
+        <Field DisplayName="ContractorLogo" Type="Note" Required="FALSE" ID="{f68e2f90-3837-4657-b9ae-27273a7b77f9}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ContractorLogo" Name="ContractorLogo" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" AppendOnly="FALSE" RichText="FALSE">
+          <Default>
+          </Default>
+        </Field>
+        <Field DisplayName="Specifications Reference" Type="Note" Required="FALSE" ID="{aa649e93-d773-4604-b5e3-dbd751ac1431}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="SpecificationsReference" Name="SpecificationsReference" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" AppendOnly="FALSE" RichText="FALSE" Indexed="FALSE" NumLines="6" RestrictedMode="TRUE" RichTextMode="Compatible" IsolateStyles="FALSE" UnlimitedLengthInDocumentLibrary="FALSE">
+        </Field>
+        <Field DisplayName="Hold Point Release Number" Type="Text" Required="FALSE" ID="{db26d8ad-aa97-4540-a2d3-881916c8099c}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="HoldPointReleaseNumber" Name="HoldPointReleaseNumber" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" MaxLength="255" Indexed="FALSE">
+        </Field>
+        <Field DisplayName="Contractor Representative Signed Date" Type="DateTime" Required="FALSE" ID="{3e975fb9-8ba5-455c-a983-72d64a526a95}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ContractorRepresentative_SignedDate" Name="ContractorRepresentative_SignedDate" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" FriendlyDisplayFormat="Disabled" Format="DateOnly" Indexed="FALSE" CalType="0">
+        </Field>
+        <Field DisplayName="Contractor Representative Role" Type="Text" Required="FALSE" ID="{f27267c1-8f84-4ba7-a169-bf780838105d}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ContractorRepresentativeRole" Name="ContractorRepresentativeRole" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" MaxLength="255" Indexed="FALSE">
+        </Field>
+        <Field DisplayName="Client Representative Signature" Type="Text" Required="FALSE" ID="{02be3dd8-b86b-4d90-ad0e-2a2279fda149}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ClientRepresentative_Signature" Name="ClientRepresentative_Signature" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" MaxLength="255" Indexed="FALSE">
+        </Field>
+        <Field Name="HostType" ID="{7C8702DF-A33C-4E20-8B8B-FBBC603FAEB5}" Type="Text" DisplayName="Host Type" Group="_Hidden" Sealed="TRUE" ReadOnly="FALSE" ShowInEditForm="TRUE" ShowInDisplayForm="TRUE" ShowInNewForm="TRUE" />
+        <Field ID="{d3c9caf7-044c-4c71-ae64-092981e54b33}" Type="Note" DisplayName="Shared With Details" Name="SharedWithDetails" StaticName="SharedWithDetails" Group="_Hidden" Sealed="TRUE" AllowDeletion="FALSE" ReadOnly="TRUE" ShowInDisplayForm="FALSE" ShowInEditForm="FALSE" ShowInListSettings="FALSE" Viewable="FALSE" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" />
+        <Field ID="{3A8EE3F8-166B-4394-B3E2-E98DCF86A847}" Name="A2ODMountCount" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="A2ODMountCount" Hidden="TRUE" Group="_Hidden" ReadOnly="TRUE" Type="Lookup" List="Docs" ShowField="A2ODMountCount" DisplayName="A2OD Mount Count" FromBaseType="TRUE" DisplaceOnUpgrade="TRUE" FieldRef="ID" JoinColName="DoclibRowId" JoinRowOrdinal="0" JoinType="INNER" />
        </pnp:SiteFields>
+        <pnp:ContentTypes>
+        <pnp:ContentType ID="0x010100A3DFE8FBC80BC04CA0F26E2C17E36E0A" Name="HoldPoint" Description="" Group="MainRoads" NewFormUrl="" EditFormUrl="" DisplayFormUrl="" UpdateChildren="false">
+          <pnp:FieldRefs>
+            <pnp:FieldRef ID="c042a256-787d-4a6f-8a8a-cf6ab767f12d" Name="ContentType" UpdateChildren="true" />
+            <pnp:FieldRef ID="5f47e085-2150-41dc-b661-442f3027f552" Name="SelectFilename" UpdateChildren="true" />
+            <pnp:FieldRef ID="8553196d-ec8d-4564-9861-3dbe931050c8" Name="FileLeafRef" Required="true" UpdateChildren="true" />
+            <pnp:FieldRef ID="8c06beca-0777-48f7-91c7-6da68bc07b69" Name="Created" Hidden="true" UpdateChildren="true" />
+            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" UpdateChildren="true" />
+            <pnp:FieldRef ID="28cf69c5-fa48-462a-b5cd-27b6f9d2bd5f" Name="Modified" Hidden="true" UpdateChildren="true" />
+            <pnp:FieldRef ID="822c78e3-1ea9-4943-b449-57863ad33ca9" Name="Modified_x0020_By" UpdateChildren="true" />
+            <pnp:FieldRef ID="4dd7e525-8d6b-4cb4-9d3e-44ee25f973eb" Name="Created_x0020_By" UpdateChildren="true" />
+            <pnp:FieldRef ID="db26d8ad-aa97-4540-a2d3-881916c8099c" Name="HoldPointReleaseNumber" UpdateChildren="true" />
+            <pnp:FieldRef ID="1387877e-b005-44fa-b52e-9f6c9c348ca9" Name="LotID_Desription" UpdateChildren="true" />
+            <pnp:FieldRef ID="aa649e93-d773-4604-b5e3-dbd751ac1431" Name="SpecificationsReference" UpdateChildren="true" />
+            <pnp:FieldRef ID="1162303c-12f6-4788-bef4-b73a24f7ab4b" Name="ContractorRemarks_Comments" UpdateChildren="true" />
+            <pnp:FieldRef ID="24016339-95af-45d1-836f-0ed4832a4c20" Name="ClientRemarks_Comments" UpdateChildren="true" />
+            <pnp:FieldRef ID="8526b867-00d0-464b-93f3-f168109eb2d4" Name="ContractorRepresentativeName" UpdateChildren="true" />
+            <pnp:FieldRef ID="f27267c1-8f84-4ba7-a169-bf780838105d" Name="ContractorRepresentativeRole" UpdateChildren="true" />
+            <pnp:FieldRef ID="6aa5b52e-455a-4921-b8e4-042c728bc7d0" Name="ContractorRepresentative_Signature" UpdateChildren="true" />
+            <pnp:FieldRef ID="3e975fb9-8ba5-455c-a983-72d64a526a95" Name="ContractorRepresentative_SignedDate" UpdateChildren="true" />
+            <pnp:FieldRef ID="2208b54c-f4d7-44d6-af88-7c5fef116c4d" Name="ContractorRepresentative_Email" UpdateChildren="true" />
+            <pnp:FieldRef ID="ed095265-10ff-4a66-9b1f-fcda9bbbe22c" Name="ClientRepresentativeName" UpdateChildren="true" />
+            <pnp:FieldRef ID="2bf5a90d-ffbc-4072-bea3-c211d04eea78" Name="ClientRepresentative_Role" UpdateChildren="true" />
+            <pnp:FieldRef ID="02be3dd8-b86b-4d90-ad0e-2a2279fda149" Name="ClientRepresentative_Signature" UpdateChildren="true" />
+            <pnp:FieldRef ID="1daf3004-581f-44cc-b857-d28ab6b6f30f" Name="ClientRepresentative_SignedDate" UpdateChildren="true" />
+            <pnp:FieldRef ID="1f0da125-074c-4492-b310-51b9b14faa58" Name="ContractTitle" UpdateChildren="true" />
+            <pnp:FieldRef ID="533e4d2a-3ec4-4dba-8b29-aeb671e7b023" Name="ContractorContractNumber" UpdateChildren="true" />
+            <pnp:FieldRef ID="3833f14d-1cbd-44dd-8a78-0bc0e0defaf9" Name="MainRoadConractNo" UpdateChildren="true" />
+            <pnp:FieldRef ID="f68e2f90-3837-4657-b9ae-27273a7b77f9" Name="ContractorLogo" UpdateChildren="true" />
+          </pnp:FieldRefs>
+        
+        </pnp:ContentType>
+      </pnp:ContentTypes>
       <pnp:Lists>
+      <pnp:ListInstance Title="AppSettings" Description="" DocumentTemplate="{site}/config/Forms/template.dotx" TemplateType="101" Url="config" EnableVersioning="true" MinorVersionLimit="0" MaxVersionLimit="500" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-e717-4e80-aa17-d0c71b360101" EnableAttachments="false" DefaultDisplayFormUrl="{site}/config/Forms/DispForm.aspx" DefaultEditFormUrl="{site}/config/Forms/EditForm.aspx" DefaultNewFormUrl="{site}/config/Forms/Upload.aspx" ImageUrl="/_layouts/15/images/itdl.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
+          <pnp:Folders>
+          <pnp:Folder Name="FNC" />
+          <pnp:Folder Name="UserPurge"/>
+        </pnp:Folders>
+          <pnp:ContentTypeBindings>
+            <pnp:ContentTypeBinding ContentTypeID="0x0101" Default="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x0120" />
+          </pnp:ContentTypeBindings>
+          <pnp:Views>
+            <View Name="{D0E1C661-18D7-4D7C-85A0-1E78B9AF3FD8}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Documents" Url="{site}/config/Forms/AllItems.aspx" Level="1" BaseViewID="1" ContentTypeID="0x" ImageUrl="/_layouts/15/images/dlicon.png?rev=47">
+              <Query>
+                <OrderBy>
+                  <FieldRef Name="FileLeafRef" />
+                </OrderBy>
+              </Query>
+              <ViewFields>
+                <FieldRef Name="DocIcon" />
+                <FieldRef Name="LinkFilename" />
+                <FieldRef Name="Modified" />
+                <FieldRef Name="Editor" />
+              </ViewFields>
+              <RowLimit Paged="TRUE">30</RowLimit>
+              <JSLink>clienttemplates.js</JSLink>
+            </View>
+          </pnp:Views>
+          <pnp:FieldRefs>
+            <pnp:FieldRef ID="cb19284a-cde7-4570-a980-1dab8bd74470" Name="_ExtendedDescription" DisplayName="Description" />
+            <pnp:FieldRef ID="d307dff3-340f-44a2-9f4b-fbfe1ba07459" Name="_CommentCount" DisplayName="Comment count" />
+            <pnp:FieldRef ID="db8d9d6d-dc9a-4fbd-85f3-4a753bfdc58c" Name="_LikeCount" DisplayName="Like count" />
+          </pnp:FieldRefs>
+        </pnp:ListInstance>
+<pnp:ListInstance Title="ProjectDetails" Description="" DocumentTemplate="" TemplateType="100" Url="Lists/ProjectDetails" EnableVersioning="true" MinorVersionLimit="0" MaxVersionLimit="50" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/ProjectDetails/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/ProjectDetails/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/ProjectDetails/NewForm.aspx" ImageUrl="/_layouts/15/images/itgen.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
+          <pnp:ContentTypeBindings>
+            <pnp:ContentTypeBinding ContentTypeID="0x01" Default="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x0120" />
+          </pnp:ContentTypeBindings>
+          <pnp:Views>
+            <View Name="{940F818D-878B-4E4A-93BB-01405149600F}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Url="{site}/Lists/ProjectDetails/AllItems.aspx" Level="1" BaseViewID="1" ContentTypeID="0x" ImageUrl="/_layouts/15/images/generic.png?rev=47">
+              <Query />
+              <ViewFields>
+                <FieldRef Name="LinkTitle" />
+                <FieldRef Name="MainRoadContractNumber" />
+                <FieldRef Name="ContractorContractNo" />
+                <FieldRef Name="ClientRepname" />
+                <FieldRef Name="ClientrepRole" />
+                <FieldRef Name="ClientEmail" />
+                <FieldRef Name="ContractorEmail" />
+                <FieldRef Name="ContractorRep" />
+                <FieldRef Name="ContractorRole" />
+              </ViewFields>
+              <RowLimit Paged="TRUE">30</RowLimit>
+              <JSLink>clienttemplates.js</JSLink>
+              <CustomFormatter />
+            </View>
+          </pnp:Views>
+          <pnp:Fields>
+            <Field ClientSideComponentId="00000000-0000-0000-0000-000000000000" DisplayName="MainRoads Contract Number" Format="Dropdown" MaxLength="255" Name="MainRoadContractNumber" Title="MainRoads Contract Number" Type="Text" ID="{7099a742-d05e-4b72-9db3-cc2fbc3f7050}" Version="2" StaticName="MainRoadContractNumber" SourceID="{{listid:ProjectDetails}}" ColName="nvarchar4" RowOrdinal="0" />
+            <Field ClientSideComponentId="00000000-0000-0000-0000-000000000000" DisplayName="Contractor Contract No" Format="Dropdown" MaxLength="255" Name="ContractorContractNo" Title="Contractor Contract No" Type="Text" ID="{0a72cfd3-24ef-4306-8121-cb3d444c89c5}" Version="2" StaticName="ContractorContractNo" SourceID="{{listid:ProjectDetails}}" ColName="nvarchar5" RowOrdinal="0" />
+            <Field ClientSideComponentId="00000000-0000-0000-0000-000000000000" DisplayName="Client Rep Name" Format="Dropdown" MaxLength="255" Name="ClientRepname" Title="Client Rep Name" Type="Text" ID="{7316c382-d826-4837-8a7a-bbb9398f76a8}" Version="2" StaticName="ClientRepname" SourceID="{{listid:ProjectDetails}}" ColName="nvarchar6" RowOrdinal="0" />
+            <Field ClientSideComponentId="00000000-0000-0000-0000-000000000000" DisplayName="Client Rep Role" Format="Dropdown" MaxLength="255" Name="ClientrepRole" Title="Client Rep Role" Type="Text" ID="{808684ac-b1de-4e8e-bbc9-9517dcb8e27e}" Version="2" StaticName="ClientrepRole" SourceID="{{listid:ProjectDetails}}" ColName="nvarchar7" RowOrdinal="0" />
+            <Field ClientSideComponentId="00000000-0000-0000-0000-000000000000" DisplayName="Client Email" Format="Dropdown" MaxLength="255" Name="ClientEmail" Title="Client Email" Type="Text" ID="{a71cc1a2-5d58-4d8c-8ee3-a793bc340398}" Version="2" StaticName="ClientEmail" SourceID="{{listid:ProjectDetails}}" ColName="nvarchar8" RowOrdinal="0" />
+            <Field ClientSideComponentId="00000000-0000-0000-0000-000000000000" DisplayName="Contractor Email" Format="Dropdown" MaxLength="255" Name="ContractorEmail" Title="Contractor Email" Type="Text" ID="{4aa4252f-ed36-47f9-8f02-d83fd559c188}" Version="2" StaticName="ContractorEmail" SourceID="{{listid:ProjectDetails}}" ColName="nvarchar9" RowOrdinal="0" />
+            <Field DisplayName="Contractor Rep Name" Format="Dropdown" IsModern="TRUE" MaxLength="255" Name="ContractorRep" Title="ContractorRep" Type="Text" ID="{6553ac7a-52ae-4503-9744-4ea733406e69}" SourceID="{{listid:ProjectDetails}}" StaticName="ContractorRep" ColName="nvarchar10" RowOrdinal="0" />
+            <Field DisplayName="Contractor Rep Role" Format="Dropdown" IsModern="TRUE" MaxLength="255" Name="ContractorRole" Title="ContractorRole" Type="Text" ID="{ac29acfe-abfa-4e90-b0db-b08440afaaa2}" SourceID="{{listid:ProjectDetails}}" StaticName="ContractorRole" ColName="nvarchar11" RowOrdinal="0" />
+          </pnp:Fields>
+        </pnp:ListInstance>
+        <pnp:ListInstance Title="HPItems" Description="" DocumentTemplate="" OnQuickLaunch="false" TemplateType="100" Url="Lists/HPItems" EnableVersioning="true" MinorVersionLimit="0" MaxVersionLimit="50" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/HPItems/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/HPItems/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/HPItems/NewForm.aspx" ImageUrl="/_layouts/15/images/itgen.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
+          <pnp:ContentTypeBindings>
+            <pnp:ContentTypeBinding ContentTypeID="0x01" Default="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x0120" />
+          </pnp:ContentTypeBindings>
+          <pnp:Views>
+            <View Name="{1FF7201B-BA1E-4B0D-BF4C-E36999863535}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Url="{site}/Lists/HPItems/AllItems.aspx" Level="1" BaseViewID="1" ContentTypeID="0x" ImageUrl="/_layouts/15/images/generic.png?rev=47">
+              <Query />
+              <ViewFields>
+                <FieldRef Name="LinkTitle" />
+              </ViewFields>
+              <RowLimit Paged="TRUE">30</RowLimit>
+              <JSLink>clienttemplates.js</JSLink>
+            </View>
+          </pnp:Views>
+        </pnp:ListInstance>
+
         <pnp:ListInstance Title="Documents" Description="" DocumentTemplate="{site}/Shared Documents/Forms/template.dotx" OnQuickLaunch="true" TemplateType="101" Url="Shared Documents" EnableVersioning="true" EnableMinorVersions="true" EnableModeration="true" MinorVersionLimit="500" MaxVersionLimit="500" DraftVersionVisibility="1" TemplateFeatureID="00bfea71-e717-4e80-aa17-d0c71b360101" ContentTypesEnabled="true" EnableAttachments="false" DefaultDisplayFormUrl="{site}/Shared Documents/Forms/DispForm.aspx" DefaultEditFormUrl="{site}/Shared Documents/Forms/EditForm.aspx" DefaultNewFormUrl="{site}/Shared Documents/Forms/Upload.aspx" ImageUrl="/_layouts/15/images/itdl.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
           <pnp:PropertyBagEntries>
             <pnp:PropertyBagEntry Key="IsAttachmentLibrary" Value="0" Overwrite="false" />
@@ -35,12 +198,12 @@
                 <FieldRef Name="DocIcon" />
                 <FieldRef Name="LinkFilename" />
                 <FieldRef Name="_UIVersionString" />
+                <FieldRef Name="ReviewStatus" />
                 <FieldRef Name="Modified" />
                 <FieldRef Name="Editor" />
                 <FieldRef Name="TRIM" />
                 <FieldRef Name="FileSizeDisplay" />
-                <FieldRef Name="_DisplayName" />
-                <FieldRef Name="ReviewStatus" />
+                <FieldRef Name="_DisplayName" />                
                 <FieldRef Name="Button" />
               </ViewFields>
               <RowLimit Paged="TRUE">30</RowLimit>
@@ -113,7 +276,7 @@
             <pnp:FieldRef ID="256a6628-9d43-4d56-a783-27d305489962" Name="Reviewers" DisplayName="Reviewers" />
           </pnp:FieldRefs>
           <pnp:FieldDefaults>
-            <pnp:FieldDefault FieldName="ReviewMode">Collaborative</pnp:FieldDefault>
+            <pnp:FieldDefault FieldName="ReviewMode">Sequential</pnp:FieldDefault>
           </pnp:FieldDefaults>
           <pnp:Webhooks>
             <pnp:Webhook ServerNotificationUrl="https://japaneast1-0.pushnp.svc.ms/notifications?token=1968beea-9cf5-4aaa-8d02-0ebd189b76aa" ExpiresInDays="1" />

@@ -401,8 +401,10 @@ Function CreateFolderStructures()
 
                                     Start-Sleep -Seconds 1
                                 }
-                               
-                                & $PSScriptRoot\ApplyDocumentsLibraryConfigForReviewFlow.ps1 -TargetSiteURL $siteUrl
+                                #08-03-2023 -Ifaham
+                                $TemplaleFilePath ="$PSScriptRoot\Templates\DocumentLibraryConfigReview_SubSite.xml"
+                                & $PSScriptRoot\ApplyDocumentsLibraryConfigForReviewFlow.ps1 -TargetSiteURL $siteUrl -TemplaleFilePath $TemplaleFilePath
+
                             }
             }
 
@@ -471,7 +473,11 @@ Function CreateSubsites()
             Invoke-PnPQuery
 
             $subsiteUrl= $global:siteUrl + "/" + $site
-            & $PSScriptRoot\ApplyDocumentsLibraryConfigForReviewFlow.ps1 -TargetSiteURL $subsiteUrl
+
+            #08-03-2023 -Ifaham
+            $TemplaleFilePath ="$PSScriptRoot\Templates\DocumentLibraryConfigReview_SubSite.xml"
+            & $PSScriptRoot\ApplyDocumentsLibraryConfigForReviewFlow.ps1 -TargetSiteURL $subsiteUrl -TemplaleFilePath $TemplaleFilePath
+
 
             $PermissionGroupNameMembers="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Members"
             New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupNameMembers)  
