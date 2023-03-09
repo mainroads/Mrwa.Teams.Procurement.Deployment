@@ -128,7 +128,7 @@
             <pnp:FieldRef ID="db8d9d6d-dc9a-4fbd-85f3-4a753bfdc58c" Name="_LikeCount" DisplayName="Like count" />
           </pnp:FieldRefs>
         </pnp:ListInstance>
-<pnp:ListInstance Title="ProjectDetails" Description="" DocumentTemplate="" TemplateType="100" Url="Lists/ProjectDetails" EnableVersioning="true" MinorVersionLimit="0" MaxVersionLimit="50" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/ProjectDetails/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/ProjectDetails/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/ProjectDetails/NewForm.aspx" ImageUrl="/_layouts/15/images/itgen.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
+<pnp:ListInstance Title="PMS_ProjectDetails" Description="" DocumentTemplate="" TemplateType="100" Url="Lists/ProjectDetails" EnableVersioning="true" MinorVersionLimit="0" MaxVersionLimit="50" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/ProjectDetails/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/ProjectDetails/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/ProjectDetails/NewForm.aspx" ImageUrl="/_layouts/15/images/itgen.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
           <pnp:ContentTypeBindings>
             <pnp:ContentTypeBinding ContentTypeID="0x01" Default="true" />
             <pnp:ContentTypeBinding ContentTypeID="0x0120" />
@@ -163,7 +163,7 @@
             <Field DisplayName="Contractor Rep Role" Format="Dropdown" IsModern="TRUE" MaxLength="255" Name="ContractorRole" Title="ContractorRole" Type="Text" ID="{ac29acfe-abfa-4e90-b0db-b08440afaaa2}" SourceID="{{listid:ProjectDetails}}" StaticName="ContractorRole" ColName="nvarchar11" RowOrdinal="0" />
           </pnp:Fields>
         </pnp:ListInstance>
-        <pnp:ListInstance Title="HPItems" Description="" DocumentTemplate="" OnQuickLaunch="false" TemplateType="100" Url="Lists/HPItems" EnableVersioning="true" MinorVersionLimit="0" MaxVersionLimit="50" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/HPItems/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/HPItems/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/HPItems/NewForm.aspx" ImageUrl="/_layouts/15/images/itgen.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
+        <pnp:ListInstance Title="PCM_HP" Description="" DocumentTemplate="" OnQuickLaunch="false" TemplateType="100" Url="Lists/HPItems" EnableVersioning="true" MinorVersionLimit="0" MaxVersionLimit="50" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/HPItems/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/HPItems/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/HPItems/NewForm.aspx" ImageUrl="/_layouts/15/images/itgen.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
           <pnp:ContentTypeBindings>
             <pnp:ContentTypeBinding ContentTypeID="0x01" Default="true" />
             <pnp:ContentTypeBinding ContentTypeID="0x0120" />
@@ -282,7 +282,12 @@
           <pnp:Webhooks>
             <pnp:Webhook ServerNotificationUrl="https://japaneast1-0.pushnp.svc.ms/notifications?token=1968beea-9cf5-4aaa-8d02-0ebd189b76aa" ExpiresInDays="1" />
           </pnp:Webhooks>
-        </pnp:ListInstance>        
+        </pnp:ListInstance> 
+        </pnp:Lists>      
+        <pnp:Files>
+        <pnp:File Src="Uploadables/fnc.csv" Folder="config/FNC" Overwrite="true" />
+        <pnp:File Src="Uploadables/HoldPointTemplate.docx" Folder="config/PCM" Overwrite="true" />
+      </pnp:Files>       
       </pnp:Lists>      
     </pnp:ProvisioningTemplate>
   </pnp:Templates>
