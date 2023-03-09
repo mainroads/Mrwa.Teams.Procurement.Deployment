@@ -99,6 +99,7 @@
           <pnp:Folders>
           <pnp:Folder Name="FNC" />
           <pnp:Folder Name="UserPurge"/>
+          <pnp:Folder Name="PCM"/>  
         </pnp:Folders>
           <pnp:ContentTypeBindings>
             <pnp:ContentTypeBinding ContentTypeID="0x0101" Default="true" />
