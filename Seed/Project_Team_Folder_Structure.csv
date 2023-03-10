@@ -1,27 +1,48 @@
 Privacy,Folder,ContractType
+Private,Commercial/Business Case,Common
+Private,Commercial/Consultants,Common
 Private,Commercial/Estimates,Common
 Private,Commercial/Forecasts,Common
 Private,Commercial/PPR,Common
-Private,Evaluation-Commercial/FirstName LastName,Common
+Private,Commercial/WBS,Common
+Private,Evaluation-Commercial/1 Reference Documents,Common
+Private,Evaluation-Commercial/2 Submissions,Common
+Private,Evaluation-Commercial/2 Submissions/Proponent 1,Common
+Private,Evaluation-Commercial/2 Submissions/Proponent 2,Common
+Private,Evaluation-Commercial/2 Submissions/Proponent 3,Common
+Private,Evaluation-Commercial/3 FirstName LastName,Common
 Private,Evaluation-Qualitative/EOI,Common
-Private,Evaluation-Qualitative/EOI/FirstName LastName,Common
-Private,Evaluation-Qualitative/EOI/Reference Documents,Common
-Private,Evaluation-Qualitative/EOI/Reference Documents/Advisers Comments,Common
-Private,Evaluation-Qualitative/EOI/Reference Documents/Contractor Performance Reports,Common
-Private,Evaluation-Qualitative/EOI/SSO,Common
+Private,Evaluation-Qualitative/EOI/1 Reference Documents,Common
+Private,Evaluation-Qualitative/EOI/1 Reference Documents/Adviser Comments,Common
+Private,Evaluation-Qualitative/EOI/1 Reference Documents/Contractor Performance Reports,Common
+Private,Evaluation-Qualitative/EOI/2 Submissions,Common
+Private,Evaluation-Qualitative/EOI/2 Submissions/Applicant 1,Common
+Private,Evaluation-Qualitative/EOI/2 Submissions/Applicant 2,Common
+Private,Evaluation-Qualitative/EOI/2 Submissions/Applicant 3,Common
+Private,Evaluation-Qualitative/EOI/3 FirstName LastName,Common
+Private,Evaluation-Qualitative/EOI/3 SSO,Common
 Private,Evaluation-Qualitative/RFP,Common
-Private,Evaluation-Qualitative/RFP/FirstName LastName,Common
-Private,Evaluation-Qualitative/RFP/Reference Documents,Common
-Private,Evaluation-Qualitative/RFP/Reference Documents/Advisers Comments,Common
-Private,Evaluation-Qualitative/RFP/Reference Documents/Contractor Performance Reports,Common
-Private,Evaluation-Qualitative/RFP/SSO,Common
+Private,Evaluation-Qualitative/RFP/1 Reference Documents,Common
+Private,Evaluation-Qualitative/RFP/1 Reference Documents/Adviser Comments,Common
+Private,Evaluation-Qualitative/RFP/1 Reference Documents/Contractor Performance Reports,Common
+Private,Evaluation-Qualitative/RFP/2 Submissions,Common
+Private,Evaluation-Qualitative/RFP/2 Submissions/Proponent 1,Common
+Private,Evaluation-Qualitative/RFP/2 Submissions/Proponent 2,Common
+Private,Evaluation-Qualitative/RFP/2 Submissions/Proponent 3,Common
+Private,Evaluation-Qualitative/RFP/3 FirstName LastName,Common
+Private,Evaluation-Qualitative/RFP/3 SSO,Common
 Private,OnSite/Audit Compliance,Common
 Private,OnSite/Audit Product,Common
 Private,OnSite/Checklists,Common
 Private,OnSite/CMP,Common
 Private,OnSite/CMP/Debug,Common
 Private,OnSite/CMP/Release,Common
+Private,OnSite/CMP/ss,Common
 Private,OnSite/Contract Docs,Common
+Private,OnSite/Contract Docs/BDC,Alliance
+Private,OnSite/Contract Docs/Project Alliance Agreement,Alliance
+Private,OnSite/Contract Docs/Project Deed,D&C
+Private,OnSite/Contract Docs/SWTC,Common
 Private,OnSite/Daily Diaries,Common
 Private,OnSite/Design,Common
 Private,OnSite/Formal Correspondence,Common
@@ -46,17 +67,40 @@ Private,Procurement/100 General/110 Delivery Methodology Workshop,Common
 Private,Procurement/100 General/140 Plans,Common
 Private,Procurement/100 General/140 Plans/Probity Plan,Common
 Private,Procurement/100 General/140 Plans/Probity Plan/Debug,Common
+Private,Procurement/100 General/140 Plans/Probity Plan/Ref,Common
 Private,Procurement/100 General/140 Plans/Probity Plan/Release,Common
+Private,Procurement/100 General/140 Plans/Probity Plan/ss,Common
 Private,Procurement/100 General/140 Plans/Procurement Plan,Common
 Private,Procurement/100 General/140 Plans/Procurement Plan/Debug,Common
+Private,Procurement/100 General/140 Plans/Procurement Plan/Ref,Common
 Private,Procurement/100 General/140 Plans/Procurement Plan/Release,Common
+Private,Procurement/100 General/140 Plans/Procurement Plan/ss,Common
 Private,Procurement/100 General/140 Plans/SAMP,Common
 Private,Procurement/100 General/140 Plans/SAMP/Debug,Common
+Private,Procurement/100 General/140 Plans/SAMP/Ref,Common
 Private,Procurement/100 General/140 Plans/SAMP/Release,Common
+Private,Procurement/100 General/140 Plans/SAMP/ss,Common
 Private,Procurement/100 General/150 Contract Docs,Common
+Private,Procurement/100 General/150 Contract Docs/BDC,Alliance
+Private,Procurement/100 General/150 Contract Docs/BDC/Debug,Alliance
+Private,Procurement/100 General/150 Contract Docs/BDC/Ref,Alliance
+Private,Procurement/100 General/150 Contract Docs/BDC/Release,Alliance
+Private,Procurement/100 General/150 Contract Docs/BDC/ss,Alliance
 Private,Procurement/100 General/150 Contract Docs/Project Alliance Agreement,Alliance
+Private,Procurement/100 General/150 Contract Docs/Project Alliance Agreement/Debug,Alliance
+Private,Procurement/100 General/150 Contract Docs/Project Alliance Agreement/Ref,Alliance
+Private,Procurement/100 General/150 Contract Docs/Project Alliance Agreement/Release,Alliance
+Private,Procurement/100 General/150 Contract Docs/Project Alliance Agreement/ss,Alliance
 Private,Procurement/100 General/150 Contract Docs/Project Deed,D&C
+Private,Procurement/100 General/150 Contract Docs/Project Deed/Debug,D&C
+Private,Procurement/100 General/150 Contract Docs/Project Deed/Ref,D&C
+Private,Procurement/100 General/150 Contract Docs/Project Deed/Release,D&C
+Private,Procurement/100 General/150 Contract Docs/Project Deed/ss,D&C
 Private,Procurement/100 General/150 Contract Docs/SWTC,Common
+Private,Procurement/100 General/150 Contract Docs/SWTC/Debug,Common
+Private,Procurement/100 General/150 Contract Docs/SWTC/Ref,Common
+Private,Procurement/100 General/150 Contract Docs/SWTC/Release,Common
+Private,Procurement/100 General/150 Contract Docs/SWTC/ss,Common
 Private,Procurement/100 General/190 XXX Due Diligence,Common
 Private,Procurement/100 General/190 XXX Due Diligence/Reports,Common
 Private,Procurement/100 General/190 XXX Due Diligence/RFIs,Common
@@ -74,7 +118,9 @@ Private,Procurement/200 EOI/201 EOI Approvals/A08 EOI Commentary Approvals,Commo
 Private,Procurement/200 EOI/201 EOI Approvals/A09 EOI Addenda Approvals,Common
 Private,Procurement/200 EOI/210 EOI Document,Common
 Private,Procurement/200 EOI/210 EOI Document/Debug,Common
+Private,Procurement/200 EOI/210 EOI Document/Ref,Common
 Private,Procurement/200 EOI/210 EOI Document/Release,Common
+Private,Procurement/200 EOI/210 EOI Document/ss,Common
 Private,Procurement/200 EOI/220 EOI Industry Briefing,Common
 Private,Procurement/200 EOI/230 EOI Advisers Briefing,Common
 Private,Procurement/200 EOI/240 EOI Web Portal Prep,Common
@@ -82,15 +128,24 @@ Private,Procurement/200 EOI/241 Web Portal DRAFT,Common
 Private,Procurement/200 EOI/242 Web Portal Archive,Common
 Private,Procurement/200 EOI/250 EOI Evaluation Plan,Common
 Private,Procurement/200 EOI/250 EOI Evaluation Plan/Debug,Common
+Private,Procurement/200 EOI/250 EOI Evaluation Plan/Ref,Common
 Private,Procurement/200 EOI/250 EOI Evaluation Plan/Release,Common
+Private,Procurement/200 EOI/250 EOI Evaluation Plan/ss,Common
 Private,Procurement/200 EOI/260 EOI RFI,Common
 Private,Procurement/200 EOI/270 EOI Addenda,Common
 Private,Procurement/200 EOI/280 EOI Commentaries,Common
 Private,Procurement/300 RFP,Common
 Private,Procurement/300 RFP/301 RFP Approvals,Common
+Private,Procurement/300 RFP/301 RFP Approvals/A01 Approval to Issue RFP,Common
+Private,Procurement/300 RFP/301 RFP Approvals/A02 Request to Advertise RFP,Common
+Private,Procurement/300 RFP/301 RFP Approvals/A03 RFP RFI Approvals,Common
+Private,Procurement/300 RFP/301 RFP Approvals/A04 RFP Commentary Approvals,Common
+Private,Procurement/300 RFP/301 RFP Approvals/A05 RFP Addenda Approvals,Common
 Private,Procurement/300 RFP/310 RFP Document,Common
 Private,Procurement/300 RFP/310 RFP Document/Debug,Common
+Private,Procurement/300 RFP/310 RFP Document/Ref,Common
 Private,Procurement/300 RFP/310 RFP Document/Release,Common
+Private,Procurement/300 RFP/310 RFP Document/ss,Common
 Private,Procurement/300 RFP/320 RFP Industry Briefing,Common
 Private,Procurement/300 RFP/330 RFP Advisers Briefing,Common
 Private,Procurement/300 RFP/340 RFP Web Portal Prep,Common
@@ -98,32 +153,34 @@ Private,Procurement/300 RFP/341 Web Portal DRAFT,Common
 Private,Procurement/300 RFP/342 Web Portal Archive,Common
 Private,Procurement/300 RFP/350 RFP Evaluation Plan,Common
 Private,Procurement/300 RFP/350 RFP Evaluation Plan/Debug,Common
+Private,Procurement/300 RFP/350 RFP Evaluation Plan/Ref,Common
 Private,Procurement/300 RFP/350 RFP Evaluation Plan/Release,Common
+Private,Procurement/300 RFP/350 RFP Evaluation Plan/ss,Common
 Private,Procurement/400 Negotiations,Common
 Private,Procurement/400 Negotiations/410 Negotiation Plan,Common
+Private,Procurement/400 Negotiations/410 Negotiation Plan/Debug,Common
+Private,Procurement/400 Negotiations/410 Negotiation Plan/Ref,Common
+Private,Procurement/400 Negotiations/410 Negotiation Plan/Release,Common
+Private,Procurement/400 Negotiations/410 Negotiation Plan/ss,Common
 Private,Procurement/400 Negotiations/420 Meetings,Common
 Private,Procurement/500 Award,Common
 Private,Procurement/500 Award/510 Project Alliance Agreement,Alliance
 Private,Procurement/500 Award/510 Project Deed,D&C
+Private,Procurement/500 Award/515 BDC,Alliance
 Private,Procurement/500 Award/520 SWTC,Common
 Private,Procurement/500 Award/530 Award Letter,Common
+Private,Procurement/500 Award/530 Award Letter/Debug,Common
+Private,Procurement/500 Award/530 Award Letter/Release,Common
+Private,Procurement/500 Award/530 Award Letter/ss,Common
 Private,Procurement/500 Award/540 Letters for Unsuccessful Tenderers,Common
-Private,Submissions-Commercial/Proponent 1,Common
-Private,Submissions-Commercial/Proponent 2,Common
-Private,Submissions-Commercial/Proponent 3,Common
-Private,Submissions-Qualitative/EOI,Common
-Private,Submissions-Qualitative/EOI/Applicant 1,Common
-Private,Submissions-Qualitative/EOI/Applicant 2,Common
-Private,Submissions-Qualitative/EOI/Applicant 3,Common
-Private,Submissions-Qualitative/RFP,Common
-Private,Submissions-Qualitative/RFP/Proponent 1,Common
-Private,Submissions-Qualitative/RFP/Proponent 2,Common
-Private,Submissions-Qualitative/RFP/Proponent 3,Common
+Private,Procurement/500 Award/540 Letters for Unsuccessful Tenderers/Debug,Common
+Private,Procurement/500 Award/540 Letters for Unsuccessful Tenderers/Release,Common
+Private,Procurement/500 Award/540 Letters for Unsuccessful Tenderers/ss,Common
 Standard,Correspondence,Common
 Standard,Develop/Aboriginal Participation,Common
 Standard,Develop/Approvals,Common
 Standard,Develop/Communications,Common
-Standard,Develop/Communications/CSMP,Common
+Standard,Develop/Communications/CSES,Common
 Standard,Develop/Design,Common
 Standard,Develop/Design/Project Case design,Common
 Standard,Develop/Design/Ultimate design,Common

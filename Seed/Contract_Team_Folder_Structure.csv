@@ -60,13 +60,23 @@ Private,Closeout/Specified Records/SR3900 Approvals to Store Hazardous Materials
 Private,Closeout/Specified Records/SR4000 Owner consent for design and construction of boundary walls and fences,Common
 Private,Closeout/Specified Records/SR4100 Register of Temporary Traffic Control Measures,Common
 Private,Closeout/Specified Records/SR4200 Quality Records,Common
+Private,Closeout/Specified Records/SR4200 Quality Records/Hold Points,Common
+Private,Closeout/Specified Records/SR4200 Quality Records/Lots,Common
+Private,Closeout/Specified Records/SR4200 Quality Records/NCRs,Common
+Private,Closeout/Specified Records/SR4200 Quality Records/Subcontractor MDRs,Common
+Private,Commercial/Progress Claims,Common
 Standard,Admin,Common
 Standard,Approvals,Common
 Standard,Construction,Common
 Standard,Contract Docs,Common
+Standard,Contract Docs/BDC,Alliance
+Standard,Contract Docs/Project Alliance Agreement,Alliance
+Standard,Contract Docs/Project Deed,D&C
+Standard,Contract Docs/SWTC,Common
 Standard,Correspondence,Common
 Standard,Databases,Common
 Standard,Databases/Lessons Learnt,Common
+Standard,Databases/Registers,Common
 Standard,Databases/Templates,Common
 Standard,Design/Civil,Common
 Standard,Design/Civil/015%,Common
@@ -93,6 +103,14 @@ Standard,External Data/PTA,Common
 Standard,Insurances,Common
 Standard,KRAs,Common
 Standard,Management Plans,D&C
+Standard,Management Plans/Durability Plan,D&C
+Standard,Management Plans/Environmental Management Plan,D&C
+Standard,Management Plans/Industry Sustainability Plan,D&C
+Standard,Management Plans/Project Traffic Management Plan,D&C
+Standard,Management Plans/Quality Management Plan,D&C
+Standard,Management Plans/Safety and Health Management Plan,D&C
+Standard,Management Plans/Sustainability Management Plan,D&C
+Standard,Meetings,Common
 Standard,Meetings/Alliance Board Meetings,Alliance
 Standard,Meetings/AMT Meetings,Alliance
 Standard,Meetings/Quality Meetings,Common
@@ -100,8 +118,20 @@ Standard,Meetings/Site Meetings,D&C
 Standard,People,Common
 Standard,Photos and Videos,Common
 Standard,PMP,Alliance
+Standard,PMP/Aboriginal Participation Plan,Alliance
+Standard,PMP/Community and Stakeholder Engagement Plan,Alliance
+Standard,PMP/Durability Plan,Alliance
+Standard,PMP/Environmental Management Plan,Alliance
+Standard,PMP/Fauna Management Plan,Alliance
+Standard,PMP/Industry Sustainability Plan,Alliance
+Standard,PMP/Procurement Management Plan,Alliance
+Standard,PMP/Project Traffic Management Plan,Alliance
+Standard,PMP/Quality Management Plan,Alliance
+Standard,PMP/Safety and Health Management Plan,Alliance
+Standard,PMP/Sustainability Management Plan,Alliance
 Standard,Position Papers,Alliance
 Standard,Presentations,Common
+Standard,Program,Common
 Standard,Quality/Audits,Common
 Standard,Quality/Audits/Process,Common
 Standard,Quality/Audits/Product,Common
@@ -130,10 +160,15 @@ Subsite,portal/XXX3000 EOI Addenda,Common
 Subsite,portal/XXX4000 EOI Commentaries,Common
 Subsite,portal/XXX5000 RFP,Common
 Subsite,portal/XXX5000 RFP/XXX5100 RFP Document,Common
+Subsite,portal/XXX5000 RFP/XXX5200 SWTC,Common
+Subsite,portal/XXX5000 RFP/XXX5300 Project Alliance Agreement,Alliance
+Subsite,portal/XXX5000 RFP/XXX5300 Project Deed,D&C
+Subsite,portal/XXX5000 RFP/XXX5400 BDC,Alliance
 Subsite,portal/XXX6000 RFP Reference Information,Common
 Subsite,portal/XXX7000 RFP Addenda,Common
 Subsite,portal/XXX8000 RFP Commentaries,Common
 Subsite,portal/XXX9000 Contract Docs,Common
+Subsite,portal/XXX9000 Contract Docs/BDC,Alliance
 Subsite,portal/XXX9000 Contract Docs/Project Alliance Agreement,Alliance
 Subsite,portal/XXX9000 Contract Docs/Project Deed,D&C
 Subsite,portal/XXX9000 Contract Docs/SWTC,Common
