@@ -20,7 +20,7 @@
 #    $projectId - the project identifier from IDD for the new project e.g. MR-30000597-MEBD-PRJ
 #    $groupOwner - the OMTID person responsible for maintaining the group membership
 #    $domainName - the domain name of the tenant the labels are being added to
-#    $emailToSendNotification - the FQDN of the person that to whom email notification is triggered when DLP policy is matched
+#    $emailToSendNotification (optional) - the FQDN of the person that to whom email notification is triggered when DLP policy is matched
 #    
 ### Provisioning Instructions ### 
 # 1. Ensure prerequisites are completed
