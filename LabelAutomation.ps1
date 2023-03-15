@@ -20,17 +20,24 @@
 #    $projectId - the project identifier from IDD for the new project e.g. MR-30000597-MEBD-PRJ
 #    $groupOwner - the OMTID person responsible for maintaining the group membership
 #    $domainName - the domain name of the tenant the labels are being added to
-#    $emailToSendNotification - the FQDN of the person that to whom email notification is triggered when DLP policy is matched
+#    $emailToSendNotification (optional) - the FQDN of the person that to whom email notification is triggered when DLP policy is matched
 #    
 ### Provisioning Instructions ### 
 # 1. Ensure prerequisites are completed
 # 2. Browse to the script directory
 #     cd "<script_location_in_file_system>"
-# 3. Execute LabelAutomation.ps11
-#     Syntax: .\LabelAutomation.ps1 -servicePrincipal "c3652-adm@mainroads.wa.gov.au" -projectId "MR-30000597-MEBD-PRJ" -groupOwner "scott.white@mainroads.wa.gov.au" -domainName "group.mainroads.wa.gov.au"  -emailToSendNotification "iddprocurementservices@mainroads.wa.gov.au"
+# 3. Execute LabelAutomation.ps11 (In the syntax $emailToSendNotification parameter is optional)
+#     Syntax: .\LabelAutomation.ps1 -servicePrincipal "c3652-adm@mainroads.wa.gov.au" -projectId "MR-30000597-MEBD-PRJ" -groupOwner "scott.white@mainroads.wa.gov.au" -domainName "group.mainroads.wa.gov.au"
+#             .\LabelAutomation.ps1 -servicePrincipal "c3652-adm@mainroads.wa.gov.au" -projectId "MR-30000597-MEBD-PRJ" -groupOwner "scott.white@mainroads.wa.gov.au" -domainName "group.mainroads.wa.gov.au"  -emailToSendNotification "iddprocurementservices@mainroads.wa.gov.au"
 #
 
-param ($servicePrincipal, $projectId, $groupOwner, $domainName, $emailToSendNotification)
+param (
+    [parameter(Mandatory=$true)] $servicePrincipal,
+    [parameter(Mandatory=$true)] $projectId,
+    [parameter(Mandatory=$true)] $groupOwner,
+    [parameter(Mandatory=$true)] $domainName, 
+    [parameter(Mandatory=$false)] $emailToSendNotification
+)
 
 #### Import the Exchange Online Management Module
 Write-Host "Connecting to Exchange Online centre"
@@ -172,23 +179,24 @@ $externalSharingPolicyName = "Notification-When-Shared-External-IDDP"
 $externalSharingRuleName = "$prefix-External-Sharing"
 $description = "Applies DLP action based on the Classification levels. Will create email incident reports on documents that are labelled as 'Tender', 'Submission Qualitative' , 'Submission Commercial', 'Evaluation Qualitative', 'Evaluation Commercial', 'Strictly Confidential', and/or 'Contract Award' and are being shared externally"
 
-$generateIncidentReport = @(
-    $emailToSendNotification
-)
-
-$incidentReportContent = @(
-    "Title"
-    "DocumentAuthor"
-    "DocumentLastModifier"
-    "Service"
-    "MatchedItem"
-    "RulesMatched"
-    "Detections"
-    "Severity"
-    "DetectionDetails"
-    "RetentionLabel"
-    "SensitivityLabel"
-)
+if (![string]::IsNullOrEmpty($emailToSendNotification)) {
+    $generateIncidentReport = @(
+        $emailToSendNotification
+    )
+    $incidentReportContent = @(
+        "Title"
+        "DocumentAuthor"
+        "DocumentLastModifier"
+        "Service"
+        "MatchedItem"
+        "RulesMatched"
+        "Detections"
+        "Severity"
+        "DetectionDetails"
+        "RetentionLabel"
+        "SensitivityLabel"
+    )
+}
 
 # Condition for when to trigger DLP
 # This parameter is used to match all the documents which has one of these sensitivity labels
@@ -270,14 +278,20 @@ foreach ($name in $dlpRuleNames) {
 #           - Contract Award
 if (!$doesRuleAlreadyExists) {
     Write-Host "Creating rule for DLP Policy..."
-    New-DlpComplianceRule -Name $externalSharingRuleName -Policy $externalSharingPolicyName -AccessScope NotInOrganization -ContentContainsSensitiveInformation $sensitivityLabels -GenerateIncidentReport $generateIncidentReport -IncidentReportContent $incidentReportContent
+    if ([string]::IsNullOrEmpty($emailToSendNotification)) {
+        New-DlpComplianceRule -Name $externalSharingRuleName -Policy $externalSharingPolicyName -AccessScope NotInOrganization -ContentContainsSensitiveInformation $sensitivityLabels
+    } else {
+        New-DlpComplianceRule -Name $externalSharingRuleName -Policy $externalSharingPolicyName -AccessScope NotInOrganization -ContentContainsSensitiveInformation $sensitivityLabels -GenerateIncidentReport $generateIncidentReport -IncidentReportContent $incidentReportContent
+    }
 }
 
 ## DLP for Print Activity on endpoint devices.
 $devicePrintActivityPolicyName = "Notification-for-Print-Activity-IDDP"
 $devicePrintActivityRuleName = "$prefix-Print-Activity"
 $description = "Applies DLP action based on the Classification levels. Will create email incident reports on documents that are labelled as 'Tender', 'Submission Qualitative' , 'Submission Commercial', 'Evaluation Qualitative', 'Evaluation Commercial', 'Strictly Confidential', and/or 'Contract Award' and print activities are performed on device"
-$emailForAlert = $emailToSendNotification
+if (![string]::IsNullOrEmpty($emailToSendNotification)) {
+    $emailForAlert = $emailToSendNotification
+}
 
 # The type of audit or restrict activities to be performed on devices
 $endpointDlpSettings = @(
@@ -326,7 +340,11 @@ foreach ($name in $dlpRuleNames) {
 }
 if (!$doesRuleAlreadyExists) {
     Write-Host "Creating rule for DLP Policy..."
-    New-DlpComplianceRule -Name $devicePrintActivityRuleName -Policy $devicePrintActivityPolicyName  -ContentContainsSensitiveInformation $sensitivityLabels -EndpointDlpRestrictions $endpointDlpSettings -GenerateAlert $emailForAlert
+    if (![string]::IsNullOrEmpty($emailToSendNotification)) {
+        New-DlpComplianceRule -Name $devicePrintActivityRuleName -Policy $devicePrintActivityPolicyName  -ContentContainsSensitiveInformation $sensitivityLabels -EndpointDlpRestrictions $endpointDlpSettings -GenerateAlert $emailForAlert
+    } else {
+        New-DlpComplianceRule -Name $devicePrintActivityRuleName -Policy $devicePrintActivityPolicyName  -ContentContainsSensitiveInformation $sensitivityLabels -EndpointDlpRestrictions $endpointDlpSettings
+    }
 }
 
 ##### Disconnect from Remote Connection

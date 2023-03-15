@@ -14,7 +14,6 @@
 #    $projectId - the project identifier from IDD for the new project e.g. MR-30000597-MEBD-PRJ
 #    $groupOwner - the OMTID person responsible for maintaining the group membership
 #    $domainName - the domain name of the tenant the labels are being added to
-#    $emailToSendNotification - the FQDN of the person that to whom email notification is triggered when DLP policy is matched
 #    
 ### Provisioning Instructions ### 
 # 1. Ensure prerequisites are completed
@@ -24,7 +23,7 @@
 #     Syntax: .\ProponentLabelAutomation.ps1 -servicePrincipal "c3652-adm@mainroads.wa.gov.au" -projectId "MR-30000597-MEBD-PRJ" -groupOwner "scott.white@mainroads.wa.gov.au" -domainName "group.mainroads.wa.gov.au"  -proponentNames "proponent1", "proponent2", "proponent3"
 #
 
-param ($servicePrincipal, $projectId, $groupOwner, $domainName, $emailToSendNotification, $proponentNames)
+param ($servicePrincipal, $projectId, $groupOwner, $domainName, $proponentNames)
 
 #### Import the Exchange Online Management Module
 Write-Host "Connecting to Exchange Online centre"
