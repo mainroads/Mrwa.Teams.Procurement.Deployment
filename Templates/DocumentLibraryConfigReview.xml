@@ -8,7 +8,7 @@
         <Field Type="Choice" DisplayName="Review Mode" CustomFormatter="{&quot;elmType&quot;:&quot;div&quot;,&quot;style&quot;:{&quot;flex-wrap&quot;:&quot;wrap&quot;,&quot;display&quot;:&quot;flex&quot;},&quot;children&quot;:[{&quot;elmType&quot;:&quot;div&quot;,&quot;style&quot;:{&quot;box-sizing&quot;:&quot;border-box&quot;,&quot;padding&quot;:&quot;4px 8px 5px 8px&quot;,&quot;overflow&quot;:&quot;hidden&quot;,&quot;text-overflow&quot;:&quot;ellipsis&quot;,&quot;display&quot;:&quot;flex&quot;,&quot;border-radius&quot;:&quot;16px&quot;,&quot;height&quot;:&quot;24px&quot;,&quot;align-items&quot;:&quot;center&quot;,&quot;white-space&quot;:&quot;nowrap&quot;,&quot;margin&quot;:&quot;4px 4px 4px 4px&quot;},&quot;attributes&quot;:{&quot;class&quot;:{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;@currentField&quot;,&quot;Sequential&quot;]},&quot;sp-css-backgroundColor-BgCornflowerBlue sp-field-fontSizeSmall sp-css-color-CornflowerBlueFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;@currentField&quot;,&quot;Collaborative &quot;]},&quot;sp-css-backgroundColor-BgMintGreen sp-field-fontSizeSmall sp-css-color-MintGreenFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;@currentField&quot;,&quot;&quot;]},&quot;&quot;,&quot;sp-field-borderAllRegular sp-field-borderAllSolid sp-css-borderColor-neutralSecondary&quot;]}]}]}},&quot;txtContent&quot;:&quot;@currentField&quot;}],&quot;templateId&quot;:&quot;BgColorChoicePill&quot;}" Required="TRUE" EnforceUniqueValues="FALSE" Indexed="FALSE" Format="Dropdown" FillInChoice="FALSE" Group="MainRoad" ID="{45f31199-8047-49a1-9c9e-18bbc7061430}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ReviewMode" Name="ReviewMode" AllowDeletion="TRUE">
           <Default>
           </Default>
-          <CHOICES> 
+          <CHOICES>
             <CHOICE>Sequential</CHOICE>
             <CHOICE>Collaborative</CHOICE>
           </CHOICES>
@@ -27,6 +27,9 @@
         <Field DisplayName="Client Remarks / Comments" Type="Note" Required="FALSE" ID="{24016339-95af-45d1-836f-0ed4832a4c20}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ClientRemarks_Comments" Name="ClientRemarks_Comments" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" AppendOnly="FALSE" RichText="TRUE" Indexed="FALSE" NumLines="20" RestrictedMode="TRUE" RichTextMode="Compatible" IsolateStyles="FALSE" UnlimitedLengthInDocumentLibrary="FALSE">
         </Field>
         <Field DisplayName="Contractor Remarks / Comments" Type="Note" Required="FALSE" ID="{1162303c-12f6-4788-bef4-b73a24f7ab4b}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ContractorRemarks_Comments" Name="ContractorRemarks_Comments" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" AppendOnly="FALSE" RichText="TRUE" Indexed="FALSE" NumLines="20" RestrictedMode="TRUE" RichTextMode="Compatible" IsolateStyles="FALSE" UnlimitedLengthInDocumentLibrary="FALSE">
+        </Field>
+        <Field DisplayName="ReadyToSign" Type="Boolean" Required="FALSE" ID="{2151bb49-a87c-4844-82c0-ab752434f89f}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ReadyToSign" Name="ReadyToSign" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE">
+          <Default>0</Default>
         </Field>
         <Field ID="{cb19284a-cde7-4570-a980-1dab8bd74470}" Name="_ExtendedDescription" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="_ExtendedDescription" DisplayName="Description" Group="Extended Columns" RichText="TRUE" ShowInEditForm="FALSE" RichTextMode="Compatible" CanToggleHidden="TRUE" Type="Note" />
         <Field DisplayName="Contractor Representative Email" Type="Text" Required="FALSE" ID="{2208b54c-f4d7-44d6-af88-7c5fef116c4d}" SourceID="{662fcd6c-e79a-46ee-a7d6-3348ebf15493}" StaticName="ContractorRepresentative_Email" Name="ContractorRepresentative_Email" Group="MainRoads" CustomFormatter="" EnforceUniqueValues="FALSE" MaxLength="255" Indexed="FALSE">
@@ -90,6 +93,7 @@
             <pnp:FieldRef ID="533e4d2a-3ec4-4dba-8b29-aeb671e7b023" Name="ContractorContractNumber" UpdateChildren="true" />
             <pnp:FieldRef ID="3833f14d-1cbd-44dd-8a78-0bc0e0defaf9" Name="MainRoadConractNo" UpdateChildren="true" />
             <pnp:FieldRef ID="f68e2f90-3837-4657-b9ae-27273a7b77f9" Name="ContractorLogo" UpdateChildren="true" />
+            <pnp:FieldRef ID="2151bb49-a87c-4844-82c0-ab752434f89f" Name="ReadyToSign" UpdateChildren="true" />
           </pnp:FieldRefs>
         
         </pnp:ContentType>
@@ -99,7 +103,7 @@
           <pnp:Folders>
           <pnp:Folder Name="FNC" />
           <pnp:Folder Name="UserPurge"/>
-          <pnp:Folder Name="PCM"/>  
+          <pnp:Folder Name="PCM"/>          
         </pnp:Folders>
           <pnp:ContentTypeBindings>
             <pnp:ContentTypeBinding ContentTypeID="0x0101" Default="true" />
@@ -128,7 +132,7 @@
             <pnp:FieldRef ID="db8d9d6d-dc9a-4fbd-85f3-4a753bfdc58c" Name="_LikeCount" DisplayName="Like count" />
           </pnp:FieldRefs>
         </pnp:ListInstance>
-<pnp:ListInstance Title="PMS_ProjectDetails" Description="" DocumentTemplate="" TemplateType="100" Url="Lists/ProjectDetails" EnableVersioning="true" MinorVersionLimit="0" MaxVersionLimit="50" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/ProjectDetails/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/ProjectDetails/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/ProjectDetails/NewForm.aspx" ImageUrl="/_layouts/15/images/itgen.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
+<pnp:ListInstance Title="PCM_ProjectDetails" Description="" DocumentTemplate="" TemplateType="100" Url="Lists/ProjectDetails" EnableVersioning="true" MinorVersionLimit="0" MaxVersionLimit="50" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/ProjectDetails/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/ProjectDetails/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/ProjectDetails/NewForm.aspx" ImageUrl="/_layouts/15/images/itgen.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
           <pnp:ContentTypeBindings>
             <pnp:ContentTypeBinding ContentTypeID="0x01" Default="true" />
             <pnp:ContentTypeBinding ContentTypeID="0x0120" />
@@ -187,6 +191,7 @@
           <pnp:ContentTypeBindings>
             <pnp:ContentTypeBinding ContentTypeID="0x0101" Default="true" />
             <pnp:ContentTypeBinding ContentTypeID="0x0120" />
+            <pnp:ContentTypeBinding ContentTypeID="0x010100A3DFE8FBC80BC04CA0F26E2C17E36E0A" />
           </pnp:ContentTypeBindings>
           <pnp:Views>
             <View Name="{6B02434E-D31D-456E-AC20-E57152328973}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Documents" Url="{site}/Shared Documents/Forms/AllItems.aspx" Level="1" BaseViewID="1" ContentTypeID="0x" ImageUrl="/_layouts/15/images/dlicon.png?rev=47">
@@ -256,15 +261,15 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
-            <Field ClientSideComponentId="00000000-0000-0000-0000-000000000000" CustomFormatter="{&quot;elmType&quot;:&quot;div&quot;,&quot;style&quot;:{&quot;flex-wrap&quot;:&quot;wrap&quot;,&quot;display&quot;:&quot;flex&quot;},&quot;children&quot;:[{&quot;elmType&quot;:&quot;div&quot;,&quot;style&quot;:{&quot;box-sizing&quot;:&quot;border-box&quot;,&quot;padding&quot;:&quot;4px 8px 5px 8px&quot;,&quot;overflow&quot;:&quot;hidden&quot;,&quot;text-overflow&quot;:&quot;ellipsis&quot;,&quot;display&quot;:&quot;flex&quot;,&quot;border-radius&quot;:&quot;16px&quot;,&quot;height&quot;:&quot;24px&quot;,&quot;align-items&quot;:&quot;center&quot;,&quot;white-space&quot;:&quot;nowrap&quot;,&quot;margin&quot;:&quot;4px 4px 4px 4px&quot;},&quot;attributes&quot;:{&quot;class&quot;:{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;In Progress&quot;]},&quot;sp-css-backgroundColor-BgCornflowerBlue sp-css-color-CornflowerBlueFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;Fully Reviewed&quot;]},&quot;sp-css-backgroundColor-BgGold sp-css-color-GoldFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;&quot;]},&quot;&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;Rejected&quot;]},&quot;sp-css-backgroundColor-BgDustRose sp-css-color-DustRoseFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;Partially Reviewed&quot;]},&quot;sp-css-backgroundColor-BgCyan sp-css-color-CyanFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;New&quot;]},&quot;sp-css-backgroundColor-BgDustRose sp-css-color-DustRoseFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;One or more review(s) timeout&quot;]},&quot;sp-css-backgroundColor-BgCyan sp-css-color-CyanFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;None Reviewed (Fully Timed-out)&quot;]},&quot;sp-css-backgroundColor-BgPeach sp-css-color-PeachFont&quot;,&quot;sp-field-borderAllRegular sp-field-borderAllSolid sp-css-borderColor-neutralSecondary&quot;]}]}]}]}]}]}]}]}},&quot;txtContent&quot;:&quot;[$ReviewStatus]&quot;}],&quot;templateId&quot;:&quot;BgColorChoicePill&quot;}" DisplayName="Status" FillInChoice="FALSE" Format="Dropdown" Name="ReviewStatus" Title="Status" Type="Choice" ID="{4ff5519f-02c6-4dd9-b62c-1ab41974ea1d}" Version="18" StaticName="ReviewStatus" SourceID="{{listid:Shared Documents}}" ColName="nvarchar15" RowOrdinal="0">
+            <Field ClientSideComponentId="00000000-0000-0000-0000-000000000000" CustomFormatter="{&quot;elmType&quot;:&quot;div&quot;,&quot;style&quot;:{&quot;flex-wrap&quot;:&quot;wrap&quot;,&quot;display&quot;:&quot;flex&quot;},&quot;children&quot;:[{&quot;elmType&quot;:&quot;div&quot;,&quot;style&quot;:{&quot;box-sizing&quot;:&quot;border-box&quot;,&quot;padding&quot;:&quot;4px 8px 5px 8px&quot;,&quot;overflow&quot;:&quot;hidden&quot;,&quot;text-overflow&quot;:&quot;ellipsis&quot;,&quot;display&quot;:&quot;flex&quot;,&quot;border-radius&quot;:&quot;16px&quot;,&quot;height&quot;:&quot;24px&quot;,&quot;align-items&quot;:&quot;center&quot;,&quot;white-space&quot;:&quot;nowrap&quot;,&quot;margin&quot;:&quot;4px 4px 4px 4px&quot;},&quot;attributes&quot;:{&quot;class&quot;:{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;In Progress&quot;]},&quot;sp-css-backgroundColor-BgCornflowerBlue sp-css-color-CornflowerBlueFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;Fully Reviewed&quot;]},&quot;sp-css-backgroundColor-BgGold sp-css-color-GoldFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;&quot;]},&quot;&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;Rejected&quot;]},&quot;sp-css-backgroundColor-BgDustRose sp-css-color-DustRoseFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;Partially Reviewed&quot;]},&quot;sp-css-backgroundColor-BgCyan sp-css-color-CyanFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;New&quot;]},&quot;sp-css-backgroundColor-BgDustRose sp-css-color-DustRoseFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;One or more review(s) timeout&quot;]},&quot;sp-css-backgroundColor-BgCyan sp-css-color-CyanFont&quot;,{&quot;operator&quot;:&quot;:&quot;,&quot;operands&quot;:[{&quot;operator&quot;:&quot;==&quot;,&quot;operands&quot;:[&quot;[$ReviewStatus]&quot;,&quot;None Reviewed (Fully Timed-out)&quot;]},&quot;sp-css-backgroundColor-BgPeach sp-css-color-PeachFont&quot;,&quot;sp-field-borderAllRegular sp-field-borderAllSolid sp-css-borderColor-neutralSecondary&quot;]}]}]}]}]}]}]}]}},&quot;txtContent&quot;:&quot;[$ReviewStatus]&quot;}],&quot;templateId&quot;:&quot;BgColorChoicePill&quot;}" DisplayName="Status" FillInChoice="FALSE" Format="Dropdown" Name="ReviewStatus" Title="Status" Type="Choice" ID="{4ff5519f-02c6-4dd9-b62c-1ab41974ea1d}" Version="19" StaticName="ReviewStatus" SourceID="{{listid:Shared Documents}}" ColName="nvarchar15" RowOrdinal="0" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE">
               <CHOICES>
                 <CHOICE>In Progress</CHOICE>
                 <CHOICE>Fully Reviewed</CHOICE>
                 <CHOICE>Rejected</CHOICE>
                 <CHOICE>Partially Reviewed</CHOICE>
                 <CHOICE>New</CHOICE>
-                <CHOICE>One or more review(s) timeout</CHOICE>
-                <CHOICE>None Reviewed (Fully Timed-out)</CHOICE>
+                <CHOICE>One or more reviews timed out</CHOICE>
+                <CHOICE>No one reviewed (Fully timed out)</CHOICE>
               </CHOICES>
             </Field>
             <Field AppendOnly="FALSE" ClientSideComponentId="00000000-0000-0000-0000-000000000000" DisplayName="Review History" Format="Dropdown" IsolateStyles="FALSE" Name="ApprovalHistory" RichText="FALSE" RichTextMode="Compatible" Title="Review History" Type="Note" UnlimitedLengthInDocumentLibrary="TRUE" ID="{0f7b5435-faea-4809-9af9-38887c4076ac}" Version="2" StaticName="ApprovalHistory" SourceID="{{listid:Shared Documents}}" ColName="ntext3" RowOrdinal="0" />
@@ -282,13 +287,12 @@
           <pnp:Webhooks>
             <pnp:Webhook ServerNotificationUrl="https://japaneast1-0.pushnp.svc.ms/notifications?token=1968beea-9cf5-4aaa-8d02-0ebd189b76aa" ExpiresInDays="1" />
           </pnp:Webhooks>
-        </pnp:ListInstance> 
-        </pnp:Lists>      
+        </pnp:ListInstance>        
+      </pnp:Lists>      
         <pnp:Files>
         <pnp:File Src="Uploadables/fnc.csv" Folder="config/FNC" Overwrite="true" />
         <pnp:File Src="Uploadables/HoldPointTemplate.docx" Folder="config/PCM" Overwrite="true" />
-      </pnp:Files>       
-      </pnp:Lists>      
+      </pnp:Files>
     </pnp:ProvisioningTemplate>
   </pnp:Templates>
 </pnp:Provisioning>
