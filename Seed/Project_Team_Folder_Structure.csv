@@ -1,6 +1,7 @@
 Privacy,Folder,ContractType
 Private,Commercial/Business Case,Common
 Private,Commercial/Consultants,Common
+Private,Commercial/Consultants/FirstName LastName,Common
 Private,Commercial/Estimates,Common
 Private,Commercial/Forecasts,Common
 Private,Commercial/PPR,Common
@@ -134,6 +135,15 @@ Private,Procurement/200 EOI/250 EOI Evaluation Plan/ss,Common
 Private,Procurement/200 EOI/260 EOI RFI,Common
 Private,Procurement/200 EOI/270 EOI Addenda,Common
 Private,Procurement/200 EOI/280 EOI Commentaries,Common
+Private,Procurement/200 EOI/290 EOI Evaluation,Common
+Private,Procurement/200 EOI/290 EOI Evaluation/291 Prep for Advisers and ET,Common
+Private,Procurement/200 EOI/290 EOI Evaluation/292 EOI Evaluation Report,Common
+Private,Procurement/200 EOI/290 EOI Evaluation/293 Preferred Proponent Memo to HMT,Common
+Private,Procurement/200 EOI/290 EOI Evaluation/294 Letters to Successful Applicants,Common
+Private,Procurement/200 EOI/290 EOI Evaluation/295 Letters for Unsuccessful Applicants,Common
+Private,Procurement/200 EOI/290 EOI Evaluation/295 Letters for Unsuccessful Applicants/Debug,Common
+Private,Procurement/200 EOI/290 EOI Evaluation/295 Letters for Unsuccessful Applicants/Release,Common
+Private,Procurement/200 EOI/290 EOI Evaluation/295 Letters for Unsuccessful Applicants/ss,Common
 Private,Procurement/300 RFP,Common
 Private,Procurement/300 RFP/301 RFP Approvals,Common
 Private,Procurement/300 RFP/301 RFP Approvals/A01 Approval to Issue RFP,Common
@@ -156,12 +166,27 @@ Private,Procurement/300 RFP/350 RFP Evaluation Plan/Debug,Common
 Private,Procurement/300 RFP/350 RFP Evaluation Plan/Ref,Common
 Private,Procurement/300 RFP/350 RFP Evaluation Plan/Release,Common
 Private,Procurement/300 RFP/350 RFP Evaluation Plan/ss,Common
+Private,Procurement/300 RFP/355 Clarification Meetings,Common
+Private,Procurement/300 RFP/355 Clarification Meetings/CM01 Proponent 1,Common
+Private,Procurement/300 RFP/355 Clarification Meetings/CM02 Proponent 2,Common
+Private,Procurement/300 RFP/355 Clarification Meetings/CM03 Proponent 3,Common
+Private,Procurement/300 RFP/360 RFP RFIs,Common
+Private,Procurement/300 RFP/370 RFP Addenda,Common
+Private,Procurement/300 RFP/380 RFP Commentaries,Common
+Private,Procurement/300 RFP/390 RFP Evaluation,Common
+Private,Procurement/300 RFP/390 RFP Evaluation/391 Prep for Advisers and ET,Common
+Private,Procurement/300 RFP/390 RFP Evaluation/392 RFP Evaluation Report,Common
+Private,Procurement/300 RFP/390 RFP Evaluation/393 Preferred Proponent Memo to HMT,Common
+Private,Procurement/300 RFP/390 RFP Evaluation/394 Letter to Successful Proponent,Common
+Private,Procurement/300 RFP/390 RFP Evaluation/395 Letters for Unsuccessful Proponents,Common
+Private,Procurement/300 RFP/390 RFP Evaluation/395 Letters for Unsuccessful Proponents/Debug,Common
+Private,Procurement/300 RFP/390 RFP Evaluation/395 Letters for Unsuccessful Proponents/Release,Common
+Private,Procurement/300 RFP/390 RFP Evaluation/395 Letters for Unsuccessful Proponents/ss,Common
 Private,Procurement/400 Negotiations,Common
 Private,Procurement/400 Negotiations/410 Negotiation Plan,Common
 Private,Procurement/400 Negotiations/410 Negotiation Plan/Debug,Common
 Private,Procurement/400 Negotiations/410 Negotiation Plan/Ref,Common
 Private,Procurement/400 Negotiations/410 Negotiation Plan/Release,Common
-Private,Procurement/400 Negotiations/410 Negotiation Plan/ss,Common
 Private,Procurement/400 Negotiations/420 Meetings,Common
 Private,Procurement/500 Award,Common
 Private,Procurement/500 Award/510 Project Alliance Agreement,Alliance
@@ -171,11 +196,7 @@ Private,Procurement/500 Award/520 SWTC,Common
 Private,Procurement/500 Award/530 Award Letter,Common
 Private,Procurement/500 Award/530 Award Letter/Debug,Common
 Private,Procurement/500 Award/530 Award Letter/Release,Common
-Private,Procurement/500 Award/530 Award Letter/ss,Common
-Private,Procurement/500 Award/540 Letters for Unsuccessful Tenderers,Common
-Private,Procurement/500 Award/540 Letters for Unsuccessful Tenderers/Debug,Common
-Private,Procurement/500 Award/540 Letters for Unsuccessful Tenderers/Release,Common
-Private,Procurement/500 Award/540 Letters for Unsuccessful Tenderers/ss,Common
+Private,Procurement/500 Award/540 Debrief to Unsuccessful Proponents,Common
 Standard,Correspondence,Common
 Standard,Develop/Aboriginal Participation,Common
 Standard,Develop/Approvals,Common
