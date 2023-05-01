@@ -410,7 +410,7 @@ Function CreateFolderStructures()
 
             Connect-PnPOnline -Url $siteUrl -Interactive
 
-            if(($folderContractType -eq $contractType) -or ($folderContractType -eq "Common"))
+            if($channelPrivacy -ne "Subsite" -and ($folderContractType -eq $contractType -or $folderContractType -eq "Common"))
             {
                 Write-Host "   - Processing: $folderRelativePath..." 
                 Resolve-PnPFolder -SiteRelativePath "Shared Documents/$folderRelativePath" | Out-Null
