@@ -472,6 +472,9 @@ Function CreateSubsites()
             Enable-PnPFeature -Identity 8a4b8de2-6fd8-41e9-923c-c7c3c00f8295 -Scope Site 
             Invoke-PnPQuery
 
+            #8-03-2023 -Ifaham
+            Add-PnPNavigationNode -Title (Get-Culture).TextInfo.ToTitleCase($site) -Location "TopNavigationBar" -Url $site
+
             $subsiteUrl= $global:siteUrl + "/" + $site
 
             #08-03-2023 -Ifaham

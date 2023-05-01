@@ -287,6 +287,37 @@
           <pnp:Webhooks>
             <pnp:Webhook ServerNotificationUrl="https://japaneast1-0.pushnp.svc.ms/notifications?token=1968beea-9cf5-4aaa-8d02-0ebd189b76aa" ExpiresInDays="1" />
           </pnp:Webhooks>
+        </pnp:ListInstance> 
+        <pnp:ListInstance Title="FileNameIndex" Description=" " DocumentTemplate="" TemplateType="100" Url="Lists/FileNameIndex" EnableVersioning="true" MinorVersionLimit="0" MaxVersionLimit="50" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/FileNameIndex/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/FileNameIndex/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/FileNameIndex/NewForm.aspx" ImageUrl="/_layouts/15/images/itgen.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
+          <pnp:ContentTypeBindings>
+            <pnp:ContentTypeBinding ContentTypeID="0x01" Default="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x0120" />
+          </pnp:ContentTypeBindings>
+          <pnp:Views>
+            <View Name="{0BBE2043-C24F-4A83-B322-34F4F5135CA5}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Url="{site}/Lists/FileNameIndex/AllItems.aspx" Level="1" BaseViewID="1" ContentTypeID="0x" ImageUrl="/_layouts/15/images/generic.png?rev=47">
+              <Query />
+              <ViewFields>
+                <FieldRef Name="LinkTitle" />
+                <FieldRef Name="LastSequenceNo" />
+                <FieldRef Name="FilenameWithoutSequenceNo" />
+              </ViewFields>
+              <RowLimit Paged="TRUE">30</RowLimit>
+              <JSLink>clienttemplates.js</JSLink>
+              <CustomFormatter />
+            </View>
+          </pnp:Views>
+          <pnp:Fields>
+            <Field CommaSeparator="TRUE" CustomUnitOnRight="TRUE" DisplayName="LastSequenceNo" Format="Dropdown" IsModern="TRUE" Name="LastSequenceNo" Percentage="FALSE" Title="LastSequenceNo" Type="Number" Unit="None" ID="{ad8dd1c9-cd1c-473c-ad43-2cc010811b35}" SourceID="{{listid:FileNameIndex}}" StaticName="LastSequenceNo" ColName="float1" RowOrdinal="0">
+              <Default>1</Default>
+            </Field>
+            <Field DisplayName="FilenameWithoutSequenceNo" EnforceUniqueValues="TRUE" Format="Dropdown" Indexed="TRUE" IsModern="TRUE" MaxLength="255" Name="FilenameWithoutSequenceNo" Required="TRUE" Title="FilenameWithoutSequenceNo" Type="Text" ID="{bc646cfe-055c-4e7f-a4c1-7136668f472f}" SourceID="{{listid:FileNameIndex}}" StaticName="FilenameWithoutSequenceNo" ColName="nvarchar7" RowOrdinal="0" />
+          </pnp:Fields>
+          <pnp:FieldRefs>
+            <pnp:FieldRef ID="76d13cd2-1bae-45a5-8b74-545b87b65037" Name="_ColorTag" DisplayName="Color Tag" />
+          </pnp:FieldRefs>
+          <pnp:Webhooks>
+            <pnp:Webhook ServerNotificationUrl="https://japaneast1-0.pushnp.svc.ms/notifications?token=1d6df76e-eea8-4b28-8827-750e3fa86dfa" ExpiresInDays="1" />
+          </pnp:Webhooks>
         </pnp:ListInstance>        
       </pnp:Lists>      
         <pnp:Files>
