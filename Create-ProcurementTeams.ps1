@@ -92,7 +92,7 @@ $adminUrl = "https://$($M365Domain)-admin.sharepoint.com/"
 $global:teamPrefix = "MR"
 $global:teamSuffix = if ($teamType -eq "Project") { "PRJ" } else { "CON" }
 $foldersCsvFileRelativePath = "Seed\$($teamType)_Team_Folder_Structure.csv"
-$tenant = "mainroads.onmicrosoft.com"
+$tenant = "$($M365Domain).onmicrosoft.com"
 
 
 
