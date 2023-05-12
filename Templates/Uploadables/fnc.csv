@@ -2,32 +2,32 @@ Level,Code,Description
 1,C151.21,Contract 151.21
 2,MEBD,Mandurah Estuary Bridge Duplication
 3,PM,Project Management
-3,PROC,Procurement
-3,PROB,Probity
+3,PC,Procurement
+3,PB,Probity
 4,EOI,Expressions of Interest
 4,RFP,Request for Proposals
-4,MAN,Management
+4,MNG,Management
 4,RSK,Risks
-4,GEN,General
+4,GNL,General
 4,GOV,Governance
 4,OPP,Opportunites
 5,CAL,Calculation
 5,CHK,Checklist
-5,COM,Comment Sheet
-5,CON,Contract/Agreement
+5,CMT,Comment Sheet
+5,CTR,Contract/Agreement
 5,DRG,Drawing
 5,LET,Letter
 5,MEM,Memo
 5,MOM,Minutes of Meeting
 5,PLN,Plan
-5,PRS,Process
-5,REG,Register
-5,REP,Report
+5,PRC,Process
+5,RGS,Register
+5,RPT,Report
 5,RFI,Request for information
-5,REV,Review
+5,RVW,Review
 5,SCH,Schedule
-5,SKE,Sketch
-5,SPE,Specification
+5,SKT,Sketch
+5,SPC,Specification
 5,TAN,Technical Advice Note
 5,TQY,Technical Query
 5,TMP,Template
