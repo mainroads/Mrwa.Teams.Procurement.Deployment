@@ -291,8 +291,7 @@ Function CreateTeamsChannels()
         foreach ($channel in $allChannels) {
             do {
                 try {
-                     Invoke-RestMethod -Headers @{Authorization = "Bearer $accessToken" } -Uri "https://graph.microsoft.com/teams/$($team.id)/channels/$($channel.id)/filesFolder" | Out-Null
-                    #Invoke-RestMethod -Headers @{Authorization = "Bearer $accessToken" } -Uri "https://graph.microsoft.com/beta/teams/$($team.id)/channels/$($channel.id)/filesFolder" | Out-Null
+                    Invoke-RestMethod -Headers @{Authorization = "Bearer $accessToken" } -Uri "https://graph.microsoft.com/beta/teams/$($team.id)/channels/$($channel.id)/filesFolder" | Out-Null
                     $stopLoop = $true
                 }
                 catch {
