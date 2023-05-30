@@ -142,7 +142,11 @@ Function CleanUpParameters()
         {
             $parameterTrim = $parameter.Value.ToString().Trim();
             $parameter.Value = $parameterTrim
-            $newParameter = $parameter.Value.replace(" ","-");
+            if ($parameter.Key -ne "ProjectName") {
+                $newParameter = $parameter.Value.replace(" ","-");
+            } else {
+                $newParameter = $parameter.Value
+            }
             $parameters.Add($parameter.Key, $newParameter); 
         }
     }
