@@ -445,15 +445,24 @@ Function UpdateRegionalSettings
 Function CreateNewGroupAndPermissionLevel()
 {
     write-host "   - Creating 'Contribute without Delete' Permission Level for SP site..." -ForegroundColor Yellow     
-        
+
     Connect-PnPOnline -Url $global:siteUrl -Interactive  
 
     #Get Permission level to copy
     $contributeRole = Get-PnPRoleDefinition -Identity "Contribute"
- 
-    #Create a custom Permission level and exclude delete from contribute
+
+    #Check if 'Contribute without delete' already exists
+    $customRole = Get-PnPRoleDefinition -Identity "Contribute without delete" -ErrorAction SilentlyContinue
+
+    if($null -eq $customRole){
+        #Create a custom Permission level and exclude delete from contribute
+        Add-PnPRoleDefinition -RoleName "Contribute without delete" -Clone $contributeRole -Exclude DeleteListItems, DeleteVersions -Description "Contribute without delete permission" | Out-Null
+    }
+    else{
+        write-host "   - Permission Level 'Contribute without delete' already exists." -ForegroundColor Yellow
+    }
+
     $PermissionGroupName="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + "Contributors"
-    Add-PnPRoleDefinition -RoleName "Contribute without delete" -Clone $contributeRole -Exclude DeleteListItems, DeleteVersions -Description "Contribute without delete permission" | Out-Null
     New-PnPSiteGroup -Site $siteUrl -Name $PermissionGroupName -PermissionLevels "Contribute without delete" | Out-Null
 }
 
