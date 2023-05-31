@@ -1,6 +1,6 @@
 #
 # This script provisions IDD project and contract Teams for Procurement team 
-# Version 0.5
+# Version 0.6
 #
 ### Prerequisites ###  
 #
