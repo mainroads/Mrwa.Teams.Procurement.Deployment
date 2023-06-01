@@ -484,33 +484,39 @@ Function CreateSubsites()
             Enable-PnPFeature -Identity 8a4b8de2-6fd8-41e9-923c-c7c3c00f8295 -Scope Site 
             Invoke-PnPQuery
 
-            #8-03-2023 -Ifaham
             Add-PnPNavigationNode -Title (Get-Culture).TextInfo.ToTitleCase($site) -Location "TopNavigationBar" -Url $site
 
             $subsiteUrl= $global:siteUrl + "/" + $site
+            $objSubsite = Get-PnPWeb -Identity $subsiteUrl -ErrorAction SilentlyContinue
 
-            #08-03-2023 -Ifaham
-            $TemplaleFilePath ="$PSScriptRoot\Templates\DocumentLibraryConfigReview_SubSite.xml"
-            & $PSScriptRoot\ApplyDocumentsLibraryConfigForReviewFlow.ps1 -TargetSiteURL $subsiteUrl -TemplaleFilePath $TemplaleFilePath
+            if($null -eq $objSubsite)
+            {
+                $TemplaleFilePath ="$PSScriptRoot\Templates\DocumentLibraryConfigReview_SubSite.xml"
+                & $PSScriptRoot\ApplyDocumentsLibraryConfigForReviewFlow.ps1 -TargetSiteURL $subsiteUrl -TemplaleFilePath $TemplaleFilePath
 
 
-            $PermissionGroupNameMembers="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Members"
-            New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupNameMembers)  
+                $PermissionGroupNameMembers="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Members"
+                New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupNameMembers)  
 
-            $PermissionGroupNameVisitors="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Visitors"
-            New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupNameVisitors)  
+                $PermissionGroupNameVisitors="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Visitors"
+                New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupNameVisitors)  
 
-            $PermissionGroupNameOwners="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Owners"
-            New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupNameOwners)  
+                $PermissionGroupNameOwners="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Owners"
+                New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupNameOwners)  
 
-            $PermissionGroupContributors="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Contributors"
-            New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupContributors)  
+                $PermissionGroupContributors="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Contributors"
+                New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupContributors)  
 
-            Connect-PnPOnline -Url $subsiteUrl -Interactive  
-            Set-PnPGroup -Identity $PermissionGroupNameMembers -AddRole "Edit"
-            Set-PnPGroup -Identity $PermissionGroupNameVisitors -AddRole "Read"
-            Set-PnPGroup -Identity $PermissionGroupNameOwners -AddRole "Full Control"
-            Set-PnPGroup -Identity $PermissionGroupContributors -AddRole "Contribute without delete"
+                Connect-PnPOnline -Url $subsiteUrl -Interactive  
+                Set-PnPGroup -Identity $PermissionGroupNameMembers -AddRole "Edit"
+                Set-PnPGroup -Identity $PermissionGroupNameVisitors -AddRole "Read"
+                Set-PnPGroup -Identity $PermissionGroupNameOwners -AddRole "Full Control"
+                Set-PnPGroup -Identity $PermissionGroupContributors -AddRole "Contribute without delete"
+            }
+            else
+            {
+                write-host "   - Subsite $site already exists. Skipping creation." -ForegroundColor Yellow
+            }
          }
     }
     else
