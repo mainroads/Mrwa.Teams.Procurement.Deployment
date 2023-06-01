@@ -1,4 +1,4 @@
-<pnp:Provisioning xmlns:pnp="http://schemas.dev.office.com/PnP/2021/03/ProvisioningSchema">
+<pnp:Provisioning xmlns:pnp="http://schemas.dev.office.com/PnP/2022/09/ProvisioningSchema">
 
   <pnp:Preferences Author="Dinesh Katru - Insight" />
 
