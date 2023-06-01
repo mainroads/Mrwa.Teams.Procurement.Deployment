@@ -56,7 +56,8 @@
           IsFavoriteByDefault="true" />
         <pnp:Channel DisplayName="Meetings"
           Description=""
-          IsFavoriteByDefault="true" />
+          IsFavoriteByDefault="true"
+          MembershipType="Shared" />
         <pnp:Channel DisplayName="Program"
           Description=""
           IsFavoriteByDefault="true" />
@@ -65,23 +66,23 @@
         <pnp:Channel DisplayName="Commercial"
           Description=""
           IsFavoriteByDefault="true"
-          Private="true" />
+          MembershipType="Private" />
         <pnp:Channel DisplayName="OnSite"
           Description=""
           IsFavoriteByDefault="true"
-          Private="true" />
+          MembershipType="Private" />
         <pnp:Channel DisplayName="Procurement"
           Description=""
           IsFavoriteByDefault="true"
-          Private="true" />
+          MembershipType="Private" />
         <pnp:Channel DisplayName="Evaluation-Commercial"
           Description=""
           IsFavoriteByDefault="false"
-          Private="true" />
+          MembershipType="Private" />
         <pnp:Channel DisplayName="Evaluation-Qualitative"
           Description=""
           IsFavoriteByDefault="false"
-          Private="true" />
+          MembershipType="Private" />
       </pnp:Channels>
     </pnp:Team>
   </pnp:Teams>
