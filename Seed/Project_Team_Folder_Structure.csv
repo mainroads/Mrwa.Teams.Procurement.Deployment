@@ -48,6 +48,7 @@ Private,OnSite/Daily Diaries,Common
 Private,OnSite/Design,Common
 Private,OnSite/Formal Correspondence,Common
 Private,OnSite/Photos and Videos,Common
+Private,OnSite/Progress Payments,Common
 Private,OnSite/Quality,Common
 Private,OnSite/Quality/Hold Points,Common
 Private,OnSite/Quality/NCRs,Common
@@ -63,6 +64,7 @@ Private,Procurement/100 General/103 Registers,Common
 Private,Procurement/100 General/105 Meetings,Common
 Private,Procurement/100 General/105 Meetings/Due Diligence meetings,Common
 Private,Procurement/100 General/105 Meetings/Evaluation Plan meetings,Common
+Private,Procurement/100 General/105 Meetings/Probity Assurance meetings,Common
 Private,Procurement/100 General/105 Meetings/Procurement meetings,Common
 Private,Procurement/100 General/110 Delivery Methodology Workshop,Common
 Private,Procurement/100 General/140 Plans,Common
