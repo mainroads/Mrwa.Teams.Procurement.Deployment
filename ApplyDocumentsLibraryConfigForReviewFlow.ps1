@@ -12,38 +12,44 @@ Param(
 
   [Parameter(Mandatory = $false)]
   [ValidateNotNullOrEmpty()]
-  [string] $TemplaleFilePath ="$PSScriptRoot\Templates\DocumentLibraryConfigReview.xml"
-
+  [string] $TemplateFilePath
 )
 
+if (-not $PSBoundParameters.ContainsKey('TemplateFilePath')) {
+  $TemplateFilePath = Join-Path $PSScriptRoot "Templates" "DocumentLibraryConfigReview.xml"
+}
+Function ApplyConfig {
+  param(
+    [Parameter(Mandatory = $true)]
+    [string]$TargetSiteURL,
+    [Parameter(Mandatory = $false)]
+    [string]$TemplateFilePath = (Join-Path $PSScriptRoot "Templates" "DocumentLibraryConfigReview.xml")
+  )
 
-Function ApplyDocumentLibrarySettingsandConfiguration-ReviewFlow
+  if ($TargetSiteURL -ne "") {
 
-($TargetSiteURL,$TemplaleFilePath ="$PSScriptRoot\Templates\DocumentLibraryConfigReview.xml")
-{
-if($TargetSiteURL -ne "")
-{
-    Write-Host "Applying $TargetSiteURL required library settings from $TemplaleFilePath" -f Yellow 
+    Connect-PnPOnline -Url $TargetSiteURL -Interactive 
+    $objSite = Get-PnPWeb -ErrorAction SilentlyContinue
   
-
-    $TemplaleFilePath 
-    if((Test-Path -Path $TemplaleFilePath -PathType Leaf) -eq $false)
-    {
-        write-host "File does not exist!" -ForegroundColor Red
+    if ($objSite -eq $null) {
+      if ($spUrlType -eq "teams") {
+        $TargetSiteURL = $TargetSiteURL -replace "/teams/", "/sites/"
+      }
+      else {
+        $TargetSiteURL = $TargetSiteURL -replace "/sites/", "/teams/"                     
+      }
     }
-    else
-    {
-    #$TargetSiteURL=$TargetSiteURL +"/"
-    #$TargetSiteURL=$TargetSiteURL.Replace("teams","sites")
-    Connect-PnPOnline $TargetSiteURL -Interactive 
 
-    Invoke-PnPSiteTemplate -Path $TemplaleFilePath 
+    Write-Host "Applying $TargetSiteURL required library settings from $TemplateFilePath" -ForegroundColor Yellow 
+
+    if ((Test-Path -Path $TemplateFilePath -PathType Leaf) -eq $false) {
+      write-host "File does not exist!" -ForegroundColor Red
     }
+    else {
+      Connect-PnPOnline $TargetSiteURL -Interactive 
+      Invoke-PnPSiteTemplate -Path $TemplateFilePath 
+    }
+  }
 }
 
-}
-
-
-#$TargetSiteURL ="https://0v1sr.sharepoint.com/sites/mr-0003-prj3-prj/"
-#$TemplaleFilePath ="C:\Work\MainRoad\JSON\Pnp-ProvitioningFileV33.xml" #"C:\Work\MainRoad\pnpprvitioning\Pnp-ProvitioningFileV4.xml"
-ApplyDocumentLibrarySettingsandConfiguration-ReviewFlow -TargetSiteURL $TargetSiteURL -TemplaleFilePath $TemplaleFilePath
+ApplyConfig -TargetSiteURL $TargetSiteURL -TemplateFilePath $TemplateFilePath

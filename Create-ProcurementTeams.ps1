@@ -39,37 +39,37 @@
 #   1. In case script fails while running, just run the command again with the same command to continue the provisioning process 
 
 Param(
-  [Parameter(Mandatory = $true)]
-  [ValidateNotNullOrEmpty()]
-  [string] $M365Domain,
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string] $M365Domain,
 
-  [Parameter(Mandatory = $true)]
-  [ValidateNotNullOrEmpty()]
-  [string] $projectName,
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string] $projectName,
 
-  [Parameter(Mandatory = $true)]
-  [ValidateNotNullOrEmpty()]
-  [string] $projectNumber,
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string] $projectNumber,
 
-  [Parameter(Mandatory = $true)]
-  [ValidateNotNullOrEmpty()]
-  [string] $projectAbbreviation,
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string] $projectAbbreviation,
 
-  [Parameter(Mandatory = $true)]
-  [ValidateNotNullOrEmpty()]
-  [ValidateSet("Alliance", "D&C", IgnoreCase = $true)]
-  [string] $contractType,
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [ValidateSet("Alliance", "D&C", IgnoreCase = $true)]
+    [string] $contractType,
 
-  [Parameter(Mandatory = $true)]
-  [ValidateNotNullOrEmpty()]
-  [ValidateSet("Project", "Contract", IgnoreCase = $true)]
-  [string] $teamType,
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [ValidateSet("Project", "Contract", IgnoreCase = $true)]
+    [string] $teamType,
 
-  [Parameter(Mandatory = $false)]
-  [ValidateNotNullOrEmpty()]
-  [string] $subsites,
+    [Parameter(Mandatory = $false)]
+    [ValidateNotNullOrEmpty()]
+    [string] $subsites,
 
-  [switch] $NoFolderCreation = $false
+    [switch] $NoFolderCreation = $false
 )
 
 $ErrorActionPreference = "Stop"
@@ -91,7 +91,7 @@ $pnpPowerShellAppName = "PnP Management Shell"
 $adminUrl = "https://$($M365Domain)-admin.sharepoint.com/"
 $global:teamPrefix = "MR"
 $global:teamSuffix = if ($teamType -eq "Project") { "PRJ" } else { "CON" }
-$foldersCsvFileRelativePath = "Seed\$($teamType)_Team_Folder_Structure.csv"
+$foldersCsvFileRelativePath = Join-Path -Path "Seed" -ChildPath "$($teamType)_Team_Folder_Structure.csv"
 $tenant = "$($M365Domain).onmicrosoft.com"
 
 
@@ -100,15 +100,15 @@ $tenant = "$($M365Domain).onmicrosoft.com"
 $spUrlType = "teams" 
 
 $currentDate = get-date -Format "yyyyMMdd_hhmm"
-$logFile = "$PSScriptRoot\$currentDate-CreateProcurementTeams.log"
+$logFile = Join-Path -Path "$PSScriptRoot" -ChildPath "$currentDate-CreateProcurementTeams.log"
 
 $parametersTable = @{
-  "TeamPrefix"          = $teamPrefix
-  "TeamSuffix"          = $teamSuffix
-  "ProjectNumber"       = $projectNumber
-  "ProjectAbbreviation" = $projectAbbreviation
-  "ProjectName"         = $projectName
-  "Subsites"            = $subsites
+    "TeamPrefix"          = $teamPrefix
+    "TeamSuffix"          = $teamSuffix
+    "ProjectNumber"       = $projectNumber
+    "ProjectAbbreviation" = $projectAbbreviation
+    "ProjectName"         = $projectName
+    "Subsites"            = $subsites
 }
 
 $parameters = @{}
@@ -124,59 +124,49 @@ $global:siteUrl = $null;
 #---------------------------------
 # CleanUpParameters Function
 #---------------------------------
-Function CleanUpParameters()
-{   
+Function CleanUpParameters() {   
     # Removes start and ending spaces in parameters, replaces all other spaces with dashes
     Write-Host " - Checking parameters for white spaces..." -ForegroundColor Yellow
 
-    foreach ($parameter in $parametersTable.GetEnumerator())
-    {
-        if($parameter.Key -eq "Subsites" -and $subsites)
-        {
+    foreach ($parameter in $parametersTable.GetEnumerator()) {
+        if ($parameter.Key -eq "Subsites" -and $subsites) {
             $parameterTrim = $parameter.Value.ToString().Trim();
             $parameter.Value = $parameterTrim
-            $newParam = $parameter.Value.replace(" ","");
+            $newParam = $parameter.Value.replace(" ", "");
             $parameters.Add($parameter.Key, $newParam); 
         } 
-        else 
-        {
+        else {
             $parameterTrim = $parameter.Value.ToString().Trim();
             $parameter.Value = $parameterTrim
             if ($parameter.Key -ne "ProjectName") {
-                $newParameter = $parameter.Value.replace(" ","-");
-            } else {
+                $newParameter = $parameter.Value.replace(" ", "-");
+            }
+            else {
                 $newParameter = $parameter.Value
             }
             $parameters.Add($parameter.Key, $newParameter); 
         }
     }
 
-    foreach ($parameter in $parameters.GetEnumerator())
-    {
+    foreach ($parameter in $parameters.GetEnumerator()) {
         #Write-Host "   - New parameter: " $parameter.Key $parameter.Value
 
-        if($parameter.Key -eq "TeamPrefix")
-        {
+        if ($parameter.Key -eq "TeamPrefix") {
             $global:prefix = $parameter.Value; 
         }
-        if($parameter.Key -eq "TeamSuffix")
-        {
+        if ($parameter.Key -eq "TeamSuffix") {
             $global:suffix = $parameter.Value;
         }
-        if($parameter.Key -eq "ProjectNumber")
-        {
+        if ($parameter.Key -eq "ProjectNumber") {
             $global:prjNumber = $parameter.Value;
         }
-        if($parameter.Key -eq "ProjectAbbreviation")
-        {
+        if ($parameter.Key -eq "ProjectAbbreviation") {
             $global:prjAbbreviation = $parameter.Value;
         }
-        if($parameter.Key -eq "ProjectName")
-        {
+        if ($parameter.Key -eq "ProjectName") {
             $global:prjName = $parameter.Value;
         }
-        if($parameter.Key -eq "Subsites")
-        {
+        if ($parameter.Key -eq "Subsites") {
             $sites = $parameter.Value.Split(",");
             $global:sites = $sites;
         }
@@ -188,8 +178,7 @@ Function CleanUpParameters()
 #---------------------------------
 # ConnectToSharePoint Function
 #---------------------------------
-Function ConnectToSharePoint()
-{  
+Function ConnectToSharePoint() {  
     # Connect to SharePoint:
     Write-Host " - Connecting to SharePoint..." -ForegroundColor Yellow
 
@@ -197,26 +186,25 @@ Function ConnectToSharePoint()
 
     $pnpPowerShellApp = Get-PnPAzureADApp -Identity $pnpPowerShellAppName -ErrorAction SilentlyContinue
 
-    if($null -eq $pnpPowerShellApp) {
+    if ($null -eq $pnpPowerShellApp) {
 
-      $graphPermissions = "Group.Read.All","Group.ReadWrite.All","Directory.Read.All",
-      "Directory.ReadWrite.All","Channel.ReadBasic.All","ChannelSettings.Read.All",
-      "ChannelSettings.ReadWrite.All","Channel.Create","Team.ReadBasic.All","TeamSettings.Read.All",
-      "TeamSettings.ReadWrite.All","User.ReadWrite.All","Group.Read.All"
+        $graphPermissions = "Group.Read.All", "Group.ReadWrite.All", "Directory.Read.All",
+        "Directory.ReadWrite.All", "Channel.ReadBasic.All", "ChannelSettings.Read.All",
+        "ChannelSettings.ReadWrite.All", "Channel.Create", "Team.ReadBasic.All", "TeamSettings.Read.All",
+        "TeamSettings.ReadWrite.All", "User.ReadWrite.All", "Group.Read.All"
 
-      $sharePointApplicationPermissions = "Sites.FullControl.All","User.ReadWrite.All"
+        $sharePointApplicationPermissions = "Sites.FullControl.All", "User.ReadWrite.All"
 
-      $sharePointDelegatePermissions = "AllSites.FullControl"
+        $sharePointDelegatePermissions = "AllSites.FullControl"
 
-      Register-PnPAzureADApp -ApplicationName $pnpPowerShellAppName -Tenant $tenant -OutPath E:\Temp -DeviceLogin -GraphApplicationPermissions $graphPermissions -SharePointApplicationPermissions $sharePointApplicationPermissions
+        Register-PnPAzureADApp -ApplicationName $pnpPowerShellAppName -Tenant $tenant -OutPath E:\Temp -DeviceLogin -GraphApplicationPermissions $graphPermissions -SharePointApplicationPermissions $sharePointApplicationPermissions
     }
 }
 
 #---------------------------------
 # CreateTeamAndSites Function
 #---------------------------------
-Function CreateTeamsAndSites()
-{
+Function CreateTeamsAndSites() {
     # Invoke template to create Team, Channels
     Write-Host " - Creating Teams and Sites..." -ForegroundColor Yellow
 
@@ -225,26 +213,26 @@ Function CreateTeamsAndSites()
     $maxRetryCount = 3 
 
     do {
-      try {
+        try {
       
-        if ($teamType -eq "Project") {
-          Invoke-PnPTenantTemplate -Path "Templates\Project_Team.xml" -Parameters $parameters
+            if ($teamType -eq "Project") {
+                Invoke-PnPTenantTemplate -Path (Join-Path -Path "Templates" -ChildPath "Project_Team.xml") -Parameters $parameters
+            }
+            elseif ($teamType -eq "Contract") {
+                Invoke-PnPTenantTemplate -Path (Join-Path -Path "Templates" -ChildPath "Contract_Team.xml") -Parameters $parameters
+            }
+            $stopInvokingTemplate = $true
         }
-        elseif ($teamType -eq "Contract") {
-          Invoke-PnPTenantTemplate -Path "Templates\Contract_Team.xml" -Parameters $parameters 
+        catch {
+            if ($retryCount -gt $maxRetryCount) {        
+                $stopInvokingTemplate = $true
+            }
+            else {
+                Start-Sleep -Seconds 30
+                $retryCount = $retryCount + 1
+                Write-Host "   - Something went wrong....retry attempt : $retryCount"
+            }
         }
-        $stopInvokingTemplate = $true
-      }
-      catch {
-          if ($retryCount -gt $maxRetryCount) {        
-              $stopInvokingTemplate = $true
-          }
-          else {
-              Start-Sleep -Seconds 30
-              $retryCount = $retryCount + 1
-              Write-Host "   - Something went wrong....retry attempt : $retryCount"
-          }
-      }
     }
     While ($stopInvokingTemplate -eq $false)
 
@@ -260,15 +248,15 @@ Function CreateTeamsAndSites()
         Start-Sleep -Seconds 1
     }
 
-    & $PSScriptRoot\ApplyDocumentsLibraryConfigForReviewFlow.ps1 -TargetSiteURL $global:siteUrl
+    $scriptPath = Join-Path -Path $PSScriptRoot -ChildPath "ApplyDocumentsLibraryConfigForReviewFlow.ps1"
+    & $scriptPath -TargetSiteURL $global:siteUrl
 
 }
 
 #---------------------------------
 # CreateTeamsChannels Function
 #---------------------------------
-Function CreateTeamsChannels()
-{
+Function CreateTeamsChannels() {
     # Code to invoke private channel sites
     Write-Host " - Creating Teams channels..." -ForegroundColor Yellow
 
@@ -305,7 +293,7 @@ Function CreateTeamsChannels()
                     else {
                         Start-Sleep -Seconds 30
                         $retryCount = $retryCount + 1
-                        $retrymsg="Channel " + $channel + "attempt " +  $retryCount.ToString()
+                        $retrymsg = "Channel " + $channel + "attempt " + $retryCount.ToString()
                         Write-Host $retrymsg -ForegroundColor DarkYellow
                     }
                 }
@@ -321,36 +309,31 @@ Function CreateTeamsChannels()
 #---------------------------------
 # CreateSubsiteFolderStructures Function
 #---------------------------------
-Function CreateSubsiteFolderStructures()
-{ 
-    if($global:sites)
-    {
+Function CreateSubsiteFolderStructures() { 
+    if ($global:sites) {
         Write-Host " - Creating folder Structures in subsites..." -ForegroundColor Yellow
 
-        foreach($site in $global:sites)
-        {     $siteUrl =""
+        foreach ($site in $global:sites) {
+            $siteUrl = ""
 
             Write-Host "   - Subsite: $site" 
-            foreach ($folder in (import-csv $foldersCsvFileRelativePath)) 
-            { 
+            foreach ($folder in (import-csv $foldersCsvFileRelativePath)) { 
                 $folderPrivacy = $folder.Privacy
-                if ($folderPrivacy -eq "Subsite") 
-                {  
+                if ($folderPrivacy -eq "Subsite") {  
                     $folderRelativePath = ($folder.Folder).Replace('XXX', $global:prjAbbreviation).Replace('$ProjectNumber', $global:prjNumber)
-                    $subSite = $folderRelativePath.Substring(0,$folderRelativePath.IndexOf("/"))
+                    $subSite = $folderRelativePath.Substring(0, $folderRelativePath.IndexOf("/"))
 
                     Write-Host "site: $($site), subSite: $($subsite)" 
-                    if($site -eq $subSite)
-                    {
+                    if ($site -eq $subSite) {
                         $folderContractType = $folder.ContractType
 
                         $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)/$($site)"
 
-                        $subFolderRelPath = $folderRelativePath.Substring($subSite.Length+1,$folderRelativePath.Length-$subSite.Length-1)
+                        $subFolderRelPath = $folderRelativePath.Substring($subSite.Length + 1, $folderRelativePath.Length - $subSite.Length - 1)
                         Write-Host "   - Processing: $($siteUrl)/Shared Documents/$subFolderRelPath" 
                         Connect-PNPonline -Url $siteUrl -Interactive
 
-                        if(($folderContractType -eq $contractType) -or ($folderContractType -eq "Common")){
+                        if (($folderContractType -eq $contractType) -or ($folderContractType -eq "Common")) {
                             Resolve-PnPFolder -SiteRelativePath "Shared Documents/$subFolderRelPath" | Out-Null
                         }
                     }
@@ -364,20 +347,16 @@ Function CreateSubsiteFolderStructures()
 #---------------------------------
 # CreateFolderStructures Function
 #---------------------------------
-Function CreateFolderStructures()
-{
+Function CreateFolderStructures() {
     # PnP Provisioning Schema currently does not have support for adding folders 
     # to private channels. Therefore, add folders explicitly using the following 
     # logic. Use this consistently to add folders for both standard and private
     # channels. This logic is not required when provisioning schema is updated 
     # in the later versions to add folders to private channels
-    if (!$NoFolderCreation) 
-    {
-       Write-Host " - Creating Folder Structures in Channels..." -ForegroundColor Yellow 
+    if (!$NoFolderCreation) {
+        Write-Host " - Creating Folder Structures in Channels..." -ForegroundColor Yellow 
 
-  
-       foreach ($folder in (import-csv $foldersCsvFileRelativePath)) 
-        {
+        foreach ($folder in (import-csv $foldersCsvFileRelativePath)) {
             $channelPrivacy = $folder.Privacy
             $folderRelativePath = ($folder.Folder).Replace('XXX', $global:prjAbbreviation).Replace('ProjectNumber', $global:prjNumber)
             $folderContractType = $folder.ContractType 
@@ -386,35 +365,45 @@ Function CreateFolderStructures()
                 $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)"
             }
             elseif ($channelPrivacy -eq "Private") {
-                $channel = $folderRelativePath.Substring(0,$folderRelativePath.IndexOf("/"))
+                $channel = $folderRelativePath.Substring(0, $folderRelativePath.IndexOf("/"))
                 $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)-$($channel)"
             
-                            Connect-PnPOnline -Url $siteUrl -Interactive
-                            $isReviewModeFieldPresent=Get-PnPField -List "Documents" -Identity "ReviewMode" -ErrorAction SilentlyContinue
+                Connect-PnPOnline -Url $siteUrl -Interactive
+                $objSite = Get-PnPWeb -ErrorAction SilentlyContinue
+              
+                if ($objSite -eq $null) {
+                  if ($spUrlType -eq "teams") {
+                    $siteUrl = $siteUrl -replace "/teams/", "/sites/"
+                  }
+                  else {
+                    $siteUrl = $siteUrl -replace "/sites/", "/teams/"                     
+                  }
+                }
+
+                Connect-PnPOnline -Url $siteUrl -Interactive
+                $isReviewModeFieldPresent = Get-PnPField -List "Documents" -Identity "ReviewMode" -ErrorAction SilentlyContinue
                 
-                            if($isReviewModeFieldPresent -eq $null)
-                            {
-                                 ######### Wait for 2 minutes to teams private channel provisioning to complete 100% #######################
-                                $seconds = 120
-                                1..$seconds |
-                                ForEach-Object { 
-                                    $percent = $_ * 100 / $seconds; 
+                if ($isReviewModeFieldPresent -eq $null) {
+                    ######### Wait for 2 minutes to teams private channel provisioning to complete 100% #######################
+                    $seconds = 120
+                    1..$seconds |
+                    ForEach-Object { 
+                        $percent = $_ * 100 / $seconds; 
 
-                                    Write-Progress -Activity "Wait for 2 minutes before ensuring the private channel sharepoint sites provisioning" -Status "$($seconds - $_) seconds remaining..." -PercentComplete $percent; 
+                        Write-Progress -Activity "Wait for 2 minutes before ensuring the private channel SharePoint sites provisioning" -Status "$($seconds - $_) seconds remaining..." -PercentComplete $percent; 
 
-                                    Start-Sleep -Seconds 1
-                                }
-                                #08-03-2023 -Ifaham
-                                $TemplaleFilePath ="$PSScriptRoot\Templates\DocumentLibraryConfigReview_SubSite.xml"
-                                & $PSScriptRoot\ApplyDocumentsLibraryConfigForReviewFlow.ps1 -TargetSiteURL $siteUrl -TemplaleFilePath $TemplaleFilePath
+                        Start-Sleep -Seconds 1
+                    }
+                    #08-03-2023 -Ifaham
+                    $TemplateFilePath = Join-Path -Path $PSScriptRoot -ChildPath (Join-Path -Path "Templates" -ChildPath "DocumentLibraryConfigReview.xml")
+                    & (Join-Path -Path "$PSScriptRoot" -ChildPath "ApplyDocumentsLibraryConfigForReviewFlow.ps1") -TargetSiteURL $siteUrl -TemplateFilePath $TemplateFilePath
 
-                            }
+                }
             }
 
             Connect-PnPOnline -Url $siteUrl -Interactive
 
-            if($channelPrivacy -ne "Subsite" -and ($folderContractType -eq $contractType -or $folderContractType -eq "Common"))
-            {
+            if ($channelPrivacy -ne "Subsite" -and ($folderContractType -eq $contractType -or $folderContractType -eq "Common")) {
                 Write-Host "   - Processing: $folderRelativePath..." 
                 Resolve-PnPFolder -SiteRelativePath "Shared Documents/$folderRelativePath" | Out-Null
             }
@@ -425,14 +414,13 @@ Function CreateFolderStructures()
 #---------------------------------
 # UpdateRegionalSettings Function
 #---------------------------------
-Function UpdateRegionalSettings
-{    
+Function UpdateRegionalSettings {    
     write-host " - Updating Regional Settings" -ForegroundColor Yellow
     
     Connect-PnPOnline -Url $global:siteUrl -Interactive
     
     $web = Get-PnPWeb -Includes RegionalSettings, RegionalSettings.TimeZones
-    $timeZone = $web.RegionalSettings.TimeZones | Where-Object {$_.Id -eq 73} # Perth
+    $timeZone = $web.RegionalSettings.TimeZones | Where-Object { $_.Id -eq 73 } # Perth
     $web.RegionalSettings.LocaleId = 3081 # English(Australia)
     $web.RegionalSettings.TimeZone = $timeZone 
     $web.Update()
@@ -442,8 +430,7 @@ Function UpdateRegionalSettings
 #-------------------------------------------
 # CreateNewGroupAndPermissionLevel Function
 #-------------------------------------------
-Function CreateNewGroupAndPermissionLevel()
-{
+Function CreateNewGroupAndPermissionLevel() {
     write-host "   - Creating 'Contribute without Delete' Permission Level for SP site..." -ForegroundColor Yellow     
 
     Connect-PnPOnline -Url $global:siteUrl -Interactive  
@@ -454,113 +441,105 @@ Function CreateNewGroupAndPermissionLevel()
     #Check if 'Contribute without delete' already exists
     $customRole = Get-PnPRoleDefinition -Identity "Contribute without delete" -ErrorAction SilentlyContinue
 
-    if($null -eq $customRole){
+    if ($null -eq $customRole) {
         #Create a custom Permission level and exclude delete from contribute
         Add-PnPRoleDefinition -RoleName "Contribute without delete" -Clone $contributeRole -Exclude DeleteListItems, DeleteVersions -Description "Contribute without delete permission" | Out-Null
+        $PermissionGroupName = "$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" + " " + "Contributors"
+        New-PnPSiteGroup -Site $siteUrl -Name $PermissionGroupName -PermissionLevels "Contribute without delete" | Out-Null
     }
-    else{
+    else {
         write-host "   - Permission Level 'Contribute without delete' already exists." -ForegroundColor Yellow
     }
-
-    $PermissionGroupName="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + "Contributors"
-    New-PnPSiteGroup -Site $siteUrl -Name $PermissionGroupName -PermissionLevels "Contribute without delete" | Out-Null
 }
 
 #---------------------------------
 # CreateSubsites Function
 #---------------------------------
-Function CreateSubsites()
-{
-    if($global:sites) 
-    {
-         write-host " - Creating Subsites..." -ForegroundColor Yellow     
-        
-         foreach($site in $global:sites)
-         {    
-            write-host "     - Creating subsite: $site"
-            Connect-PnPOnline -Url $global:siteUrl -Interactive  
-            New-PnPWeb -Title (Get-Culture).TextInfo.ToTitleCase($site) -Url $site -Template "STS#3" -BreakInheritance | Out-Null
-            # Stops the script from erroring out, gets deactivated later
-            Enable-PnPFeature -Identity 8a4b8de2-6fd8-41e9-923c-c7c3c00f8295 -Scope Site 
-            Invoke-PnPQuery
+Function CreateSubsites() {
+    if ($global:sites) {
+        write-host " - Creating Subsites..." -ForegroundColor Yellow 
+ 
+        foreach ($site in $global:sites) { 
+ 
+            $subsiteUrl = $global:siteUrl + "/" + $site
+            Connect-PnPOnline -Url $subsiteUrl -Interactive 
+            $objSubsite = Get-PnPWeb -ErrorAction SilentlyContinue
 
-            Add-PnPNavigationNode -Title (Get-Culture).TextInfo.ToTitleCase($site) -Location "TopNavigationBar" -Url $site
+            if ($null -eq $objSubsite) { 
+                write-host " - Creating subsite: $site"
+                Connect-PnPOnline -Url $global:siteUrl -Interactive 
+                New-PnPWeb -Title (Get-Culture).TextInfo.ToTitleCase($site) -Url $site -Template "STS#3" -BreakInheritance | Out-Null
+                # Stops the script from erroring out, gets deactivated later
+                Enable-PnPFeature -Identity 8a4b8de2-6fd8-41e9-923c-c7c3c00f8295 -Scope Site 
+                Invoke-PnPQuery
 
-            $subsiteUrl= $global:siteUrl + "/" + $site
-            $objSubsite = Get-PnPWeb -Identity $subsiteUrl -ErrorAction SilentlyContinue
+                Add-PnPNavigationNode -Title (Get-Culture).TextInfo.ToTitleCase($site) -Location "TopNavigationBar" -Url $site
+ 
+                $TemplateFilePath = Join-Path -Path $PSScriptRoot -ChildPath (Join-Path -Path "Templates" -ChildPath "DocumentLibraryConfigReview_SubSite.xml")
+                $scriptPath = Join-Path -Path $PSScriptRoot -ChildPath "ApplyDocumentsLibraryConfigForReviewFlow.ps1"
+                & $scriptPath -TargetSiteURL $subsiteUrl -TemplateFilePath $TemplateFilePath
+           
 
-            if($null -eq $objSubsite)
-            {
-                $TemplaleFilePath ="$PSScriptRoot\Templates\DocumentLibraryConfigReview_SubSite.xml"
-                & $PSScriptRoot\ApplyDocumentsLibraryConfigForReviewFlow.ps1 -TargetSiteURL $subsiteUrl -TemplaleFilePath $TemplaleFilePath
+                $PermissionGroupNameMembers = "$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" + " " + $site + " " + "Members"
+                New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupNameMembers) 
 
+                $PermissionGroupNameVisitors = "$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" + " " + $site + " " + "Visitors"
+                New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupNameVisitors) 
 
-                $PermissionGroupNameMembers="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Members"
-                New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupNameMembers)  
+                $PermissionGroupNameOwners = "$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" + " " + $site + " " + "Owners"
+                New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupNameOwners) 
 
-                $PermissionGroupNameVisitors="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Visitors"
-                New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupNameVisitors)  
+                $PermissionGroupContributors = "$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" + " " + $site + " " + "Contributors"
+                New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupContributors) 
 
-                $PermissionGroupNameOwners="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Owners"
-                New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupNameOwners)  
-
-                $PermissionGroupContributors="$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)" +" " + $site +" " + "Contributors"
-                New-PnPGroup -Title (Get-Culture).TextInfo.ToTitleCase($PermissionGroupContributors)  
-
-                Connect-PnPOnline -Url $subsiteUrl -Interactive  
+                Connect-PnPOnline -Url $subsiteUrl -Interactive 
                 Set-PnPGroup -Identity $PermissionGroupNameMembers -AddRole "Edit"
                 Set-PnPGroup -Identity $PermissionGroupNameVisitors -AddRole "Read"
                 Set-PnPGroup -Identity $PermissionGroupNameOwners -AddRole "Full Control"
                 Set-PnPGroup -Identity $PermissionGroupContributors -AddRole "Contribute without delete"
             }
-            else
-            {
-                write-host "   - Subsite $site already exists. Skipping creation." -ForegroundColor Yellow
+            else {
+                write-host " - Subsite $site already exists. Skipping creation." -ForegroundColor Yellow
             }
-         }
+        }
     }
-    else
-    {
-         write-host "Subsite parameter not selected."
+    else {
+        write-host "Subsite parameter not selected."
     }
 }
+
 
 #----------------------------------------
 # UpdateSubsiteRegionalSettings Function
 #----------------------------------------
-Function UpdateSubsitesRegionalSettings()
-{
-    if($global:sites) 
-    {
+Function UpdateSubsitesRegionalSettings() {
+    if ($global:sites) {
         write-host " - Updating Subsites Regional Settings..." -ForegroundColor Yellow     
 
         Connect-PnPOnline -Url $global:siteUrl -Interactive  
         $subSites = Get-PnPSubWeb -Recurse
         
-         foreach($site in $subSites)
-         {    
+        foreach ($site in $subSites) {    
             Connect-PNPonline -Url "$($site.Url)" -Interactive
            
             $web = Get-PnPWeb -Includes RegionalSettings, RegionalSettings.TimeZones 
-            $timeZone = $web.RegionalSettings.TimeZones | Where-Object {$_.Id -eq 73} # Perth
+            $timeZone = $web.RegionalSettings.TimeZones | Where-Object { $_.Id -eq 73 } # Perth
             $web.RegionalSettings.LocaleId = 3081 # English(Australia)
             $web.RegionalSettings.TimeZone = $timeZone 
             Disable-PnPFeature -Identity 41e1d4bf-b1a2-47f7-ab80-d5d6cbba3092
             $web.Update()
             Invoke-PnPQuery
-         }
+        }
     }
-    else
-    {
-         write-host "Subsite parameter not selected."
+    else {
+        write-host "Subsite parameter not selected."
     }
 }
 
 #---------------------------------
 # Main Function
 #---------------------------------
-Function Main()
-{
+Function Main() {
     Write-Host "`Teams Procurement script has started `n" -ForegroundColor Green
 
     $scriptStart = Get-Date
