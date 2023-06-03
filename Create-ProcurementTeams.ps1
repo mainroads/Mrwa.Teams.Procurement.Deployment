@@ -94,13 +94,15 @@ $global:teamSuffix = if ($teamType -eq "Project") { "PRJ" } else { "CON" }
 $foldersCsvFileRelativePath = Join-Path -Path "Seed" -ChildPath "$($teamType)_Team_Folder_Structure.csv"
 $tenant = "$($M365Domain).onmicrosoft.com"
 
-
-
 #/Teams (teams) or /Sites (sites)
 $spUrlType = "teams" 
 
 $currentDate = get-date -Format "yyyyMMdd_hhmm"
-$logFile = Join-Path -Path "$PSScriptRoot" -ChildPath "$currentDate-CreateProcurementTeams.log"
+$logsFolderPath = Join-Path -Path $PSScriptRoot -ChildPath "Logs"
+if (-not (Test-Path -Path $logsFolderPath)) {
+    New-Item -ItemType Directory -Force -Path $logsFolderPath
+}
+$logFile = Join-Path -Path $logsFolderPath -ChildPath "$currentDate-CreateProcurementTeams.log"
 
 $parametersTable = @{
     "TeamPrefix"          = $teamPrefix
@@ -175,6 +177,48 @@ Function CleanUpParameters() {
     }
 }
 
+function GetPrivateChannels {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path
+    )
+
+    $csv = Import-Csv -Path $Path
+    $uniqueEntries = New-Object System.Collections.Generic.HashSet[string]
+
+    foreach ($row in $csv) {
+        if ($row.Privacy -eq 'Private') {
+            $parts = $row.Folder -split '/'
+            if ($parts.Length -gt 0) {
+                [void]$uniqueEntries.Add($global:siteUrl + "-" + $parts[0])
+            }
+        }
+    }
+
+    return [System.Linq.Enumerable]::ToArray($uniqueEntries)
+}
+
+function GetSubSites {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path
+    )
+
+    $csv = Import-Csv -Path $Path
+    $uniqueEntries = New-Object System.Collections.Generic.HashSet[string]
+
+    foreach ($row in $csv) {
+        if ($row.Privacy -eq 'Subsite') {
+            $parts = $row.Folder -split '/'
+            if ($parts.Length -gt 0) {
+                [void]$uniqueEntries.Add($global:siteUrl + "/" + $parts[0])
+            }
+        }
+    }
+
+    return [System.Linq.Enumerable]::ToArray($uniqueEntries)
+}
+
 #---------------------------------
 # ConnectToSharePoint Function
 #---------------------------------
@@ -238,7 +282,7 @@ Function CreateTeamsAndSites() {
 
     ######### Wait for 3 minutes to teams provisioning to complete 100% #######################
 
-    $seconds = 180
+    $seconds = 30 #180
     1..$seconds |
     ForEach-Object { 
         $percent = $_ * 100 / $seconds; 
@@ -300,6 +344,28 @@ Function CreateTeamsChannels() {
             }
             While ($stopLoop -eq $false)
         }
+
+        $channelSites = GetPrivateChannels -Path $foldersCsvFileRelativePath
+        foreach ($channelSite in $channelSites) {
+            $siteUrl = UpdateSiteUrl -siteUrl $channelSite
+            Connect-PnPOnline -Url $siteUrl -Interactive
+            $isReviewModeFieldPresent = Get-PnPField -List "Documents" -Identity "ReviewMode" -ErrorAction SilentlyContinue
+            Write-Host "isReviewModeFieldPresent:" $isReviewModeFieldPresent
+            if ($null -eq $isReviewModeFieldPresent) {
+                ######### Wait for 2 minutes to teams private channel provisioning to complete 100% #######################
+                $seconds = 30 #120
+                1..$seconds |
+                ForEach-Object { 
+                    $percent = $_ * 100 / $seconds; 
+                    Write-Progress -Activity "Add ReviewMode" -Status "$($seconds - $_) seconds remaining..." -PercentComplete $percent; 
+                    Start-Sleep -Seconds 1
+                }
+                #08-03-2023 -Ifaham
+                $TemplateFilePath = Join-Path -Path $PSScriptRoot -ChildPath (Join-Path -Path "Templates" -ChildPath "DocumentLibraryConfigReview.xml")
+                & (Join-Path -Path "$PSScriptRoot" -ChildPath "ApplyDocumentsLibraryConfigForReviewFlow.ps1") -TargetSiteURL $siteUrl -TemplateFilePath $TemplateFilePath
+
+            }
+        }
     }
     catch {
         Write-Host $_
@@ -344,6 +410,28 @@ Function CreateSubsiteFolderStructures() {
     }               
 }
 
+function UpdateSiteUrl {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$siteUrl
+    )
+    
+    Connect-PnPOnline -Url $siteUrl -Interactive
+    $objSite = Get-PnPWeb -ErrorAction SilentlyContinue
+  
+    if ($null -eq $objSite) {
+        if ($siteUrl -match "/teams/") {
+            $siteUrl = $siteUrl -replace "/teams/", "/sites/"
+        }
+        else {
+            $siteUrl = $siteUrl -replace "/sites/", "/teams/"                     
+        }
+    }
+
+    return $siteUrl
+}
+
+
 #---------------------------------
 # CreateFolderStructures Function
 #---------------------------------
@@ -366,39 +454,7 @@ Function CreateFolderStructures() {
             }
             elseif ($channelPrivacy -eq "Private") {
                 $channel = $folderRelativePath.Substring(0, $folderRelativePath.IndexOf("/"))
-                $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)-$($channel)"
-            
-                Connect-PnPOnline -Url $siteUrl -Interactive
-                $objSite = Get-PnPWeb -ErrorAction SilentlyContinue
-              
-                if ($objSite -eq $null) {
-                    if ($spUrlType -eq "teams") {
-                        $siteUrl = $siteUrl -replace "/teams/", "/sites/"
-                    }
-                    else {
-                        $siteUrl = $siteUrl -replace "/sites/", "/teams/"                     
-                    }
-                }
-
-                Connect-PnPOnline -Url $siteUrl -Interactive
-                $isReviewModeFieldPresent = Get-PnPField -List "Documents" -Identity "ReviewMode" -ErrorAction SilentlyContinue
-                
-                if ($isReviewModeFieldPresent -eq $null) {
-                    ######### Wait for 2 minutes to teams private channel provisioning to complete 100% #######################
-                    $seconds = 120
-                    1..$seconds |
-                    ForEach-Object { 
-                        $percent = $_ * 100 / $seconds; 
-
-                        Write-Progress -Activity "Wait for 2 minutes before ensuring the private channel SharePoint sites provisioning" -Status "$($seconds - $_) seconds remaining..." -PercentComplete $percent; 
-
-                        Start-Sleep -Seconds 1
-                    }
-                    #08-03-2023 -Ifaham
-                    $TemplateFilePath = Join-Path -Path $PSScriptRoot -ChildPath (Join-Path -Path "Templates" -ChildPath "DocumentLibraryConfigReview.xml")
-                    & (Join-Path -Path "$PSScriptRoot" -ChildPath "ApplyDocumentsLibraryConfigForReviewFlow.ps1") -TargetSiteURL $siteUrl -TemplateFilePath $TemplateFilePath
-
-                }
+                $siteUrl = UpdateSiteUrl -siteUrl "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)-$($channel)"
             }
 
             Connect-PnPOnline -Url $siteUrl -Interactive
