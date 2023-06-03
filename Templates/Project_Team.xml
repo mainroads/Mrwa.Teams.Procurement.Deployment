@@ -1,13 +1,8 @@
-<pnp:Provisioning xmlns:pnp="http://schemas.dev.office.com/PnP/2021/03/ProvisioningSchema"
-  Author="Dinesh Katru - Insight"
-  Generator="Dinesh Katru - Insight"
-  Version="1.0"
-  Description="MRWA procurement project teams provisioning document"
-  DisplayName="MRWA procurement Project teams provisioning">
+<pnp:Provisioning xmlns:pnp="http://schemas.dev.office.com/PnP/2022/09/ProvisioningSchema"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://schemas.dev.office.com/PnP/2022/09/ProvisioningSchema https://raw.githubusercontent.com/PnP/PnP-Provisioning-Schema/master/PnP.ProvisioningSchema/ProvisioningSchema-2022-09.xsd">
 
-  <pnp:Preferences Author="Dinesh Katru - Insight"
-    Version="1.0"
-    Generator="Dinesh Katru" />
+  <pnp:Preferences Author="Dinesh Katru - Insight"/>
 
   <pnp:Teams>
     <pnp:Team DisplayName="{parameter:TeamPrefix}-{parameter:ProjectNumber}-{parameter:ProjectAbbreviation}-{parameter:TeamSuffix}"
@@ -57,27 +52,27 @@
           Description=""
           IsFavoriteByDefault="true" />
 
-        <!-- Private Channels -->
+        <!-- Private and Shared Channels -->
         <pnp:Channel DisplayName="Commercial"
           Description=""
           IsFavoriteByDefault="true"
-          Private="true" />
+          MembershipType="Private" />
         <pnp:Channel DisplayName="OnSite"
           Description=""
           IsFavoriteByDefault="true"
-          Private="true" />
+          MembershipType="Private"  />
         <pnp:Channel DisplayName="Procurement"
           Description=""
           IsFavoriteByDefault="true"
-          Private="true" />
+          MembershipType="Private" />
         <pnp:Channel DisplayName="Evaluation-Commercial"
           Description=""
           IsFavoriteByDefault="false"
-          Private="true" />
+          MembershipType="Private" />
         <pnp:Channel DisplayName="Evaluation-Qualitative"
           Description=""
           IsFavoriteByDefault="false"
-          Private="true" />
+          MembershipType="Private" />
       </pnp:Channels>
     </pnp:Team>
   </pnp:Teams>
