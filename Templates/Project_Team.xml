@@ -33,7 +33,7 @@
       <!-- Security -->
       <pnp:Security AllowToAddGuests="true">
         <pnp:Owners ClearExistingItems="true">
-          <pnp:User UserPrincipalName="itsd@rossmoynekindy.onmicrosoft.com" />
+          <pnp:User UserPrincipalName="michael.d@0v1sr.onmicrosoft.com" />
         </pnp:Owners>
       </pnp:Security>
 
