@@ -1,6 +1,8 @@
-<pnp:Provisioning xmlns:pnp="http://schemas.dev.office.com/PnP/2021/03/ProvisioningSchema">
+<pnp:Provisioning xmlns:pnp="http://schemas.dev.office.com/PnP/2022/09/ProvisioningSchema"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://schemas.dev.office.com/PnP/2022/09/ProvisioningSchema https://raw.githubusercontent.com/PnP/PnP-Provisioning-Schema/master/PnP.ProvisioningSchema/ProvisioningSchema-2022-09.xsd">
 
-  <pnp:Preferences Author="Dinesh Katru - Insight" />
+  <pnp:Preferences Author="Dinesh Katru - Insight"/>
 
   <pnp:Teams>
 
@@ -58,11 +60,11 @@
         <pnp:Channel DisplayName="Commercial"
           Description=""
           IsFavoriteByDefault="true"
-          Private="true" />
+          MembershipType="Private" />
         <pnp:Channel DisplayName="Closeout"
           Description=""
           IsFavoriteByDefault="true"
-          Private="true" />
+          MembershipType="Private" />
       </pnp:Channels>
     </pnp:Team>
   </pnp:Teams>
