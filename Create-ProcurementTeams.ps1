@@ -323,7 +323,7 @@ Function CreateSubsiteFolderStructures() {
                     $folderRelativePath = ($folder.Folder).Replace('XXX', $global:prjAbbreviation).Replace('$ProjectNumber', $global:prjNumber)
                     $subSite = $folderRelativePath.Substring(0, $folderRelativePath.IndexOf("/"))
 
-                    Write-Host "site: $($site), subSite: $($subsite)" 
+                    # Write-Host "site: $($site), subSite: $($subsite)" 
                     if ($site -eq $subSite) {
                         $folderContractType = $folder.ContractType
 
@@ -372,12 +372,12 @@ Function CreateFolderStructures() {
                 $objSite = Get-PnPWeb -ErrorAction SilentlyContinue
               
                 if ($objSite -eq $null) {
-                  if ($spUrlType -eq "teams") {
-                    $siteUrl = $siteUrl -replace "/teams/", "/sites/"
-                  }
-                  else {
-                    $siteUrl = $siteUrl -replace "/sites/", "/teams/"                     
-                  }
+                    if ($spUrlType -eq "teams") {
+                        $siteUrl = $siteUrl -replace "/teams/", "/sites/"
+                    }
+                    else {
+                        $siteUrl = $siteUrl -replace "/sites/", "/teams/"                     
+                    }
                 }
 
                 Connect-PnPOnline -Url $siteUrl -Interactive
