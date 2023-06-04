@@ -1,6 +1,6 @@
 #
 # This script provisions IDD project and contract Teams for Procurement team 
-# Version 0.6
+# Version 0.6.1
 #
 ### Prerequisites ###  
 #
@@ -328,7 +328,7 @@ Function CreateTeamsChannels() {
         foreach ($channelSite in $channelSites) {
             $siteUrl = UpdateSiteUrl -siteUrl $channelSite
             Connect-PnPOnline -Url $siteUrl -Interactive
-            Set-PnPList -Identity "Documents" -OpenDocumentsMode "ClientApplication"
+            UpdateSiteSettings -siteUrl $siteUrl
             $isReviewModeFieldPresent = Get-PnPField -List "Documents" -Identity "ReviewMode" -ErrorAction SilentlyContinue
             if ($null -eq $isReviewModeFieldPresent) {
                 ######### Wait for 2 minutes to teams private channel provisioning to complete 100% #######################
@@ -400,11 +400,11 @@ function UpdateSiteUrl {
   
     if ($null -eq $objSite) {
         if ($siteUrl -match "/teams/") {
-            Write-Warning "Was expecting $siteUrl now retrying with /sites/"
+            # Write-Warning "Was expecting $siteUrl now retrying with /sites/"
             $siteUrl = $siteUrl -replace "/teams/", "/sites/"
         }
         else {
-            Write-Warning "Was expecting $siteUrl now retrying with /teams/"
+            # Write-Warning "Was expecting $siteUrl now retrying with /teams/"
             $siteUrl = $siteUrl -replace "/sites/", "/teams/"                     
         }
     }
@@ -449,12 +449,16 @@ Function CreateFolderStructures() {
 }
 
 #---------------------------------
-# UpdateRegionalSettings Function
+# UpdateSiteSettings Function
 #---------------------------------
-Function UpdateRegionalSettings {    
-    write-host " - Updating Regional Settings" -ForegroundColor Yellow
+Function UpdateSiteSettings {    
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$siteUrl
+    )
+    write-host " - Updating Site Settings for $siteUrl" -ForegroundColor Yellow
     
-    Connect-PnPOnline -Url $global:siteUrl -Interactive
+    Connect-PnPOnline -Url $siteUrl -Interactive
     Set-PnPList -Identity "Documents" -OpenDocumentsMode "ClientApplication"
     
     $web = Get-PnPWeb -Includes RegionalSettings, RegionalSettings.TimeZones
@@ -507,7 +511,7 @@ Function CreateSubsites() {
                 write-host " - Creating subsite: $site"
                 Connect-PnPOnline -Url $global:siteUrl -Interactive 
                 New-PnPWeb -Title (Get-Culture).TextInfo.ToTitleCase($site) -Url $site -Template "STS#3" -BreakInheritance | Out-Null
-                Set-PnPList -Identity "Documents" -OpenDocumentsMode "ClientApplication"
+
                 # Stops the script from erroring out, gets deactivated later
                 Enable-PnPFeature -Identity 8a4b8de2-6fd8-41e9-923c-c7c3c00f8295 -Scope Site 
                 Invoke-PnPQuery
@@ -549,9 +553,9 @@ Function CreateSubsites() {
 
 
 #----------------------------------------
-# UpdateSubsiteRegionalSettings Function
+# UpdateSubsiteSettings Function
 #----------------------------------------
-Function UpdateSubsitesRegionalSettings() {
+Function UpdateSubsiteSettings() {
     if ($global:sites) {
         write-host " - Updating Subsites Regional Settings..." -ForegroundColor Yellow     
 
@@ -561,6 +565,8 @@ Function UpdateSubsitesRegionalSettings() {
         foreach ($site in $subSites) {    
             Connect-PNPonline -Url "$($site.Url)" -Interactive
            
+            Set-PnPList -Identity "Documents" -OpenDocumentsMode "ClientApplication"
+
             $web = Get-PnPWeb -Includes RegionalSettings, RegionalSettings.TimeZones 
             $timeZone = $web.RegionalSettings.TimeZones | Where-Object { $_.Id -eq 73 } # Perth
             $web.RegionalSettings.LocaleId = 3081 # English(Australia)
@@ -599,14 +605,14 @@ Function Main() {
     # Call CreateNewGroupAndPermissionLevel
     CreateNewGroupAndPermissionLevel
 
-    # Call UpdateRegionalSettings function
-    UpdateRegionalSettings
+    # Call UpdateSiteSettings function
+    UpdateSiteSettings -siteUrl $global:siteUrl
 
     # Call CreateSubsites function
     CreateSubsites
 
-    # Call UpdateSubsiteRegionalSettings function
-    UpdateSubsitesRegionalSettings
+    # Call UpdateSubsiteSettings function
+    UpdateSubsiteSettings
 
     # Call CreateFolderStructures function
     CreateFolderStructures
