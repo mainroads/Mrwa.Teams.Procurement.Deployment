@@ -198,27 +198,6 @@ function GetPrivateChannels {
     return [System.Linq.Enumerable]::ToArray($uniqueEntries)
 }
 
-function GetSubSites {
-    param(
-        [Parameter(Mandatory = $true)]
-        [string]$Path
-    )
-
-    $csv = Import-Csv -Path $Path
-    $uniqueEntries = New-Object System.Collections.Generic.HashSet[string]
-
-    foreach ($row in $csv) {
-        if ($row.Privacy -eq 'Subsite') {
-            $parts = $row.Folder -split '/'
-            if ($parts.Length -gt 0) {
-                [void]$uniqueEntries.Add($global:siteUrl + "/" + $parts[0])
-            }
-        }
-    }
-
-    return [System.Linq.Enumerable]::ToArray($uniqueEntries)
-}
-
 #---------------------------------
 # ConnectToSharePoint Function
 #---------------------------------
@@ -349,8 +328,8 @@ Function CreateTeamsChannels() {
         foreach ($channelSite in $channelSites) {
             $siteUrl = UpdateSiteUrl -siteUrl $channelSite
             Connect-PnPOnline -Url $siteUrl -Interactive
+            Set-PnPList -Identity "Documents" -OpenDocumentsMode "ClientApplication"
             $isReviewModeFieldPresent = Get-PnPField -List "Documents" -Identity "ReviewMode" -ErrorAction SilentlyContinue
-            Write-Host "isReviewModeFieldPresent:" $isReviewModeFieldPresent
             if ($null -eq $isReviewModeFieldPresent) {
                 ######### Wait for 2 minutes to teams private channel provisioning to complete 100% #######################
                 $seconds = 30 #120
@@ -421,9 +400,11 @@ function UpdateSiteUrl {
   
     if ($null -eq $objSite) {
         if ($siteUrl -match "/teams/") {
+            Write-Warning "Was expecting $siteUrl now retrying with /sites/"
             $siteUrl = $siteUrl -replace "/teams/", "/sites/"
         }
         else {
+            Write-Warning "Was expecting $siteUrl now retrying with /teams/"
             $siteUrl = $siteUrl -replace "/sites/", "/teams/"                     
         }
     }
@@ -474,6 +455,7 @@ Function UpdateRegionalSettings {
     write-host " - Updating Regional Settings" -ForegroundColor Yellow
     
     Connect-PnPOnline -Url $global:siteUrl -Interactive
+    Set-PnPList -Identity "Documents" -OpenDocumentsMode "ClientApplication"
     
     $web = Get-PnPWeb -Includes RegionalSettings, RegionalSettings.TimeZones
     $timeZone = $web.RegionalSettings.TimeZones | Where-Object { $_.Id -eq 73 } # Perth
@@ -525,6 +507,7 @@ Function CreateSubsites() {
                 write-host " - Creating subsite: $site"
                 Connect-PnPOnline -Url $global:siteUrl -Interactive 
                 New-PnPWeb -Title (Get-Culture).TextInfo.ToTitleCase($site) -Url $site -Template "STS#3" -BreakInheritance | Out-Null
+                Set-PnPList -Identity "Documents" -OpenDocumentsMode "ClientApplication"
                 # Stops the script from erroring out, gets deactivated later
                 Enable-PnPFeature -Identity 8a4b8de2-6fd8-41e9-923c-c7c3c00f8295 -Scope Site 
                 Invoke-PnPQuery
