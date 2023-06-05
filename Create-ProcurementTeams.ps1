@@ -280,18 +280,50 @@ Function CreateTeamsAndSites() {
     }
     While ($stopInvokingTemplate -eq $false)
 
-    ######### Wait for 3 minutes to teams provisioning to complete 100% #######################
+    ######### Wait up to 3 minutes to teams provisioning to complete 100% #######################
 
-    $seconds = 180
-    1..$seconds |
-    ForEach-Object { 
-        $percent = $_ * 100 / $seconds; 
-
-        Write-Progress -Activity "Wait for 3 minutes before ensuring the private channel sharepoint sites provisioning" -Status "$($seconds - $_) seconds remaining..." -PercentComplete $percent; 
-
-        Start-Sleep -Seconds 1
+    $timeoutSeconds = 180
+    $intervalSeconds = 15
+    $notProvisionedSites = @()
+    
+    $channelSites = GetPrivateChannels -Path $foldersCsvFileRelativePath
+    foreach ($channelSite in $channelSites) {
+        $siteUrl = UpdateSiteUrl -siteUrl $channelSite
+        $siteProvisioned = $false
+        $counter = 0
+    
+        while (-not $siteProvisioned -and $counter * $intervalSeconds -lt $timeoutSeconds) {
+            $percent = $counter * $intervalSeconds * 100 / $timeoutSeconds; 
+    
+            Write-Progress -Activity "Waiting for the site to be provisioned" -Status "$($timeoutSeconds - $counter * $intervalSeconds) seconds remaining..." -PercentComplete $percent; 
+    
+            Connect-PnPOnline -Url $siteUrl -Interactive
+            $objSite = Get-PnPWeb -ErrorAction SilentlyContinue
+    
+            if ($null -ne $objSite) {
+                $siteProvisioned = $true
+                Write-Host "Site $siteUrl has been provisioned."
+            }
+            else {
+                Start-Sleep -Seconds $intervalSeconds
+                $counter++
+            }
+        }
+    
+        if (-not $siteProvisioned) {
+            $notProvisionedSites += $siteUrl
+        }
     }
-
+    
+    if ($notProvisionedSites.Count -gt 0) {
+        Write-Host "The following sites were not provisioned within the expected time:" -ForegroundColor Red
+        foreach ($site in $notProvisionedSites) {
+            Write-Host $site
+        }
+        exit
+    }
+    
+    
     $scriptPath = Join-Path -Path $PSScriptRoot -ChildPath "ApplyDocumentsLibraryConfigForReviewFlow.ps1"
     & $scriptPath -TargetSiteURL $global:siteUrl
 
