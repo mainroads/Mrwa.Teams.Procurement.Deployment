@@ -282,7 +282,7 @@ Function CreateTeamsAndSites() {
 
     ######### Wait for 3 minutes to teams provisioning to complete 100% #######################
 
-    $seconds = 30 #180
+    $seconds = 180
     1..$seconds |
     ForEach-Object { 
         $percent = $_ * 100 / $seconds; 
