@@ -1,6 +1,6 @@
 #
 # This script provisions IDD project and contract Teams for Procurement team 
-# Version 0.6
+# Version 0.6.1
 #
 ### Prerequisites ###  
 #
@@ -128,7 +128,7 @@ Function AppendLog {
         [Parameter(Mandatory = $true)]
         [string] $message,
 
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory = $false)]
         [System.ConsoleColor] $ForegroundColor = [System.ConsoleColor]::Yellow
     )
 
@@ -206,27 +206,6 @@ function GetPrivateChannels {
             $parts = $row.Folder -split '/'
             if ($parts.Length -gt 0) {
                 [void]$uniqueEntries.Add($global:siteUrl + "-" + $parts[0])
-            }
-        }
-    }
-
-    return [System.Linq.Enumerable]::ToArray($uniqueEntries)
-}
-
-function GetSubSites {
-    param(
-        [Parameter(Mandatory = $true)]
-        [string]$Path
-    )
-
-    $csv = Import-Csv -Path $Path
-    $uniqueEntries = New-Object System.Collections.Generic.HashSet[string]
-
-    foreach ($row in $csv) {
-        if ($row.Privacy -eq 'Subsite') {
-            $parts = $row.Folder -split '/'
-            if ($parts.Length -gt 0) {
-                [void]$uniqueEntries.Add($global:siteUrl + "/" + $parts[0])
             }
         }
     }
@@ -396,8 +375,8 @@ Function CreateTeamsChannels() {
         foreach ($channelSite in $channelSites) {
             $siteUrl = UpdateSiteUrl -siteUrl $channelSite
             Connect-PnPOnline -Url $siteUrl -Interactive
+            UpdateSiteSettings -siteUrl $siteUrl
             $isReviewModeFieldPresent = Get-PnPField -List "Documents" -Identity "ReviewMode" -ErrorAction SilentlyContinue
-            AppendLog "isReviewModeFieldPresent:" $isReviewModeFieldPresent
             if ($null -eq $isReviewModeFieldPresent) {
                 $TemplateFilePath = Join-Path -Path $PSScriptRoot -ChildPath (Join-Path -Path "Templates" -ChildPath "DocumentLibraryConfigReview.xml")
                 & (Join-Path -Path "$PSScriptRoot" -ChildPath "ApplyDocumentsLibraryConfigForReviewFlow.ps1") -TargetSiteURL $siteUrl -TemplateFilePath $TemplateFilePath
@@ -458,9 +437,11 @@ function UpdateSiteUrl {
   
     if ($null -eq $objSite) {
         if ($siteUrl -match "/teams/") {
+            # Write-Warning "Was expecting $siteUrl now retrying with /sites/"
             $siteUrl = $siteUrl -replace "/teams/", "/sites/"
         }
         else {
+            # Write-Warning "Was expecting $siteUrl now retrying with /teams/"
             $siteUrl = $siteUrl -replace "/sites/", "/teams/"                     
         }
     }
@@ -505,12 +486,17 @@ Function CreateFolderStructures() {
 }
 
 #---------------------------------
-# UpdateRegionalSettings Function
+# UpdateSiteSettings Function
 #---------------------------------
-Function UpdateRegionalSettings {    
-    AppendLog " - Updating Regional Settings" -ForegroundColor Yellow
+Function UpdateSiteSettings {    
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$siteUrl
+    )
+    AppendLog " - Updating Site Settings" -ForegroundColor Yellow
     
-    Connect-PnPOnline -Url $global:siteUrl -Interactive
+    Connect-PnPOnline -Url $siteUrl -Interactive
+    Set-PnPList -Identity "Documents" -OpenDocumentsMode "ClientApplication"
     
     $web = Get-PnPWeb -Includes RegionalSettings, RegionalSettings.TimeZones
     $timeZone = $web.RegionalSettings.TimeZones | Where-Object { $_.Id -eq 73 } # Perth
@@ -562,6 +548,7 @@ Function CreateSubsites() {
                 AppendLog " - Creating subsite: $site"
                 Connect-PnPOnline -Url $global:siteUrl -Interactive 
                 New-PnPWeb -Title (Get-Culture).TextInfo.ToTitleCase($site) -Url $site -Template "STS#3" -BreakInheritance | Out-Null
+
                 # Stops the script from erroring out, gets deactivated later
                 Enable-PnPFeature -Identity 8a4b8de2-6fd8-41e9-923c-c7c3c00f8295 -Scope Site 
                 Invoke-PnPQuery
@@ -603,11 +590,11 @@ Function CreateSubsites() {
 
 
 #----------------------------------------
-# UpdateSubsiteRegionalSettings Function
+# UpdateSubsiteSettings Function
 #----------------------------------------
-Function UpdateSubsitesRegionalSettings() {
+Function UpdateSubsiteSettings() {
     if ($global:sites) {
-        AppendLog " - Updating Subsites Regional Settings..." -ForegroundColor Yellow     
+        AppendLog " - Updating Subsites Settings..." -ForegroundColor Yellow     
 
         Connect-PnPOnline -Url $global:siteUrl -Interactive  
         $subSites = Get-PnPSubWeb -Recurse
@@ -615,6 +602,8 @@ Function UpdateSubsitesRegionalSettings() {
         foreach ($site in $subSites) {    
             Connect-PNPonline -Url "$($site.Url)" -Interactive
            
+            Set-PnPList -Identity "Documents" -OpenDocumentsMode "ClientApplication"
+
             $web = Get-PnPWeb -Includes RegionalSettings, RegionalSettings.TimeZones 
             $timeZone = $web.RegionalSettings.TimeZones | Where-Object { $_.Id -eq 73 } # Perth
             $web.RegionalSettings.LocaleId = 3081 # English(Australia)
@@ -653,14 +642,14 @@ Function Main() {
     # Call CreateNewGroupAndPermissionLevel
     CreateNewGroupAndPermissionLevel
 
-    # Call UpdateRegionalSettings function
-    UpdateRegionalSettings
+    # Call UpdateSiteSettings function
+    UpdateSiteSettings -siteUrl $global:siteUrl
 
     # Call CreateSubsites function
     CreateSubsites
 
-    # Call UpdateSubsiteRegionalSettings function
-    UpdateSubsitesRegionalSettings
+    # Call UpdateSubsiteSettings function
+    UpdateSubsiteSettings
 
     # Call CreateFolderStructures function
     CreateFolderStructures

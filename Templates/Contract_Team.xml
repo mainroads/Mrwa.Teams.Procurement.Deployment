@@ -1,7 +1,6 @@
 <pnp:Provisioning xmlns:pnp="http://schemas.dev.office.com/PnP/2022/09/ProvisioningSchema"
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://schemas.dev.office.com/PnP/2022/09/ProvisioningSchema https://raw.githubusercontent.com/PnP/PnP-Provisioning-Schema/master/PnP.ProvisioningSchema/ProvisioningSchema-2022-09.xsd">
-  
   <pnp:Teams>
 
     <pnp:Team DisplayName="{parameter:TeamPrefix}-{parameter:ProjectNumber}-{parameter:ProjectAbbreviation}-CON"
@@ -33,7 +32,7 @@
       <pnp:Security AllowToAddGuests="true">
         <pnp:Owners ClearExistingItems="true">
           <pnp:User UserPrincipalName="michael.d@0v1sr.onmicrosoft.com" />
-          <pnp:User UserPrincipalName="Ifaham.nizam@0v1sr.onmicrosoft.com" />                
+          <pnp:User UserPrincipalName="Ifaham.nizam@0v1sr.onmicrosoft.com" />           
         </pnp:Owners>
       </pnp:Security>
 
