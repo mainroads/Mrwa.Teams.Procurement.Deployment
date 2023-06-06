@@ -310,7 +310,7 @@ Function CreateTeamsAndSites() {
         while (-not $siteProvisioned -and $counter * $intervalSeconds -lt $timeoutSeconds) {
             $percent = $counter * $intervalSeconds * 100 / $timeoutSeconds; 
     
-            Write-Progress -Activity "Waiting for the site to be provisioned" -Status "$($timeoutSeconds - $counter * $intervalSeconds) seconds remaining..." -PercentComplete $percent; 
+            Write-Progress -Activity "Waiting for the $siteUrl to be provisioned" -Status "$($timeoutSeconds - $counter * $intervalSeconds) seconds remaining..." -PercentComplete $percent; 
     
             Connect-PnPOnline -Url $siteUrl -Interactive
             $objSite = Get-PnPWeb -ErrorAction SilentlyContinue
