@@ -490,7 +490,7 @@ Function CreateFolderStructures() {
 #---------------------------------
 Function UpdateSiteSettings {    
     param(
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [string]$siteUrl
     )
     AppendLog " - Updating Site Settings" -ForegroundColor Yellow
