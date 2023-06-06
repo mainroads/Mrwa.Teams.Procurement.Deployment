@@ -34,6 +34,7 @@
       <pnp:Security AllowToAddGuests="true">
         <pnp:Owners ClearExistingItems="true">
           <pnp:User UserPrincipalName="michael.d@0v1sr.onmicrosoft.com" />
+          <pnp:User UserPrincipalName="ifaham.nizam@insight.com" />        
         </pnp:Owners>
       </pnp:Security>
 
@@ -56,7 +57,7 @@
         <pnp:Channel DisplayName="Commercial"
           Description=""
           IsFavoriteByDefault="true"
-          MembershipType="Private" />
+          MembershipType="Shared" />
         <pnp:Channel DisplayName="OnSite"
           Description=""
           IsFavoriteByDefault="true"

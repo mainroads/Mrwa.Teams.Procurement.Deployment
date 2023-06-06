@@ -32,7 +32,8 @@
       <!-- Security -->
       <pnp:Security AllowToAddGuests="true">
         <pnp:Owners ClearExistingItems="true">
-          <pnp:User UserPrincipalName="michael.d@0v1sr.onmicrosoft.com" />             
+          <pnp:User UserPrincipalName="michael.d@0v1sr.onmicrosoft.com" />
+          <pnp:User UserPrincipalName="ifaham.nizam@insight.com" />                
         </pnp:Owners>
       </pnp:Security>
 
