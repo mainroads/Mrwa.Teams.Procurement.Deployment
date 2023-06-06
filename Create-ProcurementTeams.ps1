@@ -123,12 +123,27 @@ $global:prjName = $null;
 $global:sites = $null;
 $global:siteUrl = $null;
 
+Function AppendLog {
+    Param(
+        [Parameter(Mandatory = $true)]
+        [string] $message,
+
+        [Parameter(Mandatory=$false)]
+        [System.ConsoleColor] $ForegroundColor = [System.ConsoleColor]::Yellow
+    )
+
+    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss.fff"
+    $logMessage = "$timestamp $message"
+    
+    Write-Host $logMessage -ForegroundColor $ForegroundColor
+}
+
 #---------------------------------
 # CleanUpParameters Function
 #---------------------------------
 Function CleanUpParameters() {   
     # Removes start and ending spaces in parameters, replaces all other spaces with dashes
-    Write-Host " - Checking parameters for white spaces..." -ForegroundColor Yellow
+    AppendLog " - Checking parameters for white spaces..." -ForegroundColor Yellow
 
     foreach ($parameter in $parametersTable.GetEnumerator()) {
         if ($parameter.Key -eq "Subsites" -and $subsites) {
@@ -151,7 +166,7 @@ Function CleanUpParameters() {
     }
 
     foreach ($parameter in $parameters.GetEnumerator()) {
-        #Write-Host "   - New parameter: " $parameter.Key $parameter.Value
+        #AppendLog "   - New parameter: " $parameter.Key $parameter.Value
 
         if ($parameter.Key -eq "TeamPrefix") {
             $global:prefix = $parameter.Value; 
@@ -224,7 +239,7 @@ function GetSubSites {
 #---------------------------------
 Function ConnectToSharePoint() {  
     # Connect to SharePoint:
-    Write-Host " - Connecting to SharePoint..." -ForegroundColor Yellow
+    AppendLog " - Connecting to SharePoint..." -ForegroundColor Yellow
 
     Connect-PnPOnline -Url $adminUrl -Interactive
 
@@ -250,7 +265,7 @@ Function ConnectToSharePoint() {
 #---------------------------------
 Function CreateTeamsAndSites() {
     # Invoke template to create Team, Channels
-    Write-Host " - Creating Teams and Sites..." -ForegroundColor Yellow
+    AppendLog " - Creating Teams and Sites..." -ForegroundColor Yellow
 
     $stopInvokingTemplate = $false
     $retryCount = 0
@@ -274,24 +289,56 @@ Function CreateTeamsAndSites() {
             else {
                 Start-Sleep -Seconds 30
                 $retryCount = $retryCount + 1
-                Write-Host "   - Something went wrong....retry attempt : $retryCount"
+                AppendLog "   - Something went wrong....retry attempt : $retryCount"
             }
         }
     }
     While ($stopInvokingTemplate -eq $false)
 
-    ######### Wait for 3 minutes to teams provisioning to complete 100% #######################
+    ######### Wait up to 3 minutes to teams provisioning to complete 100% #######################
 
-    $seconds = 30 #180
-    1..$seconds |
-    ForEach-Object { 
-        $percent = $_ * 100 / $seconds; 
-
-        Write-Progress -Activity "Wait for 3 minutes before ensuring the private channel sharepoint sites provisioning" -Status "$($seconds - $_) seconds remaining..." -PercentComplete $percent; 
-
-        Start-Sleep -Seconds 1
+    $timeoutSeconds = 180
+    $intervalSeconds = 15
+    $notProvisionedSites = @()
+    
+    $channelSites = GetPrivateChannels -Path $foldersCsvFileRelativePath
+    foreach ($channelSite in $channelSites) {
+        $siteUrl = UpdateSiteUrl -siteUrl $channelSite
+        $siteProvisioned = $false
+        $counter = 0
+    
+        while (-not $siteProvisioned -and $counter * $intervalSeconds -lt $timeoutSeconds) {
+            $percent = $counter * $intervalSeconds * 100 / $timeoutSeconds; 
+    
+            Write-Progress -Activity "Waiting for the site to be provisioned" -Status "$($timeoutSeconds - $counter * $intervalSeconds) seconds remaining..." -PercentComplete $percent; 
+    
+            Connect-PnPOnline -Url $siteUrl -Interactive
+            $objSite = Get-PnPWeb -ErrorAction SilentlyContinue
+    
+            if ($null -ne $objSite) {
+                $siteProvisioned = $true
+                AppendLog "Site $siteUrl has been provisioned."
+            }
+            else {
+                Start-Sleep -Seconds $intervalSeconds
+                $counter++
+            }
+        }
+    
+        if (-not $siteProvisioned) {
+            $notProvisionedSites += $siteUrl
+        }
     }
-
+    
+    if ($notProvisionedSites.Count -gt 0) {
+        AppendLog "The following sites were not provisioned within the expected time:" -ForegroundColor Red
+        foreach ($site in $notProvisionedSites) {
+            AppendLog $site
+        }
+        exit
+    }
+    
+    
     $scriptPath = Join-Path -Path $PSScriptRoot -ChildPath "ApplyDocumentsLibraryConfigForReviewFlow.ps1"
     & $scriptPath -TargetSiteURL $global:siteUrl
 
@@ -302,7 +349,7 @@ Function CreateTeamsAndSites() {
 #---------------------------------
 Function CreateTeamsChannels() {
     # Code to invoke private channel sites
-    Write-Host " - Creating Teams channels..." -ForegroundColor Yellow
+    AppendLog " - Creating Teams channels..." -ForegroundColor Yellow
 
     #Request graph access toeken
     $accessToken = Get-PnPGraphAccessToken
@@ -338,7 +385,7 @@ Function CreateTeamsChannels() {
                         Start-Sleep -Seconds 30
                         $retryCount = $retryCount + 1
                         $retrymsg = "Channel " + $channel + "attempt " + $retryCount.ToString()
-                        Write-Host $retrymsg -ForegroundColor DarkYellow
+                        AppendLog $retrymsg -ForegroundColor DarkYellow
                     }
                 }
             }
@@ -350,25 +397,15 @@ Function CreateTeamsChannels() {
             $siteUrl = UpdateSiteUrl -siteUrl $channelSite
             Connect-PnPOnline -Url $siteUrl -Interactive
             $isReviewModeFieldPresent = Get-PnPField -List "Documents" -Identity "ReviewMode" -ErrorAction SilentlyContinue
-            Write-Host "isReviewModeFieldPresent:" $isReviewModeFieldPresent
+            AppendLog "isReviewModeFieldPresent:" $isReviewModeFieldPresent
             if ($null -eq $isReviewModeFieldPresent) {
-                ######### Wait for 2 minutes to teams private channel provisioning to complete 100% #######################
-                $seconds = 30 #120
-                1..$seconds |
-                ForEach-Object { 
-                    $percent = $_ * 100 / $seconds; 
-                    Write-Progress -Activity "Add ReviewMode" -Status "$($seconds - $_) seconds remaining..." -PercentComplete $percent; 
-                    Start-Sleep -Seconds 1
-                }
-                #08-03-2023 -Ifaham
                 $TemplateFilePath = Join-Path -Path $PSScriptRoot -ChildPath (Join-Path -Path "Templates" -ChildPath "DocumentLibraryConfigReview.xml")
                 & (Join-Path -Path "$PSScriptRoot" -ChildPath "ApplyDocumentsLibraryConfigForReviewFlow.ps1") -TargetSiteURL $siteUrl -TemplateFilePath $TemplateFilePath
-
             }
         }
     }
     catch {
-        Write-Host $_
+        AppendLog $_
     }
 }
 
@@ -377,26 +414,26 @@ Function CreateTeamsChannels() {
 #---------------------------------
 Function CreateSubsiteFolderStructures() { 
     if ($global:sites) {
-        Write-Host " - Creating folder Structures in subsites..." -ForegroundColor Yellow
+        AppendLog " - Creating folder Structures in subsites..." -ForegroundColor Yellow
 
         foreach ($site in $global:sites) {
             $siteUrl = ""
 
-            Write-Host "   - Subsite: $site" 
+            AppendLog "   - Subsite: $site" 
             foreach ($folder in (import-csv $foldersCsvFileRelativePath)) { 
                 $folderPrivacy = $folder.Privacy
                 if ($folderPrivacy -eq "Subsite") {  
                     $folderRelativePath = ($folder.Folder).Replace('XXX', $global:prjAbbreviation).Replace('$ProjectNumber', $global:prjNumber)
                     $subSite = $folderRelativePath.Substring(0, $folderRelativePath.IndexOf("/"))
 
-                    # Write-Host "site: $($site), subSite: $($subsite)" 
+                    # AppendLog "site: $($site), subSite: $($subsite)" 
                     if ($site -eq $subSite) {
                         $folderContractType = $folder.ContractType
 
                         $siteUrl = "https://$($M365Domain).sharepoint.com/$spUrlType/$($global:prefix)-$($global:prjNumber)-$($global:prjAbbreviation)-$($global:suffix)/$($site)"
 
                         $subFolderRelPath = $folderRelativePath.Substring($subSite.Length + 1, $folderRelativePath.Length - $subSite.Length - 1)
-                        Write-Host "   - Processing: $($siteUrl)/Shared Documents/$subFolderRelPath" 
+                        AppendLog "   - Processing: $($siteUrl)/Shared Documents/$subFolderRelPath" 
                         Connect-PNPonline -Url $siteUrl -Interactive
 
                         if (($folderContractType -eq $contractType) -or ($folderContractType -eq "Common")) {
@@ -442,7 +479,7 @@ Function CreateFolderStructures() {
     # channels. This logic is not required when provisioning schema is updated 
     # in the later versions to add folders to private channels
     if (!$NoFolderCreation) {
-        Write-Host " - Creating Folder Structures in Channels..." -ForegroundColor Yellow 
+        AppendLog " - Creating Folder Structures in Channels..." -ForegroundColor Yellow 
 
         foreach ($folder in (import-csv $foldersCsvFileRelativePath)) {
             $channelPrivacy = $folder.Privacy
@@ -460,7 +497,7 @@ Function CreateFolderStructures() {
             Connect-PnPOnline -Url $siteUrl -Interactive
 
             if ($channelPrivacy -ne "Subsite" -and ($folderContractType -eq $contractType -or $folderContractType -eq "Common")) {
-                Write-Host "   - Processing: $folderRelativePath..." 
+                AppendLog "   - Processing: $folderRelativePath..." 
                 Resolve-PnPFolder -SiteRelativePath "Shared Documents/$folderRelativePath" | Out-Null
             }
         }
@@ -471,7 +508,7 @@ Function CreateFolderStructures() {
 # UpdateRegionalSettings Function
 #---------------------------------
 Function UpdateRegionalSettings {    
-    write-host " - Updating Regional Settings" -ForegroundColor Yellow
+    AppendLog " - Updating Regional Settings" -ForegroundColor Yellow
     
     Connect-PnPOnline -Url $global:siteUrl -Interactive
     
@@ -487,7 +524,7 @@ Function UpdateRegionalSettings {
 # CreateNewGroupAndPermissionLevel Function
 #-------------------------------------------
 Function CreateNewGroupAndPermissionLevel() {
-    write-host "   - Creating 'Contribute without Delete' Permission Level for SP site..." -ForegroundColor Yellow     
+    AppendLog "   - Creating 'Contribute without Delete' Permission Level for SP site..." -ForegroundColor Yellow     
 
     Connect-PnPOnline -Url $global:siteUrl -Interactive  
 
@@ -504,7 +541,7 @@ Function CreateNewGroupAndPermissionLevel() {
         New-PnPSiteGroup -Site $siteUrl -Name $PermissionGroupName -PermissionLevels "Contribute without delete" | Out-Null
     }
     else {
-        write-host "   - Permission Level 'Contribute without delete' already exists." -ForegroundColor Yellow
+        AppendLog "   - Permission Level 'Contribute without delete' already exists." -ForegroundColor Yellow
     }
 }
 
@@ -513,7 +550,7 @@ Function CreateNewGroupAndPermissionLevel() {
 #---------------------------------
 Function CreateSubsites() {
     if ($global:sites) {
-        write-host " - Creating Subsites..." -ForegroundColor Yellow 
+        AppendLog " - Creating Subsites..." -ForegroundColor Yellow 
  
         foreach ($site in $global:sites) { 
  
@@ -522,7 +559,7 @@ Function CreateSubsites() {
             $objSubsite = Get-PnPWeb -ErrorAction SilentlyContinue
 
             if ($null -eq $objSubsite) { 
-                write-host " - Creating subsite: $site"
+                AppendLog " - Creating subsite: $site"
                 Connect-PnPOnline -Url $global:siteUrl -Interactive 
                 New-PnPWeb -Title (Get-Culture).TextInfo.ToTitleCase($site) -Url $site -Template "STS#3" -BreakInheritance | Out-Null
                 # Stops the script from erroring out, gets deactivated later
@@ -555,12 +592,12 @@ Function CreateSubsites() {
                 Set-PnPGroup -Identity $PermissionGroupContributors -AddRole "Contribute without delete"
             }
             else {
-                write-host " - Subsite $site already exists. Skipping creation." -ForegroundColor Yellow
+                AppendLog " - Subsite $site already exists. Skipping creation." -ForegroundColor Yellow
             }
         }
     }
     else {
-        write-host "Subsite parameter not selected."
+        AppendLog "Subsite parameter not selected."
     }
 }
 
@@ -570,7 +607,7 @@ Function CreateSubsites() {
 #----------------------------------------
 Function UpdateSubsitesRegionalSettings() {
     if ($global:sites) {
-        write-host " - Updating Subsites Regional Settings..." -ForegroundColor Yellow     
+        AppendLog " - Updating Subsites Regional Settings..." -ForegroundColor Yellow     
 
         Connect-PnPOnline -Url $global:siteUrl -Interactive  
         $subSites = Get-PnPSubWeb -Recurse
@@ -588,7 +625,7 @@ Function UpdateSubsitesRegionalSettings() {
         }
     }
     else {
-        write-host "Subsite parameter not selected."
+        AppendLog "Subsite parameter not selected."
     }
 }
 
@@ -596,7 +633,7 @@ Function UpdateSubsitesRegionalSettings() {
 # Main Function
 #---------------------------------
 Function Main() {
-    Write-Host "`Teams Procurement script has started `n" -ForegroundColor Green
+    AppendLog "`Teams Procurement script has started `n" -ForegroundColor Green
 
     $scriptStart = Get-Date
 
@@ -634,9 +671,8 @@ Function Main() {
     $scriptEnd = Get-Date
     $timeElapsed = New-TimeSpan -Start $scriptStart -End $scriptEnd
 
-    Write-Host "`Teams Procurement script has completed. `n" -ForegroundColor Green
-
-    Write-Host
+    AppendLog "`Teams Procurement script has completed. `n" -ForegroundColor Green
+    
     Write-Host "`SharePoint Site:`t" $global:siteUrl
     Write-Host "`Started:`t" $scriptStart -ForegroundColor DarkGray
     Write-Host "Finished:`t" $scriptEnd -ForegroundColor DarkGray
