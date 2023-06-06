@@ -128,7 +128,7 @@ Function AppendLog {
         [Parameter(Mandatory = $true)]
         [string] $message,
 
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory = $false)]
         [System.ConsoleColor] $ForegroundColor = [System.ConsoleColor]::Yellow
     )
 
@@ -488,8 +488,12 @@ Function CreateFolderStructures() {
 #---------------------------------
 # UpdateSiteSettings Function
 #---------------------------------
-Function UpdateRegionalSettings {    
-    AppendLog " - Updating Regional Settings" -ForegroundColor Yellow
+Function UpdateSiteSettings {    
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$siteUrl
+    )
+    AppendLog " - Updating Site Settings" -ForegroundColor Yellow
     
     Connect-PnPOnline -Url $siteUrl -Interactive
     Set-PnPList -Identity "Documents" -OpenDocumentsMode "ClientApplication"
@@ -590,7 +594,7 @@ Function CreateSubsites() {
 #----------------------------------------
 Function UpdateSubsiteSettings() {
     if ($global:sites) {
-        AppendLog " - Updating Subsites Regional Settings..." -ForegroundColor Yellow     
+        AppendLog " - Updating Subsites Settings..." -ForegroundColor Yellow     
 
         Connect-PnPOnline -Url $global:siteUrl -Interactive  
         $subSites = Get-PnPSubWeb -Recurse
