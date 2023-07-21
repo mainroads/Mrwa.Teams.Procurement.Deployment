@@ -14,7 +14,7 @@ $folders = @(
 )
 
 # Define zip file name
-$version = "1.0.0-beta6"
+$version = "1.0.0"
 $zipFileName = "MWS-v$version.zip"
 
 # Compress files and folders to zip file
