@@ -54,48 +54,43 @@ Write-Host "Updating M365 Groups..."
 
 # Project Management
 Write-Host "Updating $groupNameManagement group..."
-$group = Get-UnifiedGroup -Identity $aliasManagement
-$group.Owner = $groupOwner
-Set-UnifiedGroup -Identity $aliasManagement -UnifiedGroup $group
+Add-UnifiedGroupLinks -Identity $aliasManagement -LinkType "Members" -Links $groupOwner
+Add-UnifiedGroupLinks -Identity $aliasManagement -LinkType "Owners" -Links $groupOwner
 
 # Project Support
 Write-Host "Updating $groupNameSupport group..."
-$group = Get-UnifiedGroup -Identity $aliasSupport
-$group.Owner = $groupOwner
-Set-UnifiedGroup -Identity $aliasSupport -UnifiedGroup $group
+Add-UnifiedGroupLinks -Identity $aliasSupport -LinkType "Members" -Links $groupOwner
+Add-UnifiedGroupLinks -Identity $aliasSupport -LinkType "Owners" -Links $groupOwner
 
 # Evaluation Team - Qualitative
 Write-Host "Updating $groupNameEvalQualitative group..."
-$group = Get-UnifiedGroup -Identity $aliasEvalQualitative
-$group.Owner = $groupOwner
-Set-UnifiedGroup -Identity $aliasEvalQualitative -UnifiedGroup $group
+Add-UnifiedGroupLinks -Identity $aliasEvalQualitative -LinkType "Members" -Links $groupOwner
+Add-UnifiedGroupLinks -Identity $aliasEvalQualitative -LinkType "Owners" -Links $groupOwner
 
 # Evaluation Team - Commercial
 Write-Host "Updating $groupNameEvalCommercial group..."
-$group = Get-UnifiedGroup -Identity $aliasEvalCommercial
-$group.Owner = $groupOwner
-Set-UnifiedGroup -Identity $aliasEvalCommercial -UnifiedGroup $group
+Add-UnifiedGroupLinks -Identity $aliasEvalCommercial -LinkType "Members" -Links $groupOwner
+Add-UnifiedGroupLinks -Identity $aliasEvalCommercial -LinkType "Owners" -Links $groupOwner
 
 # Probity
 Write-Host "Updating $groupNameProbity group..."
-$group = Get-UnifiedGroup -Identity $aliasProbity
-$group.Owner = $groupOwner
-Set-UnifiedGroup -Identity $aliasProbity -UnifiedGroup $group
+Add-UnifiedGroupLinks -Identity $aliasProbity -LinkType "Members" -Links $groupOwner
+Add-UnifiedGroupLinks -Identity $aliasProbity -LinkType "Owners" -Links $groupOwner
 
 # Legal
 Write-Host "Updating $groupNameLegal group..."
-$group = Get-UnifiedGroup -Identity $aliasLegal
-$group.Owner = $groupOwner
-Set-UnifiedGroup -Identity $aliasLegal -UnifiedGroup $group
+Add-UnifiedGroupLinks -Identity $aliasLegal -LinkType "Members" -Links $groupOwner
+Add-UnifiedGroupLinks -Identity $aliasLegal -LinkType "Owners" -Links $groupOwner
 
 # Governance
 Write-Host "Updating $groupNameGovernance group..."
-$group = Get-UnifiedGroup -Identity $aliasGovernance
-$group.Owner = $groupOwner
-Set-UnifiedGroup -Identity $aliasGovernance -UnifiedGroup $group
+Add-UnifiedGroupLinks -Identity $aliasGovernance -LinkType "Members" -Links $groupOwner
+Add-UnifiedGroupLinks -Identity $aliasGovernance -LinkType "Owners" -Links $groupOwner
 
 # Contractor
 Write-Host "Updating $groupNameContractor group..."
-$group = Get-UnifiedGroup -Identity $aliasContractor
-$group.Owner = $groupOwner
-Set-UnifiedGroup -Identity $aliasContractor -UnifiedGroup $group
+Add-UnifiedGroupLinks -Identity $aliasContractor -LinkType "Members" -Links $groupOwner
+Add-UnifiedGroupLinks -Identity $aliasContractor -LinkType "Owners" -Links $groupOwner
+
+# Disconnect Exchange Online
+Disconnect-ExchangeOnline -Confirm:$False

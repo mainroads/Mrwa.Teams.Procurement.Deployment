@@ -7,7 +7,7 @@
 #           - Evaluation Commercial
 #           - Strictly Confidential
 #           - Contract Award
-# Version 0.8
+# Version 0.9
 #
 ### Prerequisites ###  
 #
@@ -70,48 +70,68 @@ $aliasGovernance = $groupNameGovernance.replace(" ", "-")
 $aliasLegal = $groupNameLegal.Replace(" ", "-")
 $aliasContractor = $groupNameContractor.replace(" ", "-")
 
+$ownerEmail = $groupOwner.Trim('"')
+$emailArray = $ownerEmail -split ','
+$ownerEmails = $emailArray | ForEach-Object { "`"$_`"" } -join ','
+
 #### Create M365 Groups
 Write-Host "Creating M365 Groups..."
 
 # Project Management
 Write-Host "Creating $groupNameManagement group..."
-New-UnifiedGroup -DisplayName $groupNameManagement -Alias $aliasManagement -AccessType "Private" -Owner $groupOwner
+New-UnifiedGroup -DisplayName $groupNameManagement -Alias $aliasManagement -AccessType "Private" -Owner $servicePrincipal
 Set-UnifiedGroup -Identity $aliasManagement -UnifiedGroupWelcomeMessageEnabled:$false
+Add-UnifiedGroupLinks -Identity $aliasManagement -LinkType "Members" -Links $ownerEmails
+Add-UnifiedGroupLinks -Identity $aliasManagement -LinkType "Owners" -Links $ownerEmails
 
 # Project Support
 Write-Host "Creating $groupNameSupport group..."
-New-UnifiedGroup -DisplayName $groupNameSupport -Alias $aliasSupport -AccessType "Private" -Owner $groupOwner
+New-UnifiedGroup -DisplayName $groupNameSupport -Alias $aliasSupport -AccessType "Private" -Owner $servicePrincipal
 Set-UnifiedGroup -Identity $aliasSupport -UnifiedGroupWelcomeMessageEnabled:$false
+Add-UnifiedGroupLinks -Identity $aliasSupport -LinkType "Members" -Links $ownerEmails
+Add-UnifiedGroupLinks -Identity $aliasSupport -LinkType "Owners" -Links $ownerEmails
 
 # Evaluation Team - Qualitative
 Write-Host "Creating $groupNameEvalQualitative group..."
-New-UnifiedGroup -DisplayName $groupNameEvalQualitative -Alias $aliasEvalQualitative -AccessType "Private" -Owner $groupOwner
+New-UnifiedGroup -DisplayName $groupNameEvalQualitative -Alias $aliasEvalQualitative -AccessType "Private" -Owner $servicePrincipal
 Set-UnifiedGroup -Identity $aliasEvalQualitative -UnifiedGroupWelcomeMessageEnabled:$false
+Add-UnifiedGroupLinks -Identity $aliasEvalQualitative -LinkType "Members" -Links $ownerEmails
+Add-UnifiedGroupLinks -Identity $aliasEvalQualitative -LinkType "Owners" -Links $ownerEmails
 
 # Evaluation Team - Commercial
 Write-Host "Creating $groupNameEvalCommercial group..."
-New-UnifiedGroup -DisplayName $groupNameEvalCommercial -Alias $aliasEvalCommercial -AccessType "Private" -Owner $groupOwner
+New-UnifiedGroup -DisplayName $groupNameEvalCommercial -Alias $aliasEvalCommercial -AccessType "Private" -Owner $servicePrincipal
 Set-UnifiedGroup -Identity $aliasEvalCommercial -UnifiedGroupWelcomeMessageEnabled:$false
+Add-UnifiedGroupLinks -Identity $aliasEvalCommercial -LinkType "Members" -Links $ownerEmails
+Add-UnifiedGroupLinks -Identity $aliasEvalCommercial -LinkType "Owners" -Links $ownerEmails
 
 # Probity
 Write-Host "Creating $groupNameProbity group..."
-New-UnifiedGroup -DisplayName $groupNameProbity -Alias $aliasProbity -AccessType "Private" -Owner $groupOwner
+New-UnifiedGroup -DisplayName $groupNameProbity -Alias $aliasProbity -AccessType "Private" -Owner $servicePrincipal
 Set-UnifiedGroup -Identity $aliasProbity -UnifiedGroupWelcomeMessageEnabled:$false
+Add-UnifiedGroupLinks -Identity $aliasProbity -LinkType "Members" -Links $ownerEmails
+Add-UnifiedGroupLinks -Identity $aliasProbity -LinkType "Owners" -Links $ownerEmails
 
 # Legal
 Write-Host "Creating $groupNameLegal group..."
-New-UnifiedGroup -DisplayName $groupNameLegal -Alias $aliasLegal -AccessType "Private" -Owner $groupOwner
+New-UnifiedGroup -DisplayName $groupNameLegal -Alias $aliasLegal -AccessType "Private" -Owner $servicePrincipal
 Set-UnifiedGroup -Identity $aliasLegal -UnifiedGroupWelcomeMessageEnabled:$false
+Add-UnifiedGroupLinks -Identity $aliasLegal -LinkType "Members" -Links $ownerEmails
+Add-UnifiedGroupLinks -Identity $aliasLegal -LinkType "Owners" -Links $ownerEmails
 
 # Governance
 Write-Host "Creating $groupNameGovernance group..."
-New-UnifiedGroup -DisplayName $groupNameGovernance -Alias $aliasGovernance -AccessType "Private" -Owner $groupOwner
+New-UnifiedGroup -DisplayName $groupNameGovernance -Alias $aliasGovernance -AccessType "Private" -Owner $servicePrincipal
 Set-UnifiedGroup -Identity $aliasGovernance -UnifiedGroupWelcomeMessageEnabled:$false
+Add-UnifiedGroupLinks -Identity $aliasGovernance -LinkType "Members" -Links $ownerEmails
+Add-UnifiedGroupLinks -Identity $aliasGovernance -LinkType "Owners" -Links $ownerEmails
 
 # Contractor
 Write-Host "Creating $groupNameContractor group..."
-New-UnifiedGroup -DisplayName $groupNameContractor -Alias $aliasContractor -AccessType "Private" -Owner $groupOwner
+New-UnifiedGroup -DisplayName $groupNameContractor -Alias $aliasContractor -AccessType "Private" -Owner $servicePrincipal
 Set-UnifiedGroup -Identity $aliasContractor -UnifiedGroupWelcomeMessageEnabled:$false
+Add-UnifiedGroupLinks -Identity $aliasContractor -LinkType "Members" -Links $ownerEmails
+Add-UnifiedGroupLinks -Identity $aliasContractor -LinkType "Owners" -Links $ownerEmails
 
 #### Connect to Compliance Centre Remotely
 Write-Host "Connecting to Compliance centre"
