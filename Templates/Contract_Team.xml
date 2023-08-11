@@ -34,9 +34,11 @@
           <pnp:User UserPrincipalName="c3652-adm@mainroads.wa.gov.au" />
           <pnp:User UserPrincipalName="e200379-adm@mrwa.wa.gov.au" />
           <pnp:User UserPrincipalName="scott.white@mainroads.wa.gov.au" />          
-          <pnp:User UserPrincipalName="laura.davey@mainroads.wa.gov.au" />   
-          <pnp:User UserPrincipalName="iddprocurementservices@mainroads.wa.gov.au" />            
+          <pnp:User UserPrincipalName="laura.davey@mainroads.wa.gov.au" />            
         </pnp:Owners>
+        <pnp:Members ClearExistingItems="false">
+          <pnp:User UserPrincipalName="svc_iddteamsworkflow@mrwa.wa.gov.au" />
+        </pnp:Members>
       </pnp:Security>
 
       <pnp:Channels>
