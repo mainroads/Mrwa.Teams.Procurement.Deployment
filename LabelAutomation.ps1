@@ -1,13 +1,8 @@
 #
 # This script provisions M365 Groups, Sensitivity Labels, Label Policy, and DLP Policy that triggers when documents that has below defined sensitivity labels is shared outside the organization or print activity is performed on endpoint devices
-#           - Tender 
-#           - Submissions Qualitative
-#           - Submissions Commercial 
-#           - Evaluation Qualitative 
-#           - Evaluation Commercial
+#           - General 
 #           - Strictly Confidential
-#           - Contract Award
-# Version 0.9
+# Version 0.10
 #
 ### Prerequisites ###  
 #
@@ -27,8 +22,7 @@
 # 2. Browse to the script directory
 #     cd "<script_location_in_file_system>"
 # 3. Execute LabelAutomation.ps11 (In the syntax $emailToSendNotification parameter is optional)
-#     Syntax: .\LabelAutomation.ps1 -servicePrincipal "c3652-adm@mainroads.wa.gov.au" -projectId "MR-30000597-MEBD-PRJ" -groupOwner "scott.white@mainroads.wa.gov.au" -domainName "group.mainroads.wa.gov.au"
-#             .\LabelAutomation.ps1 -servicePrincipal "c3652-adm@mainroads.wa.gov.au" -projectId "MR-30000597-MEBD-PRJ" -groupOwner "scott.white@mainroads.wa.gov.au" -domainName "group.mainroads.wa.gov.au"  -emailToSendNotification "iddprocurementservices@mainroads.wa.gov.au"
+#     Syntax: .\LabelAutomation.ps1 -servicePrincipal "c3652-adm@mainroads.wa.gov.au" -projectId "MR-30002775-MPC-PRJ" -groupOwner "scott.white@mainroads.wa.gov.au" -domainName "group.mainroads.wa.gov.au"
 #
 
 param (
@@ -53,22 +47,10 @@ $prefix = $projectId
 # Group Names
 $groupNameManagement = "$prefix Project Management"
 $groupNameSupport = "$prefix Project Support"
-$groupNameEvalQualitative = "$prefix Eval Qualitative"
-$groupNameEvalCommercial = "$prefix Eval Commercial"
-$groupNameProbity = "$prefix Probity"
-$groupNameLegal = "$prefix Legal"
-$groupNameGovernance = "$prefix Governance"
-$groupNameContractor = "$prefix Contractor"
 
 # Alias
 $aliasManagement = $groupNameManagement.replace(" ", "-")
 $aliasSupport = $groupNameSupport.replace(" ", "-")
-$aliasEvalQualitative = $groupNameEvalQualitative.replace(" ", "-")
-$aliasEvalCommercial = $groupNameEvalCommercial.replace(" ", "-")
-$aliasProbity = $groupNameProbity.replace(" ", "-")
-$aliasGovernance = $groupNameGovernance.replace(" ", "-")
-$aliasLegal = $groupNameLegal.Replace(" ", "-")
-$aliasContractor = $groupNameContractor.replace(" ", "-")
 
 $ownerEmail = $groupOwner.Trim('"')
 $emailArray = $ownerEmail -split ','
@@ -91,48 +73,6 @@ Set-UnifiedGroup -Identity $aliasSupport -UnifiedGroupWelcomeMessageEnabled:$fal
 Add-UnifiedGroupLinks -Identity $aliasSupport -LinkType "Members" -Links $ownerEmails
 Add-UnifiedGroupLinks -Identity $aliasSupport -LinkType "Owners" -Links $ownerEmails
 
-# Evaluation Team - Qualitative
-Write-Host "Creating $groupNameEvalQualitative group..."
-New-UnifiedGroup -DisplayName $groupNameEvalQualitative -Alias $aliasEvalQualitative -AccessType "Private" -Owner $servicePrincipal
-Set-UnifiedGroup -Identity $aliasEvalQualitative -UnifiedGroupWelcomeMessageEnabled:$false
-Add-UnifiedGroupLinks -Identity $aliasEvalQualitative -LinkType "Members" -Links $ownerEmails
-Add-UnifiedGroupLinks -Identity $aliasEvalQualitative -LinkType "Owners" -Links $ownerEmails
-
-# Evaluation Team - Commercial
-Write-Host "Creating $groupNameEvalCommercial group..."
-New-UnifiedGroup -DisplayName $groupNameEvalCommercial -Alias $aliasEvalCommercial -AccessType "Private" -Owner $servicePrincipal
-Set-UnifiedGroup -Identity $aliasEvalCommercial -UnifiedGroupWelcomeMessageEnabled:$false
-Add-UnifiedGroupLinks -Identity $aliasEvalCommercial -LinkType "Members" -Links $ownerEmails
-Add-UnifiedGroupLinks -Identity $aliasEvalCommercial -LinkType "Owners" -Links $ownerEmails
-
-# Probity
-Write-Host "Creating $groupNameProbity group..."
-New-UnifiedGroup -DisplayName $groupNameProbity -Alias $aliasProbity -AccessType "Private" -Owner $servicePrincipal
-Set-UnifiedGroup -Identity $aliasProbity -UnifiedGroupWelcomeMessageEnabled:$false
-Add-UnifiedGroupLinks -Identity $aliasProbity -LinkType "Members" -Links $ownerEmails
-Add-UnifiedGroupLinks -Identity $aliasProbity -LinkType "Owners" -Links $ownerEmails
-
-# Legal
-Write-Host "Creating $groupNameLegal group..."
-New-UnifiedGroup -DisplayName $groupNameLegal -Alias $aliasLegal -AccessType "Private" -Owner $servicePrincipal
-Set-UnifiedGroup -Identity $aliasLegal -UnifiedGroupWelcomeMessageEnabled:$false
-Add-UnifiedGroupLinks -Identity $aliasLegal -LinkType "Members" -Links $ownerEmails
-Add-UnifiedGroupLinks -Identity $aliasLegal -LinkType "Owners" -Links $ownerEmails
-
-# Governance
-Write-Host "Creating $groupNameGovernance group..."
-New-UnifiedGroup -DisplayName $groupNameGovernance -Alias $aliasGovernance -AccessType "Private" -Owner $servicePrincipal
-Set-UnifiedGroup -Identity $aliasGovernance -UnifiedGroupWelcomeMessageEnabled:$false
-Add-UnifiedGroupLinks -Identity $aliasGovernance -LinkType "Members" -Links $ownerEmails
-Add-UnifiedGroupLinks -Identity $aliasGovernance -LinkType "Owners" -Links $ownerEmails
-
-# Contractor
-Write-Host "Creating $groupNameContractor group..."
-New-UnifiedGroup -DisplayName $groupNameContractor -Alias $aliasContractor -AccessType "Private" -Owner $servicePrincipal
-Set-UnifiedGroup -Identity $aliasContractor -UnifiedGroupWelcomeMessageEnabled:$false
-Add-UnifiedGroupLinks -Identity $aliasContractor -LinkType "Members" -Links $ownerEmails
-Add-UnifiedGroupLinks -Identity $aliasContractor -LinkType "Owners" -Links $ownerEmails
-
 #### Connect to Compliance Centre Remotely
 Write-Host "Connecting to Compliance centre"
 Connect-IPPSSession -UserPrincipalName $servicePrincipal
@@ -144,44 +84,19 @@ Write-Host "Creating Parent label $prefix..."
 New-Label -Name $prefix -DisplayName $prefix -Tooltip "This is the top-level label for all project labels" -EncryptionEnabled $false
 
 # Label Names - cannot be changed (not the display names of the labels)
-$lbNameTender = "$prefix-Tender"
-$lbNameSubmissionQualitative = "$prefix-Submission-Qualitative"
-$lbNameSubmissionCommercial = "$prefix-Submission-Commercial"
-$lbNameEvalQualitative = "$prefix-Evaluation-Qualitative"
-$lbNameEvalCommercial = "$prefix-Evaluation-Commercial"
+$lbNameGeneral = "$prefix-General"
 $lbNameStrictlyConfidential = "$prefix-Strictly-Confidential"
-$lbNameContractAward = "$prefix-Contract-Award"
 $lbNameForRelease = "$prefix-For-Release"
 
 ### Child Labels
 Write-Host "Creating Child labels..."
-# Tender
-Write-Host "Creating $lbNameTender label..."
-New-Label -Name $lbNameTender -DisplayName "Tender - Official Sensitive" -Tooltip "This label is to be applied to any tender documents" -ContentType "File, Email" -EncryptionEnabled $true -EncryptionEncryptOnly $false -EncryptionProtectionType "Template" -EncryptionRightsDefinitions "$aliasManagement@$domainName`:VIEW,VIEWRIGHTSDATA,PRINT,EXTRACT,DOCEDIT,EDIT,EXPORT,OBJMODEL;$aliasSupport@$domainName`:OWNER;$aliasEvalQualitative@$domainName`:VIEW,VIEWRIGHTSDATA,DOCEDIT,EDIT,OBJMODEL;$aliasEvalCommercial@$domainName`:VIEW,VIEWRIGHTSDATA,DOCEDIT,EDIT,OBJMODEL;$aliasProbity@$domainName`:VIEW,VIEWRIGHTSDATA,PRINT,EXTRACT,DOCEDIT,EDIT,EXPORT,OBJMODEL;$aliasLegal@$domainName`:VIEW,VIEWRIGHTSDATA,PRINT,EXTRACT,DOCEDIT,EDIT,EXPORT,OBJMODEL;$aliasGovernance@$domainName`:VIEW,VIEWRIGHTSDATA,PRINT,EXTRACT,DOCEDIT,EDIT,EXPORT,OBJMODEL" -EncryptionOfflineAccessDays "-1" -ParentId $prefix 
-
-# Submission Qualitative
-Write-Host "Creating $lbNameSubmissionQualitative label..."
-New-Label -Name $lbNameSubmissionQualitative -DisplayName "Submission Qualitative - Official Sensitive" -Tooltip "This label is to be applied to any submission qualitative documentation" -ContentType "File, Email" -EncryptionEnabled $true -EncryptionEncryptOnly $false -EncryptionProtectionType "Template" -EncryptionRightsDefinitions "$aliasSupport@$domainName`:OWNER;$aliasEvalQualitative@$domainName`:VIEW,VIEWRIGHTSDATA;$aliasEvalCommercial@$domainName`:VIEW,VIEWRIGHTSDATA;$aliasProbity@$domainName`:VIEW,VIEWRIGHTSDATA;$aliasLegal@$domainName`:VIEW,VIEWRIGHTSDATA,PRINT,EXTRACT,DOCEDIT,EDIT,EXPORT,OBJMODEL;$aliasGovernance@$domainName`:VIEW,VIEWRIGHTSDATA" -EncryptionOfflineAccessDays "-1" -ParentId $prefix
-
-# Submission Commercial
-Write-Host "Creating $lbNameSubmissionCommercial label..."
-New-Label -Name $lbNameSubmissionCommercial -DisplayName "Submission Commercial - Official Sensitive" -Tooltip "This label is to be applied to any submission commercial documentation" -ContentType "File, Email" -EncryptionEnabled $true -EncryptionEncryptOnly $false -EncryptionProtectionType "Template" -EncryptionRightsDefinitions "$aliasSupport@$domainName`:OWNER;$aliasEvalCommercial@$domainName`:VIEW,VIEWRIGHTSDATA;$aliasProbity@$domainName`:VIEW,VIEWRIGHTSDATA;$aliasLegal@$domainName`:VIEW,VIEWRIGHTSDATA,PRINT,EXTRACT,DOCEDIT,EDIT,EXPORT,OBJMODEL;$aliasGovernance@$domainName`:VIEW,VIEWRIGHTSDATA" -EncryptionOfflineAccessDays "-1" -ParentId $prefix
-
-# Evaluation Qualitative
-Write-Host "Creating $lbNameEvalQualitative label..."
-New-Label -Name $lbNameEvalQualitative -DisplayName "Evaluation Qualitative - Official Sensitive" -Tooltip "This label is to be applied to any evaluation qualitative documentation" -ContentType "File, Email" -EncryptionEnabled $true -EncryptionEncryptOnly $false -EncryptionProtectionType "Template" -EncryptionRightsDefinitions "$aliasSupport@$domainName`:OWNER;$aliasEvalQualitative@$domainName`:VIEW,VIEWRIGHTSDATA,DOCEDIT,EDIT,EXPORT,EXTRACT,OBJMODEL;$aliasEvalCommercial@$domainName`:VIEW,VIEWRIGHTSDATA,DOCEDIT,EDIT,EXPORT,EXTRACT,OBJMODEL;$aliasProbity@$domainName`:VIEW,VIEWRIGHTSDATA,DOCEDIT,EDIT,OBJMODEL;$aliasLegal@$domainName`:VIEW,VIEWRIGHTSDATA,PRINT,EXTRACT,DOCEDIT,EDIT,EXPORT,OBJMODEL;$aliasGovernance@$domainName`:VIEW,VIEWRIGHTSDATA,PRINT,DOCEDIT,EDIT,OBJMODEL" -EncryptionOfflineAccessDays "-1" -ParentId $prefix
-
-# Evaluation Commercial
-Write-Host "Creating $lbNameEvalCommercial label..."
-New-Label -Name $lbNameEvalCommercial -DisplayName "Evaluation Commercial - Official Sensitive" -Tooltip "This label is to be applied to any evaluation commercial documentation" -ContentType "File, Email" -EncryptionEnabled $true -EncryptionEncryptOnly $false -EncryptionProtectionType "Template" -EncryptionRightsDefinitions "$aliasSupport@$domainName`:OWNER;$aliasEvalCommercial@$domainName`:VIEW,VIEWRIGHTSDATA,DOCEDIT,EDIT,EXPORT,EXTRACT,OBJMODEL;$aliasProbity@$domainName`:VIEW,VIEWRIGHTSDATA,DOCEDIT,EDIT,OBJMODEL;$aliasLegal@$domainName`:VIEW,VIEWRIGHTSDATA,PRINT,EXTRACT,DOCEDIT,EDIT,EXPORT,OBJMODEL;$aliasGovernance@$domainName`:VIEW,VIEWRIGHTSDATA,PRINT,DOCEDIT,EDIT,OBJMODEL" -EncryptionOfflineAccessDays "-1" -ParentId $prefix
+# General
+Write-Host "Creating $lbNameGeneral label..."
+New-Label -Name $lbNameGeneral -DisplayName "General - Official Sensitive" -Tooltip "This label is to be applied to any general documents" -ContentType "File, Email" -EncryptionEnabled $true -EncryptionEncryptOnly $false -EncryptionProtectionType "Template" -EncryptionRightsDefinitions "$aliasManagement@$domainName`:VIEW,VIEWRIGHTSDATA,PRINT,EXTRACT,DOCEDIT,EDIT,EXPORT,OBJMODEL;$aliasSupport@$domainName`:OWNER" -EncryptionOfflineAccessDays "-1" -ParentId $prefix 
 
 # Strictly Confidential
 Write-Host "Creating $lbNameStrictlyConfidential label..."
-New-Label -Name $lbNameStrictlyConfidential -DisplayName "Strictly Confidential - Official Sensitive" -Tooltip "This label is to be applied to any document that is deemed strictly confidential in nature" -ContentType "File, Email" -EncryptionEnabled $true -EncryptionEncryptOnly $false -EncryptionProtectionType "Template" -EncryptionRightsDefinitions "$aliasManagement@$domainName`:VIEW,VIEWRIGHTSDATA,DOCEDIT,EDIT,OBJMODEL;$aliasSupport@$domainName`:OWNER;$aliasEvalQualitative@$domainName`:VIEW,VIEWRIGHTSDATA,DOCEDIT,EDIT,OBJMODEL;$aliasEvalCommercial@$domainName`:VIEW,VIEWRIGHTSDATA,DOCEDIT,EDIT,OBJMODEL;$aliasProbity@$domainName`:VIEW,VIEWRIGHTSDATA,DOCEDIT,EDIT,OBJMODEL;$aliasLegal@$domainName`:VIEW,VIEWRIGHTSDATA,PRINT,EXTRACT,DOCEDIT,EDIT,EXPORT,OBJMODEL;$aliasGovernance@$domainName`: VIEW,VIEWRIGHTSDATA,PRINT,EXTRACT,DOCEDIT,EDIT,EXPORT,OBJMODEL" -EncryptionOfflineAccessDays "-1" -ParentId $prefix
-
-# Contract Award
-Write-Host "Creating $lbNameContractAward label..."
-New-Label -Name $lbNameContractAward -DisplayName "Contract Award - Official Sensitive" -Tooltip "This label is to be applied to documents relating to the awarded contract where a contractor needs to sign award documentation" -ContentType "File, Email" -EncryptionEnabled $true -EncryptionEncryptOnly $false -EncryptionProtectionType "Template" -EncryptionRightsDefinitions "$aliasManagement@$domainName`:VIEW,VIEWRIGHTSDATA,OBJMODEL;$aliasSupport@$domainName`:OWNER;$aliasEvalQualitative@$domainName`:VIEW,VIEWRIGHTSDATA,OBJMODEL;$aliasEvalCommercial@$domainName`:VIEW,VIEWRIGHTSDATA,OBJMODEL;$aliasProbity@$domainName`:VIEW,VIEWRIGHTSDATA,OBJMODEL;$aliasLegal@$domainName`:VIEW,VIEWRIGHTSDATA,OBJMODEL;$aliasGovernance@$domainName`:VIEW,VIEWRIGHTSDATA,OBJMODEL;$aliasContractor@$domainName`: VIEW,VIEWRIGHTSDATA,PRINT,EXTRACT,DOCEDIT,EDIT,EXPORT,OBJMODEL" -EncryptionOfflineAccessDays "-1" -ParentId $prefix 
+New-Label -Name $lbNameStrictlyConfidential -DisplayName "Strictly Confidential - Official Sensitive" -Tooltip "This label is to be applied to any document that is deemed strictly confidential in nature" -ContentType "File, Email" -EncryptionEnabled $true -EncryptionEncryptOnly $false -EncryptionProtectionType "Template" -EncryptionRightsDefinitions "$aliasManagement@$domainName`:VIEW,VIEWRIGHTSDATA,DOCEDIT,EDIT,OBJMODEL;$aliasSupport@$domainName`:OWNER" -EncryptionOfflineAccessDays "-1" -ParentId $prefix
 
 # For Release
 Write-Host "Creating $lbNameForRelease label..."
@@ -189,15 +104,14 @@ New-Label -Name $lbNameForRelease -DisplayName "For Release - Official Sensitive
 
 ##### Create Label Policy
 Write-Host "Creating '$prefix Label Policy' label policy..."
-New-LabelPolicy -Name "$prefix Label Policy" -Labels $prefix, $lbNameTender, $lbNameSubmissionQualitative, $lbNameSubmissionCommercial, $lbNameEvalQualitative, $lbNameEvalCommercial, $lbNameStrictlyConfidential, $lbNameContractAward, $lbNameForRelease -ModernGroupLocation "$aliasSupport@$domainName" -AdvancedSettings @{requiredowngradejustification = "true"; siteandgroupmandatory = "false"; mandatory = "false"; disablemandatoryinoutlook = "true"; EnableCustomPermissions = "False" }
-
+New-LabelPolicy -Name "$prefix Label Policy" -Labels $prefix, $lbNameGeneral, $lbNameSubmissionQualitative, $lbNameSubmissionCommercial, $lbNameEvalQualitative, $lbNameEvalCommercial, $lbNameStrictlyConfidential, $lbNameContractAward, $lbNameForRelease -ModernGroupLocation "$aliasSupport@$domainName" -AdvancedSettings @{requiredowngradejustification = "true"; siteandgroupmandatory = "false"; mandatory = "false"; disablemandatoryinoutlook = "true"; EnableCustomPermissions = "False" }
 
 
 ### Creating DLP policy
 
 $externalSharingPolicyName = "Notification-When-Shared-External-IDDP"
 $externalSharingRuleName = "$prefix-External-Sharing"
-$description = "Applies DLP action based on the Classification levels. Will create email incident reports on documents that are labelled as 'Tender', 'Submission Qualitative' , 'Submission Commercial', 'Evaluation Qualitative', 'Evaluation Commercial', 'Strictly Confidential', and/or 'Contract Award' and are being shared externally"
+$description = "Applies DLP action based on the Classification levels. Will create email incident reports on documents that are labelled as 'General', 'Strictly Confidential' and are being shared externally"
 
 if (![string]::IsNullOrEmpty($emailToSendNotification)) {
     $generateIncidentReport = @(
@@ -229,27 +143,7 @@ $sensitivityLabels = @(
                 name     = "Default";
                 labels   = @(
                     @{
-                        name = $lbNameTender; 
-                        type = "Sensitivity"
-                    };
-                    @{
-                        name = $lbNameSubmissionQualitative;
-                        type = "Sensitivity"
-                    };
-                    @{
-                        name = $lbNameSubmissionCommercial;
-                        type = "Sensitivity"
-                    };
-                    @{
-                        name = $lbNameEvalQualitative;
-                        type = "Sensitivity"
-                    };
-                    @{
-                        name = $lbNameEvalCommercial;
-                        type = "Sensitivity"
-                    };
-                    @{
-                        name = $lbNameStrictlyConfidential;
+                        name = $lbNameGeneral; 
                         type = "Sensitivity"
                     };
                     @{
@@ -289,13 +183,8 @@ foreach ($name in $dlpRuleNames) {
 }
 
 # Create a rule in the above created DLP to trigger notification when any documents with that has below mentioned sensitivity label applied and are shared outside the organization
-#           - Tender 
-#           - Submissions Qualitative
-#           - Submissions Commercial 
-#           - Evaluation Qualitative 
-#           - Evaluation Commercial
+#           - General
 #           - Strictly Confidential
-#           - Contract Award
 if (!$doesRuleAlreadyExists) {
     Write-Host "Creating rule for DLP Policy..."
     if ([string]::IsNullOrEmpty($emailToSendNotification)) {
@@ -308,7 +197,7 @@ if (!$doesRuleAlreadyExists) {
 ## DLP for Print Activity on endpoint devices.
 $devicePrintActivityPolicyName = "Notification-for-Print-Activity-IDDP"
 $devicePrintActivityRuleName = "$prefix-Print-Activity"
-$description = "Applies DLP action based on the Classification levels. Will create email incident reports on documents that are labelled as 'Tender', 'Submission Qualitative' , 'Submission Commercial', 'Evaluation Qualitative', 'Evaluation Commercial', 'Strictly Confidential', and/or 'Contract Award' and print activities are performed on device"
+$description = "Applies DLP action based on the Classification levels. Will create email incident reports on documents that are labelled as 'General', 'Strictly Confidential' and print activities are performed on device"
 if (![string]::IsNullOrEmpty($emailToSendNotification)) {
     $emailForAlert = $emailToSendNotification
 }

@@ -1,6 +1,6 @@
 #
-# This script provisions IDD project and contract Teams for Procurement team 
-# Version 0.6.1
+# This script provisions Metro Panel Contract Team 
+# Version 0.1.0
 #
 ### Prerequisites ###  
 #
@@ -644,18 +644,6 @@ Function Main() {
 
     # Call UpdateSiteSettings function
     UpdateSiteSettings -siteUrl $global:siteUrl
-
-    # Call CreateSubsites function
-    CreateSubsites
-
-    # Call UpdateSubsiteSettings function
-    UpdateSubsiteSettings
-
-    # Call CreateFolderStructures function
-    CreateFolderStructures
-
-    # Call CreateSubsiteFolderStructures function
-    CreateSubsiteFolderStructures
 
     $scriptEnd = Get-Date
     $timeElapsed = New-TimeSpan -Start $scriptStart -End $scriptEnd

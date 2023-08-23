@@ -31,7 +31,7 @@ Function ApplyConfig {
     Connect-PnPOnline -Url $TargetSiteURL -Interactive 
     $objSite = Get-PnPWeb -ErrorAction SilentlyContinue
   
-    if ($objSite -eq $null) {
+    if ($null -eq $objSite) {
       if ($spUrlType -eq "teams") {
         $TargetSiteURL = $TargetSiteURL -replace "/teams/", "/sites/"
       }
