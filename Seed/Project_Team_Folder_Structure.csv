@@ -34,32 +34,6 @@ Private,Evaluation-Qualitative/RFP/2 Submissions/Proponent 3,Common
 Private,Evaluation-Qualitative/RFP/3 FirstName LastName,Common
 Private,Evaluation-Qualitative/RFP/3 SSO,Common
 Private,Evaluation-Qualitative/RFP/4 Clarification Questions,Common
-Private,OnSite/Audit Compliance,Common
-Private,OnSite/Audit Product,Common
-Private,OnSite/Checklists,Common
-Private,OnSite/CMP,Common
-Private,OnSite/CMP/Debug,Common
-Private,OnSite/CMP/Release,Common
-Private,OnSite/CMP/ss,Common
-Private,OnSite/Contract Docs,Common
-Private,OnSite/Contract Docs/BDC,Alliance
-Private,OnSite/Contract Docs/Project Alliance Agreement,Alliance
-Private,OnSite/Contract Docs/Project Deed,D&C
-Private,OnSite/Contract Docs/SWTC,Common
-Private,OnSite/Daily Diaries,Common
-Private,OnSite/Design Reviews,Common
-Private,OnSite/Formal Correspondence,Common
-Private,OnSite/Meetings,Common
-Private,OnSite/Photos and Videos,Common
-Private,OnSite/Progress Payments,Common
-Private,OnSite/Quality,Common
-Private,OnSite/Quality/Hold Points,Common
-Private,OnSite/Quality/NCRs,Common
-Private,OnSite/Quality/TQs,Common
-Private,OnSite/Registers,Common
-Private,OnSite/Reporting,Common
-Private,OnSite/Scope Changes,Alliance
-Private,OnSite/Variations,D&C
 Private,Procurement/100 General,Common
 Private,Procurement/100 General/101 Admin,Common
 Private,Procurement/100 General/102 Checklists,Common
@@ -203,19 +177,6 @@ Private,Procurement/500 Award/530 Award Letter/Debug,Common
 Private,Procurement/500 Award/530 Award Letter/Release,Common
 Private,Procurement/500 Award/540 Debrief to Unsuccessful Proponents,Common
 Standard,Correspondence,Common
-Standard,Develop/Aboriginal Participation,Common
-Standard,Develop/Approvals,Common
-Standard,Develop/Communications,Common
-Standard,Develop/Communications/CSES,Common
-Standard,Develop/Design,Common
-Standard,Develop/Design/Project Case design,Common
-Standard,Develop/Design/Ultimate design,Common
-Standard,Develop/Environment,Common
-Standard,Develop/Land,Common
-Standard,Develop/Risk,Common
-Standard,Develop/Services,Common
-Standard,Develop/Sustainability,Common
-Standard,Develop/Traffic,Common
 Standard,General/Databases,Common
 Standard,Handover,Common
 Standard,Handover/H1 Develop to Deliver,Common
@@ -230,16 +191,3 @@ Standard,Program/Land,Common
 Standard,Program/Project,Common
 Standard,Reporting,Common
 Standard,Reporting/PSR,Common
-Subsite,develop/Aboriginal Participation,Common
-Subsite,develop/Approvals,Common
-Subsite,develop/Communications,Common
-Subsite,develop/Communications/CSMP,Common
-Subsite,develop/Design,Common
-Subsite,develop/Design/Project Case design,Common
-Subsite,develop/Design/Ultimate design,Common
-Subsite,develop/Environment,Common
-Subsite,develop/Land,Common
-Subsite,develop/Risk,Common
-Subsite,develop/Services,Common
-Subsite,develop/Sustainability,Common
-Subsite,develop/Traffic,Common

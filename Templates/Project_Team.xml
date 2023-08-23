@@ -6,7 +6,7 @@
 
   <pnp:Teams>
     <pnp:Team DisplayName="{parameter:TeamPrefix}-{parameter:ProjectNumber}-{parameter:ProjectAbbreviation}-{parameter:TeamSuffix}"
-      Description="IDD Project team for {parameter:ProjectName}"
+      Description="Project team for {parameter:ProjectName}"
       HiddenGroupMembershipEnabled="true"
       Visibility="Private"
       MailNickname="{parameter:TeamPrefix}-{parameter:ProjectNumber}-{parameter:ProjectAbbreviation}-{parameter:TeamSuffix}">
@@ -37,23 +37,11 @@
           <pnp:User UserPrincipalName="e200379-adm@mrwa.wa.gov.au" />
           <pnp:User UserPrincipalName="scott.white@mainroads.wa.gov.au" />                     
         </pnp:Owners>
-        <pnp:Members ClearExistingItems="false">
-          <pnp:User UserPrincipalName="svc_iddteamsworkflow@mrwa.wa.gov.au" />
-        </pnp:Members>
       </pnp:Security>
 
       <pnp:Channels>
         <!-- Standard Channels -->
-        <pnp:Channel DisplayName="Communications"
-          Description=""
-          IsFavoriteByDefault="true" />
-       <pnp:Channel DisplayName="Develop"
-          Description=""
-          IsFavoriteByDefault="true" />
         <pnp:Channel DisplayName="Meetings"
-          Description=""
-          IsFavoriteByDefault="true" />
-        <pnp:Channel DisplayName="Program"
           Description=""
           IsFavoriteByDefault="true" />
 
