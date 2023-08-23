@@ -1,7 +1,7 @@
 #
 # This script provisions M365 Groups, and Sensitivity Labels from the list of proponent names passed and appends those label to the existing label policy 
 #
-# Version 0.2
+# Version 0.1.0
 #
 ### Prerequisites ###  
 #
@@ -38,20 +38,10 @@ $prefix = $projectId
 
 # Group Names
 $groupNameSupport = "$prefix Project Support"
-$groupNameEvalQualitative = "$prefix Eval Qualitative"
-$groupNameEvalCommercial = "$prefix Eval Commercial"
-$groupNameProbity = "$prefix Probity"
-$groupNameLegal = "$prefix Legal"
-$groupNameGovernance = "$prefix Governance"
 $groupNameProponents = @()
 
 # Alias
 $aliasSupport = $groupNameSupport.replace(" ", "-")
-$aliasEvalQualitative = $groupNameEvalQualitative.replace(" ", "-")
-$aliasEvalCommercial = $groupNameEvalCommercial.replace(" ", "-")
-$aliasProbity = $groupNameProbity.replace(" ", "-")
-$aliasGovernance = $groupNameGovernance.replace(" ", "-")
-$aliasLegal = $groupNameLegal.Replace(" ", "-")
 $aliasProponents = @()
 
 #### Create M365 Groups
@@ -94,7 +84,7 @@ Write-Host "Creating Child labels..."
 $count = 0
 foreach ($labelName in $lbNameProponents) {
     Write-Host "Creating $labelName label..."
-    New-Label -Name $labelName -DisplayName "$($proponentNames[$count]) - Official Sensitive" -Tooltip "This label is to be applied to any $($proponentNames[$count]) documents" -ContentType "File, Email" -EncryptionEnabled $true -EncryptionEncryptOnly $false -EncryptionProtectionType "Template" -EncryptionRightsDefinitions "$($aliasProponents[$count])@$($domainName)`:$($VESPC);$($aliasEvalQualitative)@$($domainName)`:$($VESPC);$($aliasEvalCommercial)@$($domainName)`:$($VESPC);$($aliasProbity)@$($domainName)`:$($VESPC);$($aliasLegal)@$($domainName)`:$($VESPC);$($aliasGovernance)@$($domainName)`:$($VESPC);$($aliasSupport)@$($domainName)`:$($O)" -EncryptionOfflineAccessDays "-1" -ParentId $prefix
+    New-Label -Name $labelName -DisplayName "$($proponentNames[$count]) - Official Sensitive" -Tooltip "This label is to be applied to any $($proponentNames[$count]) documents" -ContentType "File, Email" -EncryptionEnabled $true -EncryptionEncryptOnly $false -EncryptionProtectionType "Template" -EncryptionRightsDefinitions "$($aliasProponents[$count])@$($domainName)`:$($VESPC);$($aliasSupport)@$($domainName)`:$($O)" -EncryptionOfflineAccessDays "-1" -ParentId $prefix
 
     $count++
 }

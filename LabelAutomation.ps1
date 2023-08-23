@@ -2,7 +2,7 @@
 # This script provisions M365 Groups, Sensitivity Labels, Label Policy, and DLP Policy that triggers when documents that has below defined sensitivity labels is shared outside the organization or print activity is performed on endpoint devices
 #           - General 
 #           - Strictly Confidential
-# Version 0.10
+# Version 0.1.0
 #
 ### Prerequisites ###  
 #
