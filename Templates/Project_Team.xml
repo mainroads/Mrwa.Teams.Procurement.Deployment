@@ -54,14 +54,6 @@
           Description=""
           IsFavoriteByDefault="true"
           MembershipType="Private" />
-        <pnp:Channel DisplayName="Evaluation-Commercial"
-          Description=""
-          IsFavoriteByDefault="false"
-          MembershipType="Private" />
-        <pnp:Channel DisplayName="Evaluation-Qualitative"
-          Description=""
-          IsFavoriteByDefault="false"
-          MembershipType="Private" />
       </pnp:Channels>
     </pnp:Team>
   </pnp:Teams>
