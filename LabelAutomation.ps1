@@ -26,7 +26,7 @@
 # 1. Ensure prerequisites are completed
 # 2. Browse to the script directory
 #     cd "<script_location_in_file_system>"
-# 3. Execute LabelAutomation.ps11 (In the syntax $emailToSendNotification parameter is optional)
+# 3. Execute LabelAutomation.ps1 (In the syntax $emailToSendNotification parameter is optional)
 #     Syntax: .\LabelAutomation.ps1 -servicePrincipal "c3652-adm@mainroads.wa.gov.au" -projectId "MR-30000597-MEBD-PRJ" -groupOwner "scott.white@mainroads.wa.gov.au" -domainName "group.mainroads.wa.gov.au"
 #             .\LabelAutomation.ps1 -servicePrincipal "c3652-adm@mainroads.wa.gov.au" -projectId "MR-30000597-MEBD-PRJ" -groupOwner "scott.white@mainroads.wa.gov.au" -domainName "group.mainroads.wa.gov.au"  -emailToSendNotification "iddprocurementservices@mainroads.wa.gov.au"
 #
