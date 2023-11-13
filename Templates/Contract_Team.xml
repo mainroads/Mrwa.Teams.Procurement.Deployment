@@ -33,7 +33,7 @@
         <pnp:Owners ClearExistingItems="true">
           <pnp:User UserPrincipalName="c3652-adm@mainroads.wa.gov.au" />
           <pnp:User UserPrincipalName="e200379-adm@mrwa.wa.gov.au" />
-          <pnp:User UserPrincipalName="scott.white@mainroads.wa.gov.au" />          
+          <pnp:User UserPrincipalName="matthew.wagner@mainroads.wa.gov.au" />          
           <pnp:User UserPrincipalName="laura.davey@mainroads.wa.gov.au" />            
         </pnp:Owners>
         <pnp:Members ClearExistingItems="false">
