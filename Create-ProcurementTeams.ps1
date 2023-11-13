@@ -634,7 +634,8 @@ Function Main() {
     ConnectToSharePoint
 
     # Call CreateTeamAndSites function
-    CreateTeamsAndSites
+    CreateTeamsAndSites # First Attempt
+    CreateTeamsAndSites # Second Attempt to ensure all channels are provisioned
 
     # Call CreateTeamsChannels function
     CreateTeamsChannels
