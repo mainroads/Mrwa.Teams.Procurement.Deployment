@@ -102,14 +102,6 @@ Standard,External Data/Main Roads WA,Common
 Standard,External Data/PTA,Common
 Standard,Insurances,Common
 Standard,KRAs,Common
-Standard,Management Plans,D&C
-Standard,Management Plans/Durability Plan,D&C
-Standard,Management Plans/Environmental Management Plan,D&C
-Standard,Management Plans/Industry Sustainability Plan,D&C
-Standard,Management Plans/Project Traffic Management Plan,D&C
-Standard,Management Plans/Quality Management Plan,D&C
-Standard,Management Plans/Safety and Health Management Plan,D&C
-Standard,Management Plans/Sustainability Management Plan,D&C
 Standard,Meetings,Common
 Standard,Meetings/Alliance Board Meetings,Alliance
 Standard,Meetings/AMT Meetings,Alliance
@@ -132,6 +124,15 @@ Standard,PMP/Sustainability Management Plan,Alliance
 Standard,Position Papers,Alliance
 Standard,Presentations,Common
 Standard,Program,Common
+Standard,Project Plans,D&C
+Standard,Project Plans/Aboriginal Management Plan,D&C
+Standard,Project Plans/Durability Plan,D&C
+Standard,Project Plans/Environmental Management Plan,D&C
+Standard,Project Plans/Industry Sustainability Plan,D&C
+Standard,Project Plans/Project Traffic Management Plan,D&C
+Standard,Project Plans/Quality Management Plan,D&C
+Standard,Project Plans/Safety and Health Management Plan,D&C
+Standard,Project Plans/Sustainability Management Plan,D&C
 Standard,Quality/Audits,Common
 Standard,Quality/Audits/Process,Common
 Standard,Quality/Audits/Product,Common
